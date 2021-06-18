@@ -1,0 +1,5 @@
+package aloha.domain;
+
+public class Board {
+
+}

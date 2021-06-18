@@ -1,0 +1,10 @@
+package aloha.controller;
+
+import org.springframework.stereotype.Controller;
+
+@Controller
+public class HomeController {
+	public void home(Model model)throws Exception{
+		
+	}
+}

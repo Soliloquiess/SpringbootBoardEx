@@ -1,0 +1,7 @@
+package aloha.controller;
+
+
+@Controller
+public class HomeController {
+	
+}

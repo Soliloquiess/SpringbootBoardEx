@@ -1,0 +1,10 @@
+package aloha.service;
+
+import aloha.domain.Board;
+
+public interface BoardService {
+	
+	//게시글 쓰기
+	public void register(Board board) throws Exception;
+
+}

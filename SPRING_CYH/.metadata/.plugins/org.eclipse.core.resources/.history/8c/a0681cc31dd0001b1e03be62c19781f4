@@ -1,0 +1,14 @@
+package aloha.mapper;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import aloha.domain.Board;
+
+@Mapper
+public interface BoardMapper {
+	//게시글 쓰기
+	public void insert(Board board) throws Exception;
+	
+	
+}
+

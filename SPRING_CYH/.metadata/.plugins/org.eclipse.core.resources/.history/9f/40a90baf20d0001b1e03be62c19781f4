@@ -1,0 +1,13 @@
+package aloha.service;
+
+import java.util.List;
+
+import aloha.domain.Board;
+
+public interface BoardService {
+	
+	//게시글 쓰기
+	public void register(Board board) throws Exception;
+
+	public List<Board> list() throws Exception;
+}
