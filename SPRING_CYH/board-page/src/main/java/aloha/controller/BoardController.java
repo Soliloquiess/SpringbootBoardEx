@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import aloha.domain.Board;
+import aloha.domain.Page;
 import aloha.service.BoardService;
 
 @Controller
@@ -39,9 +40,47 @@ public class BoardController {
 	
 	//게시글 목록
 	@GetMapping("/list")
-	public void list(Model model, Board board) throws Exception{
+	public void list(Model model, Board board, Page page) throws Exception{
 		
-		model.addAttribute("list",service.list());
+		String keyword = page.getKeyword();
+		Integer totalCount = null;
+		Integer rowsPerPage= null;
+		Integer pageCount = null;
+		
+		//조회된 게시글의 수
+		if(page.getTotalCount()==0)
+			totalCount = service.totalCount();
+		else 
+			totalCount = page.getTotalCount(); 
+		
+		//페이지당 노출 게시글 수 
+		if(page.getRowsPerPage()==0)
+			rowsPerPage=10;
+		else
+			rowsPerPage= page.getRowsPerPage();
+		
+		//노출 페이지 수
+		if(page.getPageCount()==0)
+			pageCount =10;
+		else
+			pageCount = page.getPageCount();
+		
+		if(page.getPageNum()==0) {
+			page = new Page(1,rowsPerPage,pageCount,totalCount, keyword);
+		} else {
+			page = new Page(page.getPageNum(),rowsPerPage,pageCount,totalCount,keyword);
+		}
+		
+		if(keyword==null||keyword=="") {
+			page.setKeyword("");
+			model.addAttribute("list",service.list(page));
+		}else {
+			page.setKeyword(keyword);
+//			model.addAttribute("list",service.search(page));
+		}
+		
+		
+		model.addAttribute("page",page);
 		//전달받은거 모델등록
 	}
 	

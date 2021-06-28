@@ -1,5 +1,0 @@
-package aloha.mapper;
-
-public interface BoardMapper {
-
-}

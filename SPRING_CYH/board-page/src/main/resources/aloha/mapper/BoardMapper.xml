@@ -54,4 +54,28 @@
 	    or writer like concat('%', #{keyword},'%')
 	]]>
 	</select>
+	
+	<!--  전체 게시글 수 -->
+	<select id = "totalCount" resultType = "int">
+		select count(*)
+		from board;
+		
+	</select>
+	
+	<!--  페이지 게시글 목록  -->
+	
+	<select id = "listWithPage" resultType="board">
+	
+	<![CDATA[
+	select @rownum := @rownum+1 row_no, b.*
+		from 
+		(select @rownum:= #{startRowIndex} from dual) 
+		tmp,
+		board b
+		order by board_no desc
+		, reg_date desc
+		limit #{startRowIndex}, #{rowsPerPage}
+		
+	]]>
+	</select>
 </mapper>

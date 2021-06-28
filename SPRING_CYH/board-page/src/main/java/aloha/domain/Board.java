@@ -7,6 +7,7 @@ import lombok.Data;
 @Data	
 public class Board {
 
+	private int rowNo;
 	private int boardNo;
 	private String title;
 	private String content;

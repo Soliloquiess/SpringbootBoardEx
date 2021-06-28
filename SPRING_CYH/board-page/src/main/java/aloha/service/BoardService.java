@@ -3,6 +3,7 @@ package aloha.service;
 import java.util.List;
 
 import aloha.domain.Board;
+import aloha.domain.Page;
 
 public interface BoardService {
 	
@@ -21,4 +22,10 @@ public interface BoardService {
 	
 	//게시글 검색
 	public List<Board> search(String keyword) throws Exception;
+	
+	//전체 게시글 수
+	public Integer totalCount() throws Exception;
+	
+	//페이지 게시글 목록
+	public List<Board> list(Page page) throws Exception;
 }

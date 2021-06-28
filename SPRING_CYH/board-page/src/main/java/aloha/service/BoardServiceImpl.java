@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import aloha.domain.Board;
+import aloha.domain.Page;
 import aloha.mapper.BoardMapper;
 
 @Service
@@ -47,6 +48,17 @@ public class BoardServiceImpl implements BoardService{
 	public List<Board> search(String keyword) throws Exception {
 		
 		return mapper.search(keyword);
+	}
+
+	@Override
+	public Integer totalCount() throws Exception {
+		return mapper.totalCount();
+	}
+
+	@Override
+	public List<Board> list(Page page) throws Exception {
+		
+		return mapper.listWithPage(page);
 	}
 	
 	

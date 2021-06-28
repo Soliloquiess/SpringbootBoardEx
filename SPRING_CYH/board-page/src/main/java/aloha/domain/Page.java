@@ -24,9 +24,18 @@ public class Page {
 
 	//기본 생성자
 	public Page() {
-		this(0,0,0,0,"");
+		this(0,0);
 	}
 	
+	
+	public Page(int pageNum, int rowsPerPage) {
+		this.pageNum = pageNum;
+		this.rowsPerPage = rowsPerPage;
+		
+		
+		this.startPage = ((pageNum-1)/pageCount)*pageCount+1;
+		this.endPage = ( ((pageNum-1)/pageCount)+1)*pageCount;
+	}
 	
 	public Page(int pageNum, int rowsPerPage, int pageCount, int totalCount, String keyword) {
 		this.pageNum = pageNum;
@@ -35,34 +44,33 @@ public class Page {
 		this.totalCount = totalCount;
 		this.keyword = keyword;
 	
+		/* 수식 */
+		//시작
+		this.startPage=((pageNum-1)/pageCount)*pageCount+1;
+		//끝
+		this.endPage=((pageNum-1)/pageCount+1)*pageCount;
+		//첫페이지
+		this.firstPage=1;
+		//마지막
+		//rowsPerPage
 	
-	/* 수식 */
-	//시작
-	this.startPage=((pageNum-1)/pageCount)*pageCount+1;
-	//끝
-	this.endPage=((pageNum-1)/pageCount+1)*pageCount;
-	//첫페이지
-	this.firstPage=1;
-	//마지막
-	//rowsPerPage
-
-	if(totalCount%rowsPerPage==0) {
-		this.lastPage=(totalCount/rowsPerPage);
-	}
-	else
-		this.lastPage=(totalCount/rowsPerPage)+1;
-	//이전
-	this.prev=pageNum-1;
-	//다음
-	
-	this.next=pageNum+1;
-	
-	//끝>마지막 --> 보정
-	if(this.endPage>this.lastPage)
-		this.endPage=this.lastPage;
-	
-	//0부터 시작
-	this.startRowIndex =(pageNum-1) * rowsPerPage;
+		if(totalCount%rowsPerPage==0) {
+			this.lastPage=(totalCount/rowsPerPage);
+		}
+		else
+			this.lastPage=(totalCount/rowsPerPage)+1;
+		//이전
+		this.prev=pageNum-1;
+		//다음
+		
+		this.next=pageNum+1;
+		
+		//끝>마지막 --> 보정
+		if(this.endPage>this.lastPage)
+			this.endPage=this.lastPage;
+		
+		//0부터 시작
+		this.startRowIndex =(pageNum-1) * rowsPerPage;
 	
 	}
 }

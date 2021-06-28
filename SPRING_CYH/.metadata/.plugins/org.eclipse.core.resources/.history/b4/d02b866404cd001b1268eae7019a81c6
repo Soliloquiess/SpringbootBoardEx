@@ -1,5 +1,0 @@
-package aloha.service;
-
-public interface BoardService {
-
-}

@@ -14,6 +14,8 @@
 	</form>
 	<table border = "1">
 		<thead>
+		
+			<th width = "80">행번호</th> 
 			<th width = "80">글번호</th>
 			<th width = "320">제목</th>
 			<th width = "100">작성자</th>
@@ -24,6 +26,7 @@
 		
 			<tr th:each="board : ${list}">
 			<!-- <tr th:each="board : ${list}"> -->
+				<td align="center" th:text="${board.rowNo}"></td>
 				<td align="center" th:text="${board.boardNo}"></td>
 				<td align="left">
 				<a th:href="@{|/board/read?boardNo=${board.boardNo}|}" th:text="${board.title}"></a>
@@ -31,9 +34,64 @@
 				<td align="right" th:text="${board.writer}"></td>
 				<td align="center" th:text="${#dates.format(board.regDate, 'yyyy-MM-dd HH:mm:ss') }">	</td>	
 				<td align="center" th:text="${#dates.format(board.updDate, 'yyyy-MM-dd HH:mm:ss') }">	</td>
-				<td></td>
 			</tr>
 		</tbody>
 	</table>
+	
+	
+	<!--  0이 아닌 경우만 게시글 보여줌-->
+	<div th:if="*{totalCount}!=0" th:object="${page}">
+	
+	<!-- 
+		th:object ="${page}"등록하면
+		${page.pageNum}이렇게 작성해야할 데이터를 
+		*{pageNum}으로 축약해서 사용할 수 있다.
+	 -->
+	
+	<a th:href="|/board/list?pageNum=*{firstPage}&totalCount=*{totalCount}&rowsPerPage=*{rowsPerPage}&pageCount=*{pageCount}|"> [시작]</a>
+		
+	<th:block th:if="*{prev>0}">
+		<a th:href="|/board/list?pageNum=*{prev}&totalCount=*{totalCount}&rowsPerPage=*{rowsPerPage}&pageCount=*{pageCount}|"> 
+		[이전]</a>
+	</th:block>
+	
+	
+		<th:block th:each="no: ${#numbers.sequence(page.startPage, page.endPage)}">	<!-- no:인덱스 이름 -->
+		<!-- <span th:text="${no}"></span> -->
+		
+		
+		<th:block th:if="${no==page.pageNum}">
+			<b>
+		</th:block>
+		
+		
+		<a th:href="|/board/list?pageNum=${no}&totalCount=*{totalCount}&rowsPerPage=*{rowsPerPage}&pageCount=*{pageCount}|" 
+		th:text="${no}"></a>
+		
+		
+		
+		<th:block th:if="${no==page.pageNum}">
+			</b>
+		</th:block>
+		
+		</th:block>
+		
+		<!-- "*{next}<=${page.lastPage}" -->
+		<!-- *가 변수 접근하겠다는 의미 -->
+		<!-- 둘다 페이지 객체 안에 존재 -->
+		<th:block th:if="*{next<=lastPage}"> 
+		<a th:href="|/board/list?pageNum=*{next}&totalCount=*{totalCount}&rowsPerPage=*{rowsPerPage}&pageCount=*{pageCount}|"> 
+		[다음]</a>
+	</th:block>
+	
+	<a th:href="|/board/list?pageNum=*{lastPage}&totalCount=*{totalCount}&rowsPerPage=*{rowsPerPage}&pageCount=*{pageCount}|">[끝]</a>
+		
+		
+	</div>
+	
+	
+	
+	
+	
 </body>
 </html>
