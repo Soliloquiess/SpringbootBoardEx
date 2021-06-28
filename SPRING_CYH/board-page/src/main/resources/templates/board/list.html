@@ -8,10 +8,34 @@
 <body>
 	<h2>게시글 목록</h2>
 	<form th:action="@{search}" method="post">
-	
-	<a th:href="@{register}">글쓰기</a>
-		<input type ="text" name = "keyword"/> <input type="submit" value="검색"/>
+		<a th:href="@{register}">글쓰기</a>
+		<input type ="text" name = "keyword" th:value="${page.keyword}"/> <input type="submit" value="검색"/>
+		<!--  검색 버튼 누르면 넘어감. -->
+		
+		<input type = "hidden" name = "pageNum" th:value="${page.pageNum}">
+		<input type = "hidden" name = "rowsPerPage" th:value="${page.rowsPerPage}">		
+		<input type = "hidden" name = "firstPage" th:value="${page.firstPage}">
+		<input type = "hidden" name = "lastPage" th:value="${page.lastPage}">
+		<input type = "hidden" name = "totalCount" th:value="${page.totalCount}">
+		<input type = "hidden" name = "pageCount" th:value="${page.pageCount}">
+		
+		<select id ="rowsPerPage" name ="rowsPerPage">
+		<option value = "5">5줄 보기</option>
+		<option value = "10">10줄 보기</option>
+		<option value = "20">20줄 보기</option>
+		<option value = "30">30줄 보기</option>
+		
+		</select>
+		
+		<select id ="pageCount" name ="pageCount">
+			<option value = "5">5페이지 보기</option>
+			<option value = "10">10페이지 보기</option>
+			<option value = "20">20페이지 보기</option>
+		</select>
 	</form>
+	
+	
+	
 	<table border = "1">
 		<thead>
 		
@@ -23,6 +47,12 @@
 			<th width = "180">수정일자</th>
 		</thead>
 		<tbody>
+		
+			<tr th:if ="${#lists.isEmpty(list)}">
+				<td colspan = "6" align="center">
+					조회된 데이터가 없습니다.
+				</td>
+			</tr>
 		
 			<tr th:each="board : ${list}">
 			<!-- <tr th:each="board : ${list}"> -->
@@ -38,9 +68,10 @@
 		</tbody>
 	</table>
 	
+	<!-- 페이징 처리 -->
 	
 	<!--  0이 아닌 경우만 게시글 보여줌-->
-	<div th:if="*{totalCount}!=0" th:object="${page}">
+	<div th:if="${page.totalCount}!=0" th:object="${page}">
 	
 	<!-- 
 		th:object ="${page}"등록하면
@@ -48,10 +79,10 @@
 		*{pageNum}으로 축약해서 사용할 수 있다.
 	 -->
 	
-	<a th:href="|/board/list?pageNum=*{firstPage}&totalCount=*{totalCount}&rowsPerPage=*{rowsPerPage}&pageCount=*{pageCount}|"> [시작]</a>
+	<a th:href="|/board/list?pageNum=*{firstPage}&totalCount=*{totalCount}&rowsPerPage=*{rowsPerPage}&pageCount=*{pageCount}&keyword=*{keyword}|"> [처음]</a>
 		
 	<th:block th:if="*{prev>0}">
-		<a th:href="|/board/list?pageNum=*{prev}&totalCount=*{totalCount}&rowsPerPage=*{rowsPerPage}&pageCount=*{pageCount}|"> 
+		<a th:href="|/board/list?pageNum=*{prev}&totalCount=*{totalCount}&rowsPerPage=*{rowsPerPage}&pageCount=*{pageCount}&keyword=*{keyword}|"> 
 		[이전]</a>
 	</th:block>
 	
@@ -65,7 +96,7 @@
 		</th:block>
 		
 		
-		<a th:href="|/board/list?pageNum=${no}&totalCount=*{totalCount}&rowsPerPage=*{rowsPerPage}&pageCount=*{pageCount}|" 
+		<a th:href="|/board/list?pageNum=${no}&totalCount=*{totalCount}&rowsPerPage=*{rowsPerPage}&pageCount=*{pageCount}&keyword=*{keyword}|" 
 		th:text="${no}"></a>
 		
 		
@@ -80,17 +111,55 @@
 		<!-- *가 변수 접근하겠다는 의미 -->
 		<!-- 둘다 페이지 객체 안에 존재 -->
 		<th:block th:if="*{next<=lastPage}"> 
-		<a th:href="|/board/list?pageNum=*{next}&totalCount=*{totalCount}&rowsPerPage=*{rowsPerPage}&pageCount=*{pageCount}|"> 
+		<a th:href="|/board/list?pageNum=*{next}&totalCount=*{totalCount}&rowsPerPage=*{rowsPerPage}&pageCount=*{pageCount}&keyword=*{keyword}|"> 
 		[다음]</a>
 	</th:block>
 	
-	<a th:href="|/board/list?pageNum=*{lastPage}&totalCount=*{totalCount}&rowsPerPage=*{rowsPerPage}&pageCount=*{pageCount}|">[끝]</a>
+	<a th:href="|/board/list?pageNum=*{lastPage}&totalCount=*{totalCount}&rowsPerPage=*{rowsPerPage}&pageCount=*{pageCount}&keyword=*{keyword}|">[끝]</a>
 		
 		
 	</div>
 	
 	
-	
+	<script>
+	$(document).ready(function() {
+		var pageNum = "[[${page.pageNum}]]";
+		var rowsPerPage = "[[${page.rowsPerPage}]]";
+		var totalCount = "[[${page.totalCount}]]";
+		var keyword = "[[${page.keyword}]]";
+		var pageCount = "[[${page.pageCount}]]";
+		
+		
+		// 페이지당 게시글 수 초기화
+		$("#rowsPerPage option[value=" + rowsPerPage + "]").attr("selected", "selected");
+		
+		// 노출 페이지 수 초기화
+		$("#pageCount option[value=" + pageCount + "]").attr("selected", "selected");
+		
+		
+		// 줄 보기 변경 이벤트
+		$('#rowsPerPage').on('change', function() {
+			rowsPerPage = $(this).val();
+			location.href = "/board/list?pageNum=" + 1 
+									 + "&totalCount=" + totalCount 
+									 + "&keyword=" + keyword
+									 + "&rowsPerPage=" + rowsPerPage
+									 + "&pageCount=" + pageCount;
+		});
+		
+		// 노출 페이지 개수 변경 이벤트
+		$('#pageCount').on('change', function() {
+			pageCount = $('#pageCount').val();				// this 대신 가능
+			location.href = "/board/list?pageNum=" + 1 
+									 + "&totalCount=" + totalCount 
+									 + "&keyword=" + keyword
+									 + "&rowsPerPage=" + rowsPerPage
+									 + "&pageCount=" + pageCount;
+		});
+		
+	});
+		
+	</script>
 	
 	
 </body>

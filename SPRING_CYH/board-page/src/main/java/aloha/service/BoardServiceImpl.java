@@ -60,6 +60,18 @@ public class BoardServiceImpl implements BoardService{
 		
 		return mapper.listWithPage(page);
 	}
+
+	@Override
+	public Integer totalCount(String keyword) throws Exception {
+		// TODO Auto-generated method stub
+		return mapper.totalCountByKeyword(keyword);
+	}
+
+	@Override
+	public List<Board> search(Page page) throws Exception {
+		// TODO Auto-generated method stub
+		return mapper.searchWithPage(page);	//페이지 넘겨줌.
+	}
 	
 	
 

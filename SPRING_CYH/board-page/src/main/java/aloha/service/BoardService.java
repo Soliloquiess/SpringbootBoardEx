@@ -28,4 +28,10 @@ public interface BoardService {
 	
 	//페이지 게시글 목록
 	public List<Board> list(Page page) throws Exception;
+	
+	//검색어 게시글 수 조회
+	public Integer totalCount(String keyword) throws Exception;
+	
+	//[페이지][검색어] 게시글 검색
+	public List<Board> search(Page page) throws Exception;
 }

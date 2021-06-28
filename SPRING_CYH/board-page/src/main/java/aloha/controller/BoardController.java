@@ -76,7 +76,7 @@ public class BoardController {
 			model.addAttribute("list",service.list(page));
 		}else {
 			page.setKeyword(keyword);
-//			model.addAttribute("list",service.search(page));
+			model.addAttribute("list",service.search(page));
 		}
 		
 		
@@ -126,12 +126,34 @@ public class BoardController {
 	
 	//게시글 검색
 	@PostMapping("/search")
-	public String search(Model model, String keyword) throws Exception{
+	public String search(Model model, Page page) throws Exception{	//keyword대신 page객체로 받아오는 거로 바꿈
 		
-		model.addAttribute("list",service.search(keyword));
-		//
 		
-		service.search(keyword);
+
+		String keyword = page.getKeyword();
+		Integer totalCount = service.totalCount(keyword);
+		Integer rowsPerPage= null;
+		Integer pageCount = null;
+		
+		//페이지당 노출 게시글 수 
+		if(page.getRowsPerPage()==0)
+			rowsPerPage=10;
+		else
+			rowsPerPage= page.getRowsPerPage();
+		
+		//노출 페이지 수
+		if(page.getPageCount()==0)
+			pageCount =10;
+		else
+			pageCount = page.getPageCount();
+		
+		
+		page = new Page(1,rowsPerPage,pageCount,totalCount, keyword);
+
+		
+		model.addAttribute("list",service.search(page));	//page객체 포함하는 search
+		model.addAttribute("page",page);
+			
 		
 		return "board/list";
 //		결과 창 동일

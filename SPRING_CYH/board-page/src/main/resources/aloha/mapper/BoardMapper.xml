@@ -65,7 +65,7 @@
 	<!--  페이지 게시글 목록  -->
 	
 	<select id = "listWithPage" resultType="board">
-	
+	 
 	<![CDATA[
 	select @rownum := @rownum+1 row_no, b.*
 		from 
@@ -78,4 +78,40 @@
 		
 	]]>
 	</select>
+	
+	<!-- [검색어] 게시글 검색 -->
+	<select id = "totalCountByKeyword" resultType="INT">	<!-- 게시글수니까 int -->
+		select count(*)
+		from board
+		where title like concat('%',#{keyword},'%')	<!-- 타이틀에 키워드가 포함된 경우 -->
+		or writer like concat('%',#{keyword},'%')	<!-- 작성자 키워드가 포함된 경우 -->
+		or content like concat('%',#{keyword},'%')	<!-- 내용에 키워드가 포함된 경우 -->
+		
+		
+	</select>
+	
+	
+	<!--  페이지 검색어 게시글 검색  -->
+	
+	<select id = "searchWithPage" resultType="board">
+	
+	<![CDATA[
+	select @rownum := @rownum+1 row_no, b.*
+		from 
+		(select @rownum:= #{startRowIndex} from dual) 
+		tmp,
+		board b
+		
+		where title like concat('%',#{keyword},'%')	
+		or writer like concat('%',#{keyword},'%')	
+		or content like concat('%',#{keyword},'%')	
+		
+		
+		order by board_no desc
+		, reg_date desc
+		limit #{startRowIndex}, #{rowsPerPage}
+		
+	]]>
+	</select>
+	
 </mapper>

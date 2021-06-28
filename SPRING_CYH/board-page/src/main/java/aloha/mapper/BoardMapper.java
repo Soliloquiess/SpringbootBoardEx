@@ -33,5 +33,12 @@ public interface BoardMapper {
 	
 	//페이지 게시글 목록
 	public List<Board> listWithPage(Page page) throws Exception;
+	
+	//검색어 게시글 수
+	public Integer totalCountByKeyword(String keyword) throws Exception;
+
+	//[페이지][검색어] 게시글 검색
+	public List<Board> searchWithPage(Page page) throws Exception;
+	
 }
 
