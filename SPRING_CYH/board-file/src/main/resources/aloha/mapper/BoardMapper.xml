@@ -133,7 +133,16 @@
 	<select id = "readFileList" resultType = "BoardAttach">
 		select * 
 		from board_attach
-		where board_no =#{boardNo}
+		where board_no = #{boardNo}
 		
 	</select>
+	
+	<!--  파일 삭제  -->
+	
+	<delete id = "deleteFile">
+		delete from board_attach
+		where file_no = #{fileNo}
+		
+	</delete>
+	
 </mapper>

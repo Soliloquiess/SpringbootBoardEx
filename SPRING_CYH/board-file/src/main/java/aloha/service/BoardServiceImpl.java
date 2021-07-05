@@ -84,5 +84,11 @@ public class BoardServiceImpl implements BoardService{
 	public List<BoardAttach> readFileList(Integer boardNo) throws Exception {
 		return mapper.readFileList(boardNo);
 	}
+
+	@Override
+	public void deleteFile(Integer fileNo) throws Exception {
+		 mapper.deleteFile(fileNo);
+		
+	}
 	
 }

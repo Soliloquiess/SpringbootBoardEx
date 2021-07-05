@@ -60,11 +60,11 @@
 				<td>
 					<div id="files">
 						<div th:each="file: ${files}" class = "file">
-							<a th:href="|/file/fileDownload|" th:text="${file.fileName}"></a>
+							<a th:href="|/file/fileDownload?fullName=${file.fullName}&fileName=${file.fileName}|" th:text="${file.fileName}"></a>
 						</div>
 					</div>
 					<div th:if="!${#lists.isEmpty(files)}">
-						<a th:href="|/file/zipDownload?boardNo=${board.boardNo}$title=${board.title}|">전체 다운로드</a>
+						<a th:href="|/file/zipDownload?boardNo=${board.boardNo}&title=${board.title}|">전체 다운로드</a>
 					</div>
 				</td>
 			</tr>

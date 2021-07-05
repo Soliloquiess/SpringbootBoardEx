@@ -2,6 +2,7 @@ package aloha.controller;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -138,6 +139,7 @@ public class BoardController {
 	public void modifyForm(Model model, Integer boardNo) throws Exception{
 
 		model.addAttribute("board",service.read(boardNo));
+		model.addAttribute("files",service.readFileList(boardNo));
 	}
 	
 	
@@ -156,6 +158,11 @@ public class BoardController {
 	
 	@PostMapping("/remove")
 	public String remove(Model model, Integer boardNo) throws Exception{
+		
+		List<BoardAttach> attachList =  service.readFileList(boardNo);
+		
+		// 게시글에 첨부한 파일 삭제
+		deleteFiles(attachList);
 
 		service.remove(boardNo);
 		model.addAttribute("msg","삭제 완료되었습니다.");
@@ -232,5 +239,36 @@ public class BoardController {
 		}
 		return attachList;
 	}
+	
+	
+	// 실제 파일 삭제 - 해당 게시글 전체파일 삭제
+		public void deleteFiles(List<BoardAttach> deleteFileList) throws Exception {
+			
+			// 해당 게시글의 첨부파일 전체 삭제
+			for (BoardAttach deleteFile : deleteFileList) {
+				String fullName = deleteFile.getFullName();
+				Integer fileNo = deleteFile.getFileNo();
+				
+				File file = new File(fullName);
+				// 실제로 파일이 존재하는지 확인
+				if(file.exists()) {
+					// 파일 삭제
+					if(file.delete()) {
+						log.info("삭제한 파일 : " + fullName);
+						log.info("파일삭제 성공");
+						
+						// DB에서 해당 파일 데이터 삭제 
+						service.deleteFile(fileNo);
+					} else {
+						log.info("파일삭제 실패");
+						
+					}
+				} else {
+					log.info("삭제(실패) : " + fullName);
+					log.info("파일이 존재하지 않습니다.");
+				}
+			}
+			
+		}
 	
 }

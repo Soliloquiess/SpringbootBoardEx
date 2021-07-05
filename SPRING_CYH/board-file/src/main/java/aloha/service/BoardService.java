@@ -44,5 +44,9 @@ public interface BoardService {
 	
 	//파일 목록
 		public List<BoardAttach> readFileList(Integer boardNo) throws Exception;
+	
 		
+		// 파일 삭제
+		
+		public void deleteFile(Integer fileNo ) throws Exception;
 }
