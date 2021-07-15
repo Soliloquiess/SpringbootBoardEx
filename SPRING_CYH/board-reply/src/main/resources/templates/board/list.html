@@ -60,6 +60,10 @@
 				<td align="center" th:text="${board.boardNo}"></td>
 				<td align="left">
 				<a th:href="@{|/board/read?boardNo=${board.boardNo}|}" th:text="${board.title}"></a>
+					<a th:href="@{|/board/read?boardNo=${board.boardNo}#replyList|}" th:if="${board.replyCount>0}">
+					
+						[<span th:text=${board.replyCount}></span>]
+					</a>
 				</td>
 				<td align="right" th:text="${board.writer}"></td>
 				<td align="center" th:text="${#dates.format(board.regDate, 'yyyy-MM-dd HH:mm:ss') }">	</td>	

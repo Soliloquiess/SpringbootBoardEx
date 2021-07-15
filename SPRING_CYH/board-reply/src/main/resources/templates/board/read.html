@@ -6,96 +6,10 @@
 </head>
 
 <script src="/js/jquery-3.5.1.min.js"></script>
-<script>
-	$(function() {
-		var form = $("#board");
-		//수정버튼 클릭 이벤트
-		$("#btnModify").on("click", function() {
-			var boardNo = $("#boardNo").val();
-
-			self.location = "/board/modify?boardNo=" + boardNo;
-
-		})
-
-		//삭제버튼
-		$("#btnRemove").on("click", function() {
-			var boardNo = $("#boardNo").val();
-
-			form.submit();
-		})
-
-		//목록 버튼 클릭 이벤트
-		$("#btnList").on("click", function() {
-			self.location = "/board/list";
-		})
-
-		// 댓글 등록 버튼 클릭 이벤트
-		$("#btnReplyRegister").on('click', function() {
-			var reply_writer = $('#replyWriter').val();
-			var reply_content = $('#replyContent').val();
-			var board_no = $('#boardNo').val();
-			writeReply(board_no, reply_writer, reply_content); //함수 만들어서 ajax 요청
-		})
-		
-		
-		// 댓글 수정 버튼 클릭 이벤트
-		$(".btnReplyModify").on('click', function() {	//아이디선택자로 받아옴.
-			
-			var reply_list = $(this).parent(); //현재 클릭한 요소의 부모 li
-			
-			var reply_no = $(this).attr('data');		//replyNo
-			var reply_writer = reply_list.children('.replyWriter').text();
-			var reply_content = reply_list.children('.replyContent').text();
-			
-			var editor= "<div>"
-								+ "<input type = 'text' name = 'replyWriter' class='replyWriter' value = " + reply_writer + "> <br>"
-								+ "<textarea rows = '4' cols ='60' >" + reply_content+"</textarea> <br>"
-								+"<button type='button' class ='btnReplyRegister' data=' " + reply_no +  " ' >  등록  </button>"
-								+ "</div>";
-			reply_list.append(editor);
-			reply_list.children('.replyContent').remove();
-		});
-		
-		
-		
-		
-	});
-	
-	
-	
-	
-	
-
-	//댓글 등록
-	function writeReply(board_no, reply_writer, reply_content) {
-		$.ajax({
-			//필수 포함 내용: url, type,  data,  dataType,  success,  error
-			url : '/board/replyRegister', //request 보낼 서버의 경로
-			type : 'post', // method(get, post, put ) 등
-			data : {
-				'boardNo' : board_no,
-				'writer' : reply_writer,
-				'content' : reply_content
-			},
-			dataType : "text",
-			success : function(data) {
-				//서버로부터 정상적으로 응답이 왔을 때 실행
-				//data: 서버로 부터 응답 받은 text 또는 view(.html)
-				$('#replyList').empty(); //댓글 목록 비우기
-				$('#replyList').append(data); //새 댓글 포함한 댓글 목록 갱신
-				$('#replyWriter').val(''); //댓글 작성자 초기화 
-				$('#replyContent').val(''); //댓글 내용 초기화
-			},
-			error : function(request, status, error) {
-				//서버로부터 응답이 정상적으로 처리 되지 못했을 때 실행
-				alert("code = " + request.status + " message = "
-						+ request.responseText + " error = " + error);
-			}
-		});
-	}
-</script>
+<script src="/js/board.js"></script> 
 
 <body>
+	<a href = "#replyList"> 댓글목록 이동 </a>
 	<h2>글 읽기</h2>
 
 	<form id="board" th:action="@{remove}" th:object="${board}"
@@ -138,6 +52,7 @@
 		</table>
 	</form>
 
+	<div style="height:1000px;"></div>
 	<!--  댓글 목록 영역 -->
 	<div id="replyList">
 		<ul>

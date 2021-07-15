@@ -109,5 +109,11 @@ public class BoardServiceImpl implements BoardService{
 		mapper.replyUpdate(reply);
 		
 	}
+
+	@Override
+	public void replyRemove(Reply reply) throws Exception {
+		mapper.deleteReply(reply);
+		
+	}
 	
 }

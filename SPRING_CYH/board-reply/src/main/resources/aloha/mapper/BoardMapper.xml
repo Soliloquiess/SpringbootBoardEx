@@ -7,7 +7,7 @@
 <mapper namespace="aloha.mapper.BoardMapper">
 
 	<!-- 게시글 등록 -->
-	
+
 	<insert id="insert">
 		Insert Into board (title,writer,content)
 		values(#{title},#{writer},#{content})
@@ -15,10 +15,11 @@
 
 	<!-- 게시글 목록 -->
 	<select id="list" resultType="Board">
-		select *
-		from board
-		order by board_no
-		desc,
+		select b.* ,r.reply_count
+			from board b left join
+				(select board_no, count(*) reply_count from board_reply group by board_no) r
+			on b.board_no = r.board_no
+		order by board_no desc,
 		reg_date desc
 	</select>
 
@@ -70,11 +71,13 @@
 	<select id="listWithPage" resultType="board">
 	 
 	<![CDATA[
-	select @rownum := @rownum+1 row_no, b.*
+	select @rownum := @rownum+1 row_no, b.* , r.reply_count
 		from 
 		(select @rownum:= #{startRowIndex} from dual) 
 		tmp,
-		board b
+			board b left join
+							(select board_no, count(*) reply_count from board_reply group by board_no) r
+							on b.board_no = r.board_no
 		order by board_no desc
 		, reg_date desc
 		limit #{startRowIndex}, #{rowsPerPage}
@@ -104,7 +107,9 @@
 		from 
 		(select @rownum:= #{startRowIndex} from dual) 
 		tmp,
-		board b
+		board b left join
+				(select board_no, count(*) reply_count from board_reply group by board_no) r
+		on b.board_no = r.board_no;
 		
 		where title like concat('%',#{keyword},'%')	
 		or writer like concat('%',#{keyword},'%')	
@@ -173,7 +178,14 @@
 	<update id="replyUpdate">
 		update board_reply
 		set writer = #{writer}
-		, content= #{content}
+		, content=
+		#{content}
 		where reply_no = #{replyNo}
 	</update>
+
+	<!-- 댓글 삭제 -->
+	<delete id="deleteReply">
+		delete from board_reply
+		where reply_no = #{replyNo}
+	</delete>
 </mapper>

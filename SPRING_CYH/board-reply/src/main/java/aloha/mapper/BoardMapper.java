@@ -61,4 +61,6 @@ public interface BoardMapper {
 	
 	//댓글 수정
 	public void replyUpdate (Reply reply) throws Exception;
+	//댓글 삭제
+	public void deleteReply(Reply reply);
 }

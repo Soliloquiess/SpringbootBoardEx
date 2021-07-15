@@ -59,4 +59,7 @@ public interface BoardService {
 		
 		//댓글 수정
 		public void replyModify (Reply reply) throws Exception;
+		
+		//댓글 삭제
+		public void replyRemove(Reply reply) throws Exception;
 }

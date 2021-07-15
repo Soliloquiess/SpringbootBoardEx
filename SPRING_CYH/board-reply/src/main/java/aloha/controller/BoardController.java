@@ -125,7 +125,7 @@ public class BoardController {
 		//전달받은거 모델등록
 	}
 	
-	//게시글 읽기
+	//게시글 읽기 화면
 	
 	@GetMapping("/read")
 	public void read(Model model, Integer boardNo) throws Exception{
@@ -136,7 +136,7 @@ public class BoardController {
 		//파일 목록 조회
 		model.addAttribute("files",service.readFileList(boardNo));
 		//댓글 목록 조회
-		model.addAttribute("replyList", service.replyList(boardNo));
+		// model.addAttribute("replyList", service.replyList(boardNo));
 	}
 	
 	//게시글 수정화면
@@ -301,7 +301,33 @@ public class BoardController {
 			
 			Integer boardNo = reply.getBoardNo();
 			//댓글 목록 조회
+			//boardNo까지 같이 넘긴 이유? = 댓글 목록을 조회해와야 되니까 그리고 모델에 담아야되서 글 번호에 담음.
 			model.addAttribute("replyList", service.replyList((boardNo)));
+			return "reply/list";
+		}
+		
+		//댓글 삭제
+		@PostMapping("/replyRemove")
+		public String replyRemove(Model model, Reply reply) throws Exception{
+			service.replyRemove(reply);
+			
+			
+			Integer boardNo = reply.getBoardNo();
+			
+			model.addAttribute("replyList", service.replyList(boardNo));
+			//댓글 목록 조회
+			model.addAttribute("replyList", service.replyList(boardNo));
+			
+			return "reply/list";
+		}
+		
+		//댓글 목록 조회
+		@GetMapping("/replyList")
+		public String replyList(Model model, Reply reply) throws Exception{
+			
+			Integer boardNo = reply.getBoardNo();
+			//댓글 목록 조회
+			model.addAttribute("replyList", service.replyList(boardNo));
 			return "reply/list";
 		}
 }
