@@ -130,7 +130,8 @@ public class BoardController {
 	public void read(Model model, Integer boardNo) throws Exception{
 		
 		model.addAttribute("board",service.read(boardNo));
-		model.addAttribute("files",service.readFileList(boardNo));
+		model.addAttribute("files",service.readFileList(boardNo));//files라는 이름으로 리스트를 담음. 모델의 역할은 리스트 담고 있는 거.
+		//모델에 등록해두면 뷰페이지에서 가져와서 쓸 수 있었다.
 	}
 	
 	//게시글 수정화면
@@ -268,7 +269,5 @@ public class BoardController {
 					log.info("파일이 존재하지 않습니다.");
 				}
 			}
-			
 		}
-	
 }

@@ -1,0 +1,18 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	member 페이지
+	<h1>welcome:member</h1>
+	
+	<h3 th:text="|${userId}님|"></h3>
+	<form th:action="@{/auth/logout}" method="post">
+		<input type = "submit" value="로그아웃">
+	</form>
+</body>
+</html>

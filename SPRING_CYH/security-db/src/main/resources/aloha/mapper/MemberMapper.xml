@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="aloha.mapper.MemberMapper">
+
+	<insert id="create">
+		INSERT INTO member ( user_id, user_pw, user_name )
+					VALUES ( #{userId}, #{userPw}, #{userName} )
+	</insert>
+
+	<select id="list" resultType="Member">
+		SELECT * FROM member
+	</select>	
+
+
+</mapper>

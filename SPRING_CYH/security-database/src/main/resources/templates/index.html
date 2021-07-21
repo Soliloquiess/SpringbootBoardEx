@@ -1,0 +1,40 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<title>ALOHA CAMPUS</title>
+</head>
+<body>
+	<div>
+		<h1>ALOHA CAMPUS</h1>
+		<p th:text="${serverTime}"></p>
+	</div>
+	<div sec:authorize = "isAuthenticated()">	
+	<!-- 얘를 쓰면 인증이 됐을떄 태그들이 나옴 -->
+	<span sec:authentication="name"></span>
+	
+		<form th:action = "@{/auth/logout}" method="post">
+			<button type = "submit">logout</button>
+		</form>
+	
+	</div>
+	
+	<div sec:authorize="!isAuthenticated()">
+	<!-- 인증이 안되면 얘들이 나옴 -->
+		<a href="/auth/loginForm">로그인</a>
+		<a href="/user/register">회원가입</a>
+	</div>
+	
+	<ul>
+		<th:block sec:authorize="hasRole('USER') or hasRole('ADMIN')">
+<!-- 			유저든 관리자든 이 두개는 봐야. 만약 이외 사람분류가 없고 2개가 끝이면 이건 필요 없음 -->
+			<li>공지사항</li>
+			<li>게시판</li>
+		</th:block>
+		
+		<th:block sec:authorize="hasRole('ADMIN')">
+			<li>관리자 페이지</li>
+		</th:block>
+	</ul>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<script src="/js/jquery-3.5.1.min.js"></script>
+</head>
+<body>
+<div>
+	<h2>회원가입</h2>
+	<form id="member" th:action="@{/user/register}" th:object="${member}" method="POST">
+		<table>
+			<tr>
+				<th>아이디</th>
+				<td><input type="text" name="userId" th:field="*{userId}" /></td>
+			</tr>
+			<tr>
+				<th>비밀번호</th>
+				<td><input type="password" name="userPw" th:field="*{userPw}" /></td>
+			</tr>
+			<tr>
+				<th>이름</th>
+				<td><input type="text" name="userName" th:field="*{userName}" /></td>
+			</tr>
+			<tr>
+				<th>email</th>
+				<td><input type="text" name="email" th:field="*{email}" /></td>
+			</tr>
+		</table>
+	</form>
+	<div>
+		<button type="button" id="btnRegister">등록</button>
+		<button type="button" id="btnList">목록</button>
+	</div>
+</div>
+	<script>
+		$(document).ready(function() {
+			
+			var form = $("#member");
+			
+			// 등록 버튼 - 클릭 이벤트
+			$("#btnRegister").on("click", function() {
+				form.submit();
+			});
+			
+			// 목록 버튼 - 클릭 이벤트
+			$("#btnList").on("click", function() {
+				self.location = "list";				
+			});
+			
+		});
+	</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
