@@ -14,5 +14,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT * FROM member
 	</select>	
 
+	<select id = "checkUserId"  resultType="int">
+		select  count(*)
+		from member
+		where user_id = #{userId}
+	</select>
 
 </mapper>

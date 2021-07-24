@@ -2,6 +2,11 @@
 
 <head>
 	<meta charset="UTF-8">
+	
+	<!-- csrf token -->
+	<meta name="_csrf" th:content="${_csrf.token}">
+	<meta name="_csrf_header" th:content="${_csrf.headerName}">
+	
 	<title>ALOHA CAMPUS</title>
 	<script src="/js/jquery-3.5.1.min.js"></script>
 </head>
@@ -12,7 +17,9 @@
 		<table>
 			<tr>
 				<th>아이디</th>
-				<td><input type="text" name="userId" th:field="*{userId}" /></td>
+				<td><input type="text" name="userId" th:field="*{userId}" id="useId"/>
+					<button type ="button" id="checkDuplicated"> </button>
+				</td>
 			</tr>
 			<tr>
 				<th>비밀번호</th>
@@ -44,6 +51,45 @@
 				self.location = "list";				
 			});
 			
+			
+			//csrf token
+			var token = $("meta[name='_csrf']").attr("content");
+			var header=$("meta[name='_csrf_header']").attr("content");
+			
+			$(document).ajaxSend(function(e,xhr,options){
+				xhr.setRequestHeader(header,token);
+			})
+			
+			//중복 확인 - 클릭 이벤트(화면이 바뀌면 안 됨)
+			$("#checkDuplicated").on("click", function(){
+				var userId = $("#userId").val();
+				
+			
+				$.ajax({
+					//필수 포함 내용: url, type,  data,  dataType,  success,  error
+					url : '/user/checkUserId', //request 보낼 서버의 경로
+					type : 'post', // method(get, post, put ) 등
+					data : {
+						'userId' : userId,
+					},
+					dataType : "text",
+					success : function(data) {
+						//서버로부터 정상적으로 응답이 왔을 때 실행
+						//data: 서버로 부터 응답 받은 text 또는 view(.html)
+						//전달 받은게 true면 사용 가능.
+						//아니면 사용 안됨
+						if(data){
+							alert("사용 가능한 아이디입니다.");
+						}else {
+							alert("이미 사용 중인 아이디 입니다.")
+						}
+					},
+					error : function(request, status, error) {
+						//서버로부터 응답이 정상적으로 처리 되지 못했을 때 실행
+						alert("code = " + request.status + " message = " + request.responseText + " error = " + error);
+					}
+				});
+			});
 		});
 	</script>
 </body>

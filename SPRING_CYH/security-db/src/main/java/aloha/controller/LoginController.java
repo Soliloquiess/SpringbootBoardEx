@@ -28,5 +28,4 @@ public class LoginController {
 		
 		return "auth/accessError";
 	}
-	
 }

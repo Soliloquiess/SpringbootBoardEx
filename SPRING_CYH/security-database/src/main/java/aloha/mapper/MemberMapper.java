@@ -13,5 +13,8 @@ public interface MemberMapper {
 	public void create(Member member) throws Exception;
 	
 	// 회원정보 목록 조회
-	public List<Member> list() throws Exception; 
+	public List<Member> list() throws Exception;
+	
+	// 회원정보 목록 조회
+	public int checkUserId(String userId) throws Exception; 
 }

@@ -10,6 +10,9 @@ public interface MemberService {
 	public void register(Member member) throws Exception;
 	
 	// 회원정보 목록조회
-	public List<Member> list() throws Exception;	
+	public List<Member> list() throws Exception;
+
+	//
+	public boolean checkUserId(String userId) throws Exception;	
 	
  }

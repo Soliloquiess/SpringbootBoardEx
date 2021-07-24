@@ -26,6 +26,15 @@ public class MemberServiceImpl implements MemberService {
 	public List<Member> list() throws Exception {
 		return mapper.list();
 	}
+
+	@Override
+	public boolean checkUserId(String userId) throws Exception {
+		// db에서 전달받은 값이 true/false는 없으니까 매퍼는 true/false가 안됨
+		 int cnt = mapper.checkUserId(userId);
+		 if (cnt>0) return false;	//id 중복
+		 
+		 return true;
+	}
 	
 	
 	
