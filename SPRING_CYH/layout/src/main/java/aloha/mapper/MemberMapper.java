@@ -2,11 +2,9 @@ package aloha.mapper;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Mapper;
 
 import aloha.domain.Member;
 
-@Mapper
 public interface MemberMapper {
 	
 	// 회원정보 등록

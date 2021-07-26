@@ -10,6 +10,10 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+
+import aloha.auth.common.LoginSuccessHandler;
 
 @Configuration				// 이 클래스를 스프링 설정 빈으로 등록
 @EnableWebSecurity			// 이 클래스에 스프링 시큐리티 기능 활성화
@@ -42,6 +46,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.formLogin()
 			.loginPage("/auth/loginForm")	//로그인 페이지
 			.loginProcessingUrl("/auth/login")	//로그인 처리하는 페이지
+			.successHandler(new LoginSuccessHandler())   //객체인스턴스 만듬	//로그인 성공했을떄 작업을 클래스내부에서 해줌.
+			
 			.failureUrl("/auth/loginError")			//로그인 시 에러나면 연결된 url은 경로를 이렇게 지정하고 
 			.usernameParameter("username")		//여기엔 id를 넘겨줄 파라미터를 이름을 뭐라 할 건지(username=id)
 			.passwordParameter("password")			//password넘겨주는게 파라미터
@@ -62,9 +68,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			;
 		//접근 거부 처리(accessError라는 페이지로 이동하게)
 		
+		
+		// 자동 로그인
+		
+		http.rememberMe()
+		.key("aloha")
+		.tokenRepository(createJDBCRepository())
+		//쿠키 유효시간 지정
+		.tokenValiditySeconds(60*60*24); //유효기간:1일
+		
+		
+		
+		
+		
 		//SSL 를 사용하지 않으면 true 사용
 		
-		http.csrf().disable();
+//		http.csrf().disable();
 		// csrf - 비활성화하면 어떤 문제가 생기나?
 		//CSRF(CROSS SITE REQUEST FORGERY) 공격
 		//사용자의 의지오 ㅏ무관해게 크로스사이트(타사이트) 로의부터의 서버에 공격적인 요청을 하는 것.
@@ -80,6 +99,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		// 접근거부 처리
 		http.exceptionHandling()
 			.accessDeniedPage("/auth/accessError");
+		
+		//http.csrf().disable();
+		// csrf - 비활성화하면 어떤 문제가 생기나?
+		//CSRF(CROSS SITE REQUEST FORGERY) 공격
+		//사용자의 의지오 ㅏ무관해게 크로스사이트(타사이트) 로의부터의 서버에 공격적인 요청을 하는 것.
+		//이것을 방지하는게 기본값으로 들어있는데 csrf를 비활성화 하면 이 공격에 대해 공격방지를 하지 않는다(보안적인 문제)
+		
+		
 	}
 	
 	/*
@@ -125,7 +152,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return new BCryptPasswordEncoder();
 	}
 	
-
+	// 데이터 소스를 설정하고 , PersistentTokenRepository 를 반환하는 메서드 
+	//자동 로그인의 테이블 경로를 지정하기 위함.
+	private PersistentTokenRepository createJDBCRepository() {
+		JdbcTokenRepositoryImpl repo = new JdbcTokenRepositoryImpl();
+		repo.setDataSource(dataSource);	//데이터 소스 넘겨주고 응답
+		
+		return repo;
+	}
 }
 
 

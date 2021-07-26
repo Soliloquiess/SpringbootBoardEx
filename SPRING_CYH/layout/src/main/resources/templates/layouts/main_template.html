@@ -1,0 +1,19 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<!--      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5" -->
+
+
+<head>
+<script src="/js/jQuery-2.1.4.min.js"></script>
+</head>
+<body>
+
+<div th:replace ="~{fragments/header::header}"></div>
+<hr>
+<div th:replace ="~{fragments/menu::menu}"></div>
+<hr>
+<div align ="center" layout:fragment="content}"></div>
+<hr>
+<div th:replace ="~{fragments/footer::footer}"></div>
+<hr>
+</body>
+</html>

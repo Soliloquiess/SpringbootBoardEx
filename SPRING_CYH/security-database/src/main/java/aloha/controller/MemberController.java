@@ -62,8 +62,10 @@ public class MemberController {
 		model.addAttribute("list", service.list());
 	}
 	
+	
+	//회원 중복 체크
 	@PostMapping("/checkUserId")
-	@ResponseBody
+	@ResponseBody	//데이터로 응답
 	public boolean checkUserId(String userId) throws Exception{
 		
 		boolean check = service.checkUserId(userId);

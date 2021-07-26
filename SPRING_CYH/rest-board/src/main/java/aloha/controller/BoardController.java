@@ -52,8 +52,9 @@ public class BoardController {
 		
 		//파일 목록 조회
 		model.addAttribute("files",service.readFileList(boardNo));
+		
 		//댓글 목록 조회
-		// model.addAttribute("replyList", service.replyList(boardNo));
+		 model.addAttribute("replyList", service.replyList(boardNo));
 	}
 	
 	
@@ -66,7 +67,7 @@ public class BoardController {
 	//게시글 수정
 	@PutMapping("/modify")
 	public void modify(@RequestBody Board Board) throws Exception{
-		service.register(Board);
+		service.modify(Board);
 	}
 	
 	
