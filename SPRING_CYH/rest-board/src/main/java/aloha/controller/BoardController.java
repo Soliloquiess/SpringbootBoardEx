@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -44,37 +45,38 @@ public class BoardController {
 	}
 	
 	//게시글 읽기
-	@GetMapping("/read")
-	public void read(Model model, Integer boardNo) throws Exception{
+	@GetMapping("/read/{boardNo}")
+	public Board read(@RequestBody Board board, @PathVariable Integer boardNo) throws Exception{
 			
+		return service.read(boardNo);
 		// 게시글 조회
-		model.addAttribute("board",service.read(boardNo));
-		
-		//파일 목록 조회
-		model.addAttribute("files",service.readFileList(boardNo));
-		
-		//댓글 목록 조회
-		 model.addAttribute("replyList", service.replyList(boardNo));
+//		model.addAttribute("board",service.read(boardNo));
+//		
+//		//파일 목록 조회
+//		model.addAttribute("files",service.readFileList(boardNo));
+//		
+//		//댓글 목록 조회
+//		 model.addAttribute("replyList", service.replyList(boardNo));
 	}
 	
 	
 	//게시글 쓰기 - 화면,처리
 	@PostMapping("/register")
-	public void register(@RequestBody Board Board) throws Exception{
-		service.register(Board);
+	public void register(@RequestBody Board board) throws Exception{
+		service.register(board);
 	}
 	
 	//게시글 수정
 	@PutMapping("/modify")
-	public void modify(@RequestBody Board Board) throws Exception{
-		service.modify(Board);
+	public void modify(@RequestBody Board board) throws Exception{
+		service.modify(board);
 	}
 	
 	
 	//게시글 삭제
 	@DeleteMapping("/delete")
-	public void delete(@RequestBody Board Board) throws Exception{
-		service.remove(Board.getBoardNo());
+	public void delete(@RequestBody Board board) throws Exception{
+		service.remove(board.getBoardNo());
 	}
 }
 	

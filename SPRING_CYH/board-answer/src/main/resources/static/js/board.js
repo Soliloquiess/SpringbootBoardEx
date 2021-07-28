@@ -2,6 +2,10 @@ $(function() {
 		var form = $("#board");
 		var board_no = $("#boardNo").val();
 		
+		
+		
+		
+		
 		//댓글 목록 조회 요청
 		replyList(board_no);
 		
