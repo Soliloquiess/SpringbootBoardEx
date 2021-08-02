@@ -22,42 +22,137 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import aloha.domain.Board;
 import aloha.domain.BoardAttach;
 import aloha.domain.Page;
 import aloha.domain.Reply;
 import aloha.service.BoardService;
+import jdk.internal.org.jline.utils.Log;
+
 
 
 @RestController	//@Controller  + @ResponseBody
 @RequestMapping("/board")
 //경로
 public class BoardController {
+
 	
+	
+	private static final Logger log = LoggerFactory.getLogger(BoardController.class);
+
 	@Autowired 
 	//의존성 자동주입
 	private BoardService service;
 	
+	
+//	//게시글 목록
+//	@GetMapping("/list")
+//	public List<Board> list() throws Exception{
+//		return service.list();
+//	}
+//	
+	
+	
 	//게시글 목록
 	@GetMapping("/list")
-	public List<Board> list() throws Exception{
-		return service.list();
+	public List list(Board board, Page page) throws Exception{
+		
+		String keyword = page.getKeyword();
+		Integer totalCount = null;
+		Integer rowsPerPage= null;
+		Integer pageCount = null;
+		
+		//조회된 게시글의 수
+		if(page.getTotalCount()==0)
+			totalCount = service.totalCount();
+		else 
+			totalCount = page.getTotalCount(); 
+		
+		//페이지당 노출 게시글 수 
+		if(page.getRowsPerPage()==0)
+			rowsPerPage=10;
+		else
+			rowsPerPage= page.getRowsPerPage();
+		
+		//노출 페이지 수
+		if(page.getPageCount()==0)
+			pageCount =10;
+		else
+			pageCount = page.getPageCount();
+		
+		if(page.getPageNum()==0) {
+			page = new Page(1,rowsPerPage,pageCount,totalCount, keyword);
+		} else {
+			page = new Page(page.getPageNum(),rowsPerPage,pageCount,totalCount,keyword);
+		}
+		
+		List<Board> list = null;
+		if(keyword==null||keyword=="") {
+			page.setKeyword("");
+			list=service.list(page);
+		
+			for(Board b :list) {
+				log.info(b.toString());
+			}
+		}
+		else {
+			page.setKeyword(keyword);
+			list =service.search(page);
+		}
+		
+		return list;
+		//전달받은거 모델등록
 	}
 	
-	//게시글 읽기
-	@GetMapping("/read/{boardNo}")
-	public Board read(@RequestBody Board board, @PathVariable Integer boardNo) throws Exception{
-			
-		return service.read(boardNo);
-		// 게시글 조회
-//		model.addAttribute("board",service.read(boardNo));
-//		
-//		//파일 목록 조회
-//		model.addAttribute("files",service.readFileList(boardNo));
-//		
-//		//댓글 목록 조회
-//		 model.addAttribute("replyList", service.replyList(boardNo));
+	//페이지
+	@GetMapping("/page")
+	public Page page(Board board, Page page) throws Exception{
+		
+		String keyword = page.getKeyword();
+		Integer totalCount = null;
+		Integer rowsPerPage= null;
+		Integer pageCount = null;
+		
+		//조회된 게시글의 수
+		if(page.getTotalCount()==0)
+			totalCount = service.totalCount();
+		else 
+			totalCount = page.getTotalCount(); 
+		
+		//페이지당 노출 게시글 수 
+		if(page.getRowsPerPage()==0)
+			rowsPerPage=10;
+		else
+			rowsPerPage= page.getRowsPerPage();
+		
+		//노출 페이지 수
+		if(page.getPageCount()==0)
+			pageCount =10;
+		else
+			pageCount = page.getPageCount();
+		
+		if(page.getPageNum()==0) {
+			page = new Page(1,rowsPerPage,pageCount,totalCount, keyword);
+		} else {
+			page = new Page(page.getPageNum(),rowsPerPage,pageCount,totalCount,keyword);
+		}
+		
+		if(keyword==null||keyword=="") {
+			page.setKeyword("");
+			page.setKeyword(keyword);
+		}
+		
+		return page;
+		//전달받은거 모델등록
 	}
+	
+
 	
 	
 	//게시글 쓰기 - 화면,처리
@@ -65,6 +160,34 @@ public class BoardController {
 	public void register(@RequestBody Board board) throws Exception{
 		service.register(board);
 	}
+	
+	
+	@GetMapping("/read")
+	public Board read(Integer boardNo) throws Exception {
+		return service.read(boardNo);
+	}
+	
+
+	//게시글 읽기 - 파일 목록
+	@GetMapping("/read/files")
+	public List<BoardAttach> readFile(Integer boardNo) throws Exception {
+		return service.readFileList(boardNo);
+	}
+	
+
+	@GetMapping("/read/replys")
+	public List<Reply> readReplys(Integer boardNo) throws Exception {
+		
+		List<Reply> replyList = service.replyList(boardNo);
+		
+		for(Reply reply: replyList) {
+			log.info(reply.toString());
+		}
+		return replyList;
+//		return service.replyList(boardNo);
+	}
+	
+	
 	
 	//게시글 수정
 	@PutMapping("/modify")
@@ -408,3 +531,47 @@ public class BoardController {
 //		
 //		}
 //}
+
+
+
+//게시글 읽기, @PathVariable Integer boardNo
+//@GetMapping("/read")
+//	public JsonObject read(@RequestBody Board board) throws Exception{
+//
+//		int boardNo = board.getBoardNo();		
+//		
+//		JsonObject jsonObject = new JsonObject();
+//		
+//		board = service.read(boardNo);	//보드 게시글 정보 가져오고
+//		List<BoardAttach> attachList = service.readFileList(boardNo);	//리스트로 가져온 파일 정보를
+//		
+//		JsonArray jsonArr = new Gson().toJsonTree(attachList).getAsJsonArray();	//json 어레이에 파싱해서 attachlist를 제이슨에 넣음
+//		jsonObject.add("attachList", jsonArr);
+//
+//		//보드객체 정보를 문자열로 파싱해서
+//		String str = "{'boardNo':"+board.getBoardNo()
+//							+",'title':"+board.getTitle()
+//							+",'content':"+board.getContent()
+//							+",'writer':" + board.getWriter()
+//							+"}";
+//		
+//		
+//		JsonParser jsonParser =  new JsonParser();
+//		JsonArray jsonArray = (JsonArray) jsonParser.parse(str);
+//		
+//		//게시글 정보
+////		JsonElement jsonEle = new Gson().toJson(board).get;
+//		jsonObject.add("board", jsonArray);
+//		
+//		
+//		
+//		return jsonObject;
+//		// 게시글 조회
+////		model.addAttribute("board",service.read(boardNo));
+////		
+////		//파일 목록 조회
+////		model.addAttribute("files",service.readFileList(boardNo));
+////		
+////		//댓글 목록 조회
+////		 model.addAttribute("replyList", service.replyList(boardNo));
+//	}

@@ -15,12 +15,12 @@
 
 	<!-- 게시글 목록 -->
 	<select id="list" resultType="Board">
-		select b.* ,r.reply_count
-			from board b left join
-				(select board_no, count(*) reply_count from board_reply group by board_no) r
-			on b.board_no = r.board_no
-		order by board_no desc,
-		reg_date desc
+		SELECT *
+FROM board b LEFT JOIN 
+         (SELECT r.board_no, COUNT(*) reply_count FROM board_reply r GROUP BY board_no) reply
+         ON b.board_no = reply.board_no
+ORDER BY b.board_no DESC
+      ,reg_date DESC
 	</select>
 
 	<!-- 게시글 조회 -->
