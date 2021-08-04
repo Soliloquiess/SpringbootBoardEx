@@ -1,11 +1,11 @@
-package aloha.service;
+package hellingers.service;
 
 import java.util.List;
 
-import aloha.domain.Board;
-import aloha.domain.BoardAttach;
-import aloha.domain.Page;
-import aloha.domain.Reply;
+import hellingers.domain.Board;
+import hellingers.domain.BoardAttach;
+import hellingers.domain.Page;
+import hellingers.domain.Reply;
 
 public interface BoardService {
 	
@@ -66,12 +66,4 @@ public interface BoardService {
 		//답글등록
 		public void answerRegister(Board board) throws Exception;
 		
-		//게시글 첨부파일 전체 삭제
-		public void deleteFiles(Integer boardNo) throws Exception;
-		
-		public Reply replyRead(Reply reply) throws Exception;
-		
-		public void replyRemoveAll (Reply reply) throws Exception;
-		
-		public BoardAttach readFile(BoardAttach attach) throws Exception;
 }

@@ -1,15 +1,15 @@
-package aloha.service;
+package hellingers.service;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import aloha.domain.Board;
-import aloha.domain.BoardAttach;
-import aloha.domain.Page;
-import aloha.domain.Reply;
-import aloha.mapper.BoardMapper;
+import hellingers.domain.Board;
+import hellingers.domain.BoardAttach;
+import hellingers.domain.Page;
+import hellingers.domain.Reply;
+import hellingers.mapper.BoardMapper;
 
 @Service
 public class BoardServiceImpl implements BoardService{
@@ -142,27 +142,5 @@ public class BoardServiceImpl implements BoardService{
 			board.setSeqNo(maxSeqNo+1);
 		}
 		mapper.answerCreate(board);
-	}
-
-	@Override
-	public void deleteFiles(Integer boardNo) throws Exception {
-		
-		mapper.deleteFiles(boardNo);
-	}
-
-	@Override
-	public Reply replyRead(Reply reply) throws Exception {
-	
-		return mapper.replyRead(reply);
-	}
-
-	@Override
-	public void replyRemoveAll(Reply reply) throws Exception {
-		mapper.replyRemoveAll(reply);
-	}
-
-	@Override
-	public BoardAttach readFile(BoardAttach attach) throws Exception {
-		return mapper.readFile(attach);
 	}
 }

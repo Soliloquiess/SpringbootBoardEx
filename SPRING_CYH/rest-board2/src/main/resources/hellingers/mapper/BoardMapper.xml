@@ -4,7 +4,7 @@
 
 
 
-<mapper namespace="aloha.mapper.BoardMapper">
+<mapper namespace="hellingers.mapper.BoardMapper">
 
 	<!-- 게시글 등록 -->
 
@@ -16,10 +16,10 @@
 	<!-- 게시글 목록 -->
 	<select id="list" resultType="Board">
 		SELECT *
-		FROM board b LEFT JOIN 
-		         (SELECT r.board_no, COUNT(*) reply_count FROM board_reply r GROUP BY board_no) reply
-		         ON b.board_no = reply.board_no
-		ORDER BY b.board_no DESC
+FROM board b LEFT JOIN 
+         (SELECT r.board_no, COUNT(*) reply_count FROM board_reply r GROUP BY board_no) reply
+         ON b.board_no = reply.board_no
+ORDER BY b.board_no DESC
       ,reg_date DESC
 	</select>
 
@@ -224,34 +224,4 @@
 		where board_no = #{boardNo}
 	</update>
 	
-	
-	<!--  게시글 첨부파일 전체 삭제  -->
-	
-	<delete id = "deleteFiles">
-		Delete from board where board_no = #{boardNo}
-	</delete>
-	
-	<!--  댓글 읽기  -->
-	<select id = "replyRead" resultType = "Reply">
-		SELECT * 
-		FROM board_reply
-		WHERE board_no = #{boardNo}
-		AND reply_no=#{replyNo}
-	
-	</select>
-	
-	<!--  댓글 전체 삭제(해당 게시글)  -->
-	<delete id = "replyRemoveAll">
-		DELETE FROM board_reply WHERE board_no = #{boardNo}
-	</delete>
-	
-	
-	<!--  파일 읽기  -->
-	
-	<select id = "readFile" resultType = "BoardAttach">
-		SELECT * 
-		FROM board_attach
-		WHERE board_no = #{boardNo}
-		AND file_no = #{fileNo}
-	</select>
 </mapper>

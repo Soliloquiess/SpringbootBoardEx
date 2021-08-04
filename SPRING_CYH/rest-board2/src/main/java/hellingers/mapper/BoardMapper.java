@@ -1,13 +1,13 @@
-package aloha.mapper;
+package hellingers.mapper;
 
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import aloha.domain.Board;
-import aloha.domain.BoardAttach;
-import aloha.domain.Page;
-import aloha.domain.Reply;
+import hellingers.domain.Board;
+import hellingers.domain.BoardAttach;
+import hellingers.domain.Page;
+import hellingers.domain.Reply;
 
 @Mapper
 public interface BoardMapper {
@@ -79,15 +79,4 @@ public interface BoardMapper {
 
 	//그룹번호 수정
 	public void updateGroupNo(Board board);
-	
-
-	public void deleteFiles(Integer boardNo) throws Exception;
-	
-	//댓글 한건 읽기
-	public Reply replyRead(Reply reply) throws Exception;
-	
-	public void replyRemoveAll (Reply reply) throws Exception;
-	
-	//파일 읽기
-	public BoardAttach readFile(BoardAttach attach);
 }
