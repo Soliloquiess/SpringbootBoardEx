@@ -254,4 +254,53 @@
 		WHERE board_no = #{boardNo}
 		AND file_no = #{fileNo}
 	</select>
+	
+	
+	<!--  좋아요 여부 조회 -->
+	
+	<select id = "readLikes" resultType = "int">
+		select count(*)
+		from board_like
+		where type_no = #{boardNo}
+		And user_no = #{userNo}
+	</select>
+	
+	<!--  좋아요 개수 조회 -->
+		<select id = "readLikeCount" resultType = "int">
+		select count(*)
+		from board_like
+		where type_no = #{boardNo}
+	</select>
+	
+	
+		<!--  댓글 좋아요 여부 조회 -->
+	
+	<select id = "readReplyLikes" resultType = "int">
+		select count(*)
+		from board_like
+		where type_no = #{replyNo}
+		And user_no = #{userNo}
+	</select>
+	
+	<!--  댓글 좋아요 개수 조회 -->
+		<select id = "readReplyLikeCount" resultType = "int">
+		select count(*)
+		from board_like
+		where type_no = #{replyNo}
+	</select>
+	
+	<!--  좋아요 추가 -->
+	<insert id = "insertLikes">
+		INSERT INTO board_like(like_type, type_no, user_no)
+		VALUES(#{likeType}, #{typeNo}, #{userNo})
+	</insert>
+	
+	<!--  좋아요 취소  -->
+	<delete id = "deleteLikes">
+		DELETE FROM board_like
+		WHERE type_no = #{boardNo}
+		AND user_no = #{userNo}
+	</delete>	
+	
+	
 </mapper>

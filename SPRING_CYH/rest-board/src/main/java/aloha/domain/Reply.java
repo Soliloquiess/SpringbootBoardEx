@@ -7,6 +7,7 @@ import lombok.Data;
 @Data
 public class Reply {	//dto
 
+		private int userNo;	
 		private int replyNo;
 		private int boardNo;
 		private String content;

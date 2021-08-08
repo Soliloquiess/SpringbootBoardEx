@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import aloha.domain.Board;
 import aloha.domain.BoardAttach;
+import aloha.domain.Like;
 import aloha.domain.Page;
 import aloha.domain.Reply;
 
@@ -90,4 +91,24 @@ public interface BoardMapper {
 	
 	//파일 읽기
 	public BoardAttach readFile(BoardAttach attach);
+	
+	//좋아요 여부 조회
+	public int readLikes(Board board) throws Exception;
+	
+	//좋아요 개수 조회
+	public int readLikeCount(Integer boardNo) throws Exception;
+	//좋아요 여부(댓글) 조회
+
+	public int readReplyLikes(Reply reply) throws Exception;
+	//좋아요 개수(댓글) 조회
+
+	public int readReplyLikeCount(Integer replyNo) throws Exception;
+	
+	//좋아요 추가
+	public void insertLikes(Like like) throws Exception;
+	
+	
+	//좋아요 취소
+	public void deleteLikes(Board board) throws Exception;
+	
 }

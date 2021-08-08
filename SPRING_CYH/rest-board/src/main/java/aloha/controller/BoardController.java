@@ -6,6 +6,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import aloha.domain.Board;
 import aloha.domain.BoardAttach;
 import aloha.domain.BoardDTO;
+import aloha.domain.Like;
 import aloha.domain.Page;
 import aloha.domain.Reply;
 import aloha.service.BoardService;
@@ -33,6 +35,10 @@ import aloha.util.FileUtils;
 public class BoardController {
 	private static final Logger log = LoggerFactory.getLogger(BoardController.class);
 
+		// 업로드 경로
+		@Value("${upload.path}")
+		private String uploadPath;
+	
 	@Autowired 
 	//의존성 자동주입
 	private BoardService service;
@@ -137,7 +143,7 @@ public class BoardController {
 	
 	//게시글 쓰기 - 화면,처리
 	@PostMapping({"/",""})
-	public void register(@RequestBody Board board) throws Exception{
+	public void register(Board board) throws Exception{
 				// [파일 정보]
 				MultipartFile[] files = board.getFile();
 				
@@ -145,7 +151,7 @@ public class BoardController {
 				service.register(board);
 				
 				// 파일업로드 - File
-				ArrayList<BoardAttach> attachList = FileUtils.uploadFiles(files);
+				ArrayList<BoardAttach> attachList = FileUtils.uploadFiles(files,  uploadPath);
 				
 				// 파일업로드 - DB
 				for (BoardAttach attach : attachList) {
@@ -165,7 +171,12 @@ public class BoardController {
 //		boardDTO.setAttachList(attachList);
 //		boardDTO.setReplyList(replyList);
 	
-		BoardDTO boardDTO = new BoardDTO(board,attachList, replyList);
+		board.setUserNo(100);	//임의로 넣음
+		boolean like = service.readLikes(board) >0 ? true: false;
+		int likeCount = service.readLikeCount(boardNo);
+		BoardDTO boardDTO = new BoardDTO(board, attachList, replyList);
+		boardDTO.setLike(like);
+		boardDTO.setLikeCount(likeCount);
 		
 		return boardDTO;
 //		return service.read(boardNo);
@@ -195,9 +206,7 @@ public class BoardController {
 	
 	//게시글 수정
 	@PutMapping("/{boardNo}")
-	public void modify(@PathVariable Integer boardNo , @RequestBody Board board) throws Exception{
-		
-		
+	public void modify(@PathVariable Integer boardNo ,  Board board) throws Exception{
 		
 		// [파일 정보]
 		MultipartFile[] files = board.getFile();
@@ -206,7 +215,7 @@ public class BoardController {
 		service.modify(board);
 		
 		// 파일업로드 - File
-		ArrayList<BoardAttach> attachList = FileUtils.uploadFiles(files);
+		ArrayList<BoardAttach> attachList = FileUtils.uploadFiles(files,  uploadPath);
 		
 		// 파일업로드 - DB
 		for (BoardAttach attach : attachList) {
@@ -217,7 +226,7 @@ public class BoardController {
 	
 	//게시글 삭제
 	@DeleteMapping("/{boardNo}")
-	public void delete(@PathVariable Integer boardNo , @RequestBody Board board) throws Exception{
+	public void delete(@PathVariable Integer boardNo , Board board) throws Exception{
 		
 		// 게시글 삭제 요청
 		service.remove(boardNo);
@@ -303,7 +312,7 @@ public class BoardController {
 		MultipartFile[] files = board.getFile();
 
 		// 파일업로드 - File
-		ArrayList<BoardAttach> attachList = FileUtils.uploadFiles(files);
+		ArrayList<BoardAttach> attachList = FileUtils.uploadFiles(files,  uploadPath);
 		
 		// 파일업로드 - DB
 		for (BoardAttach attach : attachList) {
@@ -331,6 +340,50 @@ public class BoardController {
 	public void filesDelete(@PathVariable Integer boardNo, @PathVariable Integer fileNo, BoardAttach attach) throws Exception{
 		service.deleteFiles(fileNo);
 	}
+	
+	
+	//좋아요 여부 조회
+	@GetMapping("/{boardNo}/likes")
+	public boolean readLikes(Board board) throws Exception{
+		int like =  service.readLikes(board);
+		return like > 0? true : false; 
+	}
+	
+	//좋아요 여부 조회
+	@GetMapping("/{boardNo}/likes/counts")
+	public boolean readLikesCounts(Integer boardNo) throws Exception{
+			int like =  service.readLikeCount(boardNo);
+			return like > 0? true : false; 
+		}
+	
+	//좋아요 여부 조회(댓글)
+		@GetMapping("/replys/{replyNo}/likes")
+		public boolean readReplyLikes(Reply reply) throws Exception{
+			int like =  service.readReplyLikes(reply);
+			return like > 0? true : false; 
+		}
+		
+		//좋아요 여부 조회(댓글)
+		@GetMapping("/replys/{replyNo}/likes/counts")
+		public boolean readReplyLikesCounts(Integer replyNo) throws Exception{
+				int like =  service.readReplyLikeCount(replyNo);
+				return like > 0? true : false; 
+			}		
+		
+		@PostMapping("/{boardNo}/likes")
+		public void insertLikes(Like like) throws Exception{
+			service.insertLikes(like);
+		}
+		
+		//좋아요 취소
+		@DeleteMapping("/{boardNo}/likes/{userNo}")
+		public void deleteLikes(@PathVariable Integer boardNo, @PathVariable Integer userNo, Board board) throws Exception{
+			board.setBoardNo(boardNo);
+			board.setUserNo(userNo);
+			service.deleteLikes(board);
+		}
+		
+	
 }
 	
 

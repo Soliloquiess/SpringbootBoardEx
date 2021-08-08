@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import aloha.domain.Board;
 import aloha.domain.BoardAttach;
+import aloha.domain.Like;
 import aloha.domain.Page;
 import aloha.domain.Reply;
 import aloha.mapper.BoardMapper;
@@ -164,5 +165,37 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public BoardAttach readFile(BoardAttach attach) throws Exception {
 		return mapper.readFile(attach);
+	}
+
+	@Override
+	public int readLikes(Board board) throws Exception {
+		return mapper.readLikes(board);
+	}
+
+	@Override
+	public int readLikeCount(Integer boardNo) throws Exception {
+		return mapper.readLikeCount(boardNo);
+	}
+
+	@Override
+	public int readReplyLikes(Reply reply) throws Exception {
+		return mapper.readReplyLikes(reply);
+	}
+
+	@Override
+	public int readReplyLikeCount(Integer replyNo) throws Exception {
+		return mapper.readReplyLikeCount(replyNo);
+	}
+
+	@Override
+	public void insertLikes(Like like) throws Exception {
+		mapper.insertLikes(like);
+		
+	}
+
+	@Override
+	public void deleteLikes(Board board) throws Exception {
+		mapper.deleteLikes(board);
+		
 	}
 }

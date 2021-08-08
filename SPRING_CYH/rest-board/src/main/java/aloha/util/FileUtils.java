@@ -17,18 +17,13 @@ public class FileUtils {
 
 private static final Logger log = LoggerFactory.getLogger(FileUtils.class);
 	
-	// 업로드 경로
-	@Value("${upload.path}")
-	private static String uploadPath;
-
-
 	/**
 	 * (다중) 파일 업로드
 	 * @param files
 	 * @return
 	 * @throws Exception
 	 */
-	public static ArrayList<BoardAttach> uploadFiles(MultipartFile[] files) throws Exception {
+	public static ArrayList<BoardAttach> uploadFiles(MultipartFile[] files, String uploadPath) throws Exception {
 		
 		ArrayList<BoardAttach> attachList = new ArrayList<BoardAttach>();
 		

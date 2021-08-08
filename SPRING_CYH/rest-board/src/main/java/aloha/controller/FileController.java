@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URLEncoder;
 import java.util.List;
 import java.util.Map;
@@ -16,17 +17,24 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import aloha.domain.BoardAttach;
 import aloha.service.BoardService;
+import aloha.util.MediaUtils;
 
 @Controller
 @RequestMapping("/file")
@@ -38,9 +46,17 @@ public class FileController {
 	private BoardService service;
 	
 	@GetMapping("/fileDownload")
-	public void fileDownload(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> paramMap) {
-		String fullName = paramMap.get("fullName");	//파일 전체 경로
-		String fileName = paramMap.get("fileName");	//파일명
+	public void fileDownload(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> paramMap) throws Exception {
+		Integer fileNo = Integer.parseInt( paramMap.get("fileNo") );
+		Integer boardNo = Integer.parseInt( paramMap.get("boardNo") );
+		
+		BoardAttach attach = new BoardAttach();
+		attach.setFileNo(fileNo);
+		attach.setBoardNo(boardNo);
+		
+		attach = service.readFile(attach);
+		String fullName = attach.getFullName();						// 파일 전체경로
+		String fileName = attach.getFileName();						// 파일명
 		
 		//다운로드 할 파일
 		
@@ -169,25 +185,80 @@ public class FileController {
 			  }
 	}	
 	
-	//파일 삭제
-	
+	/**
+	 * 단일 파일 삭제
+	 * @param fileNo
+	 * @param fullName
+	 * @return
+	 * @throws Exception
+	 */
 	@PostMapping("/deleteFile")
-	public String deleteFile(Integer fileNo, String fullName) throws Exception {
+	public Boolean deleteFile(Integer fileNo, String fullName) throws Exception {
+		
 		File file = new File(fullName);
 		
-		//실제로 파일 존재하는 지 확인
-		if(file.exists()) {//true
-			if(file.delete()) {	
-				log.info("삭제한 파일: " + fullName);
-				log.info("파일 삭제 성공 ");
-				service.deleteFile(fileNo);	//db에서도 삭제
-			}else {
-				log.info("삭제실패 ");
+		// 실제로 파일이 존재하는지 확인
+		if( file.exists() ) {
+			if( file.delete() ) {
+				log.info("삭제한 파일 : " + fullName);
+				log.info("파일삭제 성공!!");
+				service.deleteFile(fileNo);
+				
+				// 파일 삭제 성공
+				return true;
+			} else {
+				log.info("파일삭제 실패!!");
 			}
-		}else {
-			log.info("삭제(실패): "+ fullName);
-			log.info("파일이 존재하지 않습니다.");
+			
+		} else {
+			log.info("삭제(실패) : " + fullName);
+			log.info("파일이 존재하지 않습니다");
 		}
-		return "board/success";
+		
+		// 파일 삭제 실패
+		return false;
+	}
+	
+	/**
+	 * 이미지 미리보기 (썸네일)
+	 * @param fullName
+	 * @return
+	 * @throws Exception
+	 */
+	@ResponseBody
+	@RequestMapping("/image")
+	public ResponseEntity<byte[]> displayFile(String fullName) throws Exception {
+		InputStream in = null;
+		ResponseEntity<byte[]> entity = null;
+		
+		log.info("FILE NAME: " + fullName);
+		
+		try {
+			String formatName = fullName.substring(fullName.lastIndexOf(".") + 1);
+			log.info("FILE FORMAT: " + formatName);
+			
+			MediaType mType = MediaUtils.getMediaType(formatName);
+			
+			HttpHeaders headers = new HttpHeaders();
+			
+			in = new FileInputStream(fullName);
+			
+			if( mType != null) {
+				headers.setContentType(mType);
+			} else {
+				fullName = fullName.substring(fullName.lastIndexOf("_") + 1);
+				headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+				headers.add("Content-Disposition", "attachment; fullName=\"" + new String(fullName.getBytes("UTF-8"), "ISO-8859") + "\"");
+			}
+			
+			entity = new ResponseEntity<byte[]>(IOUtils.toByteArray(in), headers, HttpStatus.CREATED);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<byte[]>(HttpStatus.BAD_REQUEST);
+		} finally {
+			in.close();
+		}
+		return entity;
 	}
 }

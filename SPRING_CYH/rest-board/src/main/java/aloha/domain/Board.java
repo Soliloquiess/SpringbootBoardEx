@@ -11,7 +11,7 @@ public class Board {
 
 	private int rowNo;
 	private int boardNo;
-	
+	private int userNo;	
 
 	private int groupNo;		//그룹번호
 	private int depthNo;		//계층번호

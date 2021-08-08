@@ -13,6 +13,8 @@ public class BoardDTO {
 	private List<Board> boardList;
 	private List<BoardAttach> attachList;
 	private List<Reply> replyList;
+	private boolean like;
+	private int likeCount;
 	
 	public BoardDTO() {
 		
