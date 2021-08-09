@@ -13,4 +13,8 @@ public class Reply {	//dto
 		private String content;
 		private String writer;
 		private Date regDate;
+		
+		private int groupNo;
+		private int depthNo;
+		private int seqNo;
 }

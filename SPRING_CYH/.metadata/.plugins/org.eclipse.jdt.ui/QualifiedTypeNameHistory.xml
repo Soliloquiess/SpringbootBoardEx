@@ -39,7 +39,6 @@
     <fullyQualifiedTypeName name="com.google.gson.JsonElement"/>
     <fullyQualifiedTypeName name="com.google.gson.JsonParser"/>
     <fullyQualifiedTypeName name="com.google.gson.JsonObject"/>
-    <fullyQualifiedTypeName name="jdk.internal.org.jline.utils.Log"/>
     <fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Value"/>
     <fullyQualifiedTypeName name="org.slf4j.Logger"/>
     <fullyQualifiedTypeName name="org.slf4j.LoggerFactory"/>
@@ -60,4 +59,5 @@
     <fullyQualifiedTypeName name="java.util.Date"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.PostMapping"/>
     <fullyQualifiedTypeName name="aloha.domain.Like"/>
+    <fullyQualifiedTypeName name="jdk.internal.org.jline.utils.Log"/>
 </qualifiedTypeNameHistroy>

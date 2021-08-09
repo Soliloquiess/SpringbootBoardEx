@@ -2,6 +2,8 @@ package aloha.service;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,12 +13,15 @@ import aloha.domain.Like;
 import aloha.domain.Page;
 import aloha.domain.Reply;
 import aloha.mapper.BoardMapper;
+import jdk.internal.org.jline.utils.Log;
 
 @Service
 public class BoardServiceImpl implements BoardService{
 
 	@Autowired
 	private BoardMapper mapper;
+	
+	private static final Logger log = LoggerFactory.getLogger(BoardServiceImpl.class);
 	
 	@Override
 	public void register(Board board) throws Exception {
@@ -109,6 +114,11 @@ public class BoardServiceImpl implements BoardService{
 	public void replyRegister(Reply reply) throws Exception {
 	
 		mapper.replyCreate(reply);
+		int replyNo = mapper.maxReplyNo();
+		reply.setGroupNo(replyNo);
+		reply.setReplyNo(replyNo);
+		
+		mapper.replyUpdateGroupNo(reply);
 	}
 	
 	@Override
@@ -196,6 +206,36 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public void deleteLikes(Board board) throws Exception {
 		mapper.deleteLikes(board);
+		
+	}
+
+	@Override
+	public void replyAnswerRegister(Reply reply) throws Exception {
+		//그룹번호 
+		
+		int groupNo = mapper.replyReadGroupNo(reply.getReplyNo());
+		
+
+		
+		reply.setGroupNo(groupNo);
+		
+//		int groupNo = reply.getReplyNo(); 	//부모댓글 번호
+//		log.info("groupNo : " + groupNo);
+		//계층번호
+		int detphNo = mapper.readReplyDepthNo(reply.getReplyNo()) +1;
+		reply.setDepthNo(detphNo);
+		
+		
+		//부모글이 최초 부모글인 경우
+		Reply parent = mapper.replyRead(reply);
+		
+		if(parent.getSeqNo()==0 ) {
+			//순서번호 MAX
+			int maxSeqNo = mapper.replyMaxSeqNoByGroupNo(groupNo);
+			reply.setSeqNo(maxSeqNo+1);
+			
+			mapper.replyAnswerCreate(reply);
+		}
 		
 	}
 }

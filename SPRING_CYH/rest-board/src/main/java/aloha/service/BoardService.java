@@ -97,4 +97,7 @@ public interface BoardService {
 		
 		//좋아요 취소
 		public void deleteLikes(Board board) throws Exception;
+		
+		//댓글의 답글쓰기
+		public void replyAnswerRegister(Reply reply)  throws Exception;
 }

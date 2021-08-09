@@ -81,7 +81,7 @@ private static final Logger log = LoggerFactory.getLogger(FileUtils.class);
 					
 					// 파일 삭제 성공 
 					return true;
-				} else {
+				} else {	
 					log.info("파일삭제 실패");
 					
 				}

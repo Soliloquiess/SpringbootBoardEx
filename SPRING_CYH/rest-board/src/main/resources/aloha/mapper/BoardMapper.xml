@@ -303,4 +303,50 @@
 	</delete>	
 	
 	
+		<!-- 계층번호 조회 -->
+	<select id="readReplyDepthNo" resultType="int"> 
+		SELECT depth_no
+		FROM board_reply
+		WHERE reply_no = ${replyNo}
+	</select>
+	
+	
+	<!--  같은 그룹번호, Max(seq_no) -->
+	<select id="replyMaxSeqNoByGroupNo" resultType="int">
+		select max(seq_no)
+		from  board_reply
+		where group_no =#{groupNo}
+	</select>
+	
+	
+		<!--  댓글의 답글 쓰기 -->
+	<insert id = "replyAnswerCreate">
+		Insert into board_reply (content, writer, board_no, group_no, depth_no, seq_no)
+		values(#{content},#{writer}, #{boardNo},#{groupNo}, #{depthNo}, #{seqNo})
+	</insert>
+	
+	<!--  댓글 번호 최대값 -->
+	<select id = "maxReplyNo" resultType = "int">
+		select Max(reply_no)
+		FROM board_reply
+	</select>
+	
+	<!-- 댓글 그룹번호 수정 -->
+	<update id="replyUpdateGroupNo">
+		UPDATE board_reply
+		SET group_no = #{groupNo}
+		WHERE reply_no = #{replyNo}
+	</update>
+	
+	<!-- 댓글 그룹 번호 조회 -->
+	
+	<select id = "replyReadGroupNo" resultType="int">
+		select group_no
+		from board_reply
+		where reply_no = #{replyNo}
+	</select>
 </mapper>
+
+
+
+

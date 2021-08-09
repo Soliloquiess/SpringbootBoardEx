@@ -110,5 +110,25 @@ public interface BoardMapper {
 	
 	//좋아요 취소
 	public void deleteLikes(Board board) throws Exception;
+
+	//댓글 계층번호 조회
+	public int readReplyDepthNo(int replyNo) throws Exception;
+	
+	//댓글 그룹 번호 기준MAX(순서번호 최대값)
+	public int replyMaxSeqNoByGroupNo(int groupNo) throws Exception;
+
+	
+	//댓글의 답글쓰기
+	public void replyAnswerCreate(Reply reply) throws Exception;
+
+	//댓글 번호의 최대값 조회
+	public int maxReplyNo() throws Exception;
+	
+	//댓글 그룹 번호 수정.
+	public void replyUpdateGroupNo(Reply reply) throws Exception;
+
+	//댓글 그룹 번호 조회
+	public int replyReadGroupNo(int replyNo) throws Exception;
+
 	
 }

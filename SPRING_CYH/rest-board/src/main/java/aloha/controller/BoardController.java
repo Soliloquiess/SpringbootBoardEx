@@ -262,15 +262,24 @@ public class BoardController {
 		service.replyRegister(reply);
 	}
 	
+	//댓글의 답글쓰기
+	@PostMapping("/{boardNo}/replys/{replyNo}")
+	public void replyAnswerWrite(@PathVariable("boardNo") Integer boardNo, @PathVariable("replyNo") Integer replyNo , Reply reply) throws Exception{
+		//부모 댓글의 댓글번호 - replyNo
+		
+		reply.setReplyNo(replyNo);
+		
+		service.replyAnswerRegister(reply);
+	}
 	
 	// 댓글 읽기
 	@GetMapping("/{boardNo}/replys/{replyNo}")
-	public Reply replyRead(@PathVariable("boardNo") Integer boardNo,@PathVariable Integer replyNo) throws Exception{
+	public Reply replyRead(@PathVariable("boardNo") Integer boardNo,@PathVariable("replyNo")  Integer replyNo) throws Exception{
 		Reply reply = new Reply();
 		reply.setBoardNo(boardNo);
 		reply.setReplyNo(replyNo);
 		
-		service.replyRead(reply);
+		reply = service.replyRead(reply);
 		
 		return reply;
 	}

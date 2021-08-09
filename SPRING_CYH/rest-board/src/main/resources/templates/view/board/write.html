@@ -42,6 +42,8 @@
 					let json = JSON.stringify(data);
 					let board = JSON.parse(json).board;
 					let attachList = JSON.parse(json).attachList;
+					let replyList = JSON.parse(json).replyList;
+					
 					
 					//좋아요
 					let like = JSON.parse(json).like;
@@ -64,6 +66,7 @@
 					$("#writer").val(board.writer);
 					$("#content").val(board.content);
 					
+					//이미지/파일 리스트
 					$(".imgList").empty();
 					$(".fileList").empty();
 					$(attachList).each(function(index, item){
@@ -122,7 +125,33 @@
 						});
 						
 					});
+					//이미지 /파일리스트(끝);
 					
+					
+					/* 댓글 리스트 */
+					
+					$(".replyList").empty();
+					$(".replyList").append("<ul></ul>");
+					$(replyList).each(function(index, item){
+						
+						
+						let reply = item;			//댓글
+						let replyNo = reply.replyNo;			
+						let content = reply.content;
+						let writer = reply.writer;
+						let regDate = reply.regDate;
+						
+						let tag = "<li>"
+							+ "<input type='number' value='" + replyNo + "' />"
+	                          + "<span class='replyWriter'>" + writer + "</span> "
+	                          + "<span class='replyDate'>" + regDate + "</span> "
+	                          + "<a href='javascript:;' title class='btnReplyModify' data='" + replyNo + "'>수정</a> "
+	                          + "<a href='javascript:;' title class='btnReplyRemove' data='" + replyNo + "'>삭제</a> "
+	                          + "<br>"
+	                          + "<span class='replyContent'>" + content + "</span> "
+	                          + "</li>";
+						$(".replyList ul").append(tag);
+					});
 				});
 				
 			});
@@ -224,6 +253,7 @@
 						contentType: false,
 						success : function() {
 							alert("좋아요 성공!");
+							$("#like").attr("like","true");
 							$("#like img").attr("src","/img/like-32.png");
 						},
 						error : function(xhr, textStatus, error) {
@@ -252,6 +282,7 @@
 						contentType : "application/json; charset=UTF-8",
 						success : function() {
 							alert("좋아요 삭제 성공!");
+							$("#like").attr("like","false");
 							$("#like img").attr("src","/img/nolike-32.png");
 						},
 						error : function(xhr, status, error) {
@@ -263,10 +294,182 @@
 				}
 			})	;
 			
+			//댓글 읽기
+			$("#readReplyBtn").on("click",function(){
+				let boardNo = $("#boardNo").val();
+				let replyNo = $("#replyNo").val();
+				
+				$.ajax({
+					url: "/board/" + boardNo + "/replys/" + replyNo,
+					type: "GET",
+					dataType:"text",
+					processData: false,
+					contentType: false,
+					success : function(data) {
+						alert("댓글 읽기 성공!");
+						$("#replyWriter").val("");
+						$("#replyContent").val("");
+						
+						if(data==undefined) return;
+						
+						let replyNo = JSON.parse(data).replyNo;
+						let content = JSON.parse(data).content;
+						let writer = JSON.parse(data).writer;
+						let regDate = JSON.parse(data).regDate;
+					
+						$("#replyWriter").val(writer);
+						$("#replyContent").val(content);
+					},
+					error : function(xhr, textStatus, error) {
+						alert("code:" + xhr.status + "\n"
+							+ "message:" + xhr.responseText + "\n"
+							+ "error:" + error);
+					}
+				});
+			});
+
+			//댓글 수정
+			$("#updateReplyBtn").on("click",function(){
+				let boardNo = $("#boardNo").val();
+				let replyNo = $("#replyNo").val();
+				let content = $("#replyContent").val();
+				let writer = $("#replyWriter").val();
+				
+				const formData = new FormData();
+				formData.append('replyNo', replyNo);
+				formData.append('boardNo', boardNo);
+				formData.append('content', content);
+				formData.append('writer', writer);
+				
+				$.ajax({
+					url: "/board/" + boardNo + "/replys/" + replyNo,
+					type: "PUT",
+					data: formData,
+					dataType:"text",
+					processData: false,
+					contentType: false,
+					success : function(data) {
+						//$("#replyWriter").val("");
+						//$("#replyContent").val("");
+						alert("댓글 수정 성공!");
+
+						$("#readBtn").trigger("click");
+						$("#replyReplyBtn").trigger("click");
+					
+					},
+					error : function(xhr, textStatus, error) {
+						alert("code:" + xhr.status + "\n"
+							+ "message:" + xhr.responseText + "\n"
+							+ "error:" + error);
+					}
+				});
+			});
 			
 			
+			//댓글 등록
+			$("#btnReplyRegister").on("click",function(){
+				let boardNo = $("#boardNo").val();
+				let content = $("#replyContent").val();
+				let writer = $("#replyWriter").val();
+				
+				alert(content);
+				
+				const formData = new FormData();
+
+				formData.append('boardNo', boardNo);
+				formData.append('content', content);
+				formData.append('writer', writer);
+				
+				$.ajax({
+					url: "/board/" + boardNo + "/replys/",
+					type: "POST",
+					data:formData,
+					dataType:"text",
+					processData: false,
+					contentType: false,
+					success : function(data) {
+						$("#replyWriter").val("");
+						$("#replyContent").val("");
+						alert("댓글 등록 성공!");
+
+						$("#readBtn").trigger("click");
+					
+					},
+					error : function(xhr, textStatus, error) {
+						alert("code:" + xhr.status + "\n"
+							+ "message:" + xhr.responseText + "\n"
+							+ "error:" + error);
+					}
+				});
+			});
+			//댓글 삭제
+			$("#deleteReplyBtn").on("click",function(){
+				let boardNo = $("#boardNo").val();
+				let replyNo = $("#replyNo").val();
+				
+				$.ajax({
+					url: "/board/" + boardNo + "/replys/" + replyNo,
+					type: "DELETE",
+					dataType:"text",
+					processData: false,
+					contentType: false,
+					success : function(data) {
+						$("#replyWriter").val("");
+						$("#replyContent").val("");
+						
+						alert("댓글 삭제 성공!");
+						$("#replyReplyBtn").trigger("click");
+						$("#readBtn").trigger("click");
+						
+					},
+					error : function(xhr, textStatus, error) {
+						alert("code:" + xhr.status + "\n"
+							+ "message:" + xhr.responseText + "\n"
+							+ "error:" + error);
+					}
+				});
+				
+			});
+			
+			//댓글의 답글 쓰기
+			$("#answerReplyBtn").on("click",function(){
+				let boardNo = $("#boardNo").val();
+				let replyNo = $("#replyNo").val();
+				let content = $("#replyContent").val();
+				let writer = $("#replyWriter").val();
+				
+				alert(content);
+				
+				const formData = new FormData();
+	
+				formData.append('boardNo', boardNo);
+				formData.append('replyNo', replyNo);
+				formData.append('content', content);
+				formData.append('writer', writer);
+				
+				$.ajax({
+					url: "/board/" + boardNo + "/replys/" + replyNo,
+					type: "POST",
+					data:formData,
+					dataType:"text",
+					processData: false,
+					contentType: false,
+					success : function(data) {
+						$("#replyWriter").val("");
+						$("#replyContent").val("");
+						alert("댓글의 답글 등록 성공!");
+	
+						$("#readBtn").trigger("click");
+					
+					},
+					error : function(xhr, textStatus, error) {
+						alert("code:" + xhr.status + "\n"
+							+ "message:" + xhr.responseText + "\n"
+							+ "error:" + error);
+					}
+				});
+			});
 		});
-		
 		
 		
 		
@@ -312,7 +515,7 @@
 			box-sizing: border-box;
 		}
 		
-		.result-wrap textarea {
+		.result-wrap textarea.result {
 			height: 50%;
 			resize: vertical;
 		}
@@ -356,6 +559,19 @@
 			position: relative;
 		}
 		
+		.txt-right {
+			text-align:right;
+		}
+		
+		.control {
+		padding :15px;
+		
+		}
+		
+		.replyList {
+			height: 200px;
+			overflow: auto;
+		}
 	</style>
 </head>
 <body>
@@ -382,32 +598,52 @@
 				</tr>
 				
 			</table>
+			
+			<div class = "txt-right">
+				<button type="submit" id="submitBtn">등록</button>
+				<button type="reset" id="resetBtn">리셋</button>
+				
+				<th:block th:if ="${like}">
+					<a href= "javascript:;" id="like"  th:data="${like}">
+						<img src= "/img/like-32.png"/>
+					</a>
+				</th:block>
+				
+			
+				<th:block th:if ="!${like}">
+					<a href= "javascript:;"  id="like" th:data="${like}">
+						<img src= "/img/nolike-32.png"/>
+					</a>
+				</th:block>
+		
+	
+			
+			
+			
+			
+			</div>
+			
+			
+			
 			<div class="imgList">
 				
 			</div>
 			<div class="fileList">
 				
 			</div>
-			<button type="submit" id="submitBtn">등록</button>
-			<button type="reset" id="resetBtn">리셋</button>
-	
-			<th:block th:if ="${like}">
-				<a href= "javascript:;" id="like"  th:data="${like}">
-					<img src= "/img/like-32.png"/>
-				</a>
-			</th:block>
 			
-		
-			<th:block th:if ="!${like}">
-				<a href= "javascript:;"  id="like" th:data="${like}">
-					<img src= "/img/nolike-32.png"/>
-				</a>
-			</th:block>
+			<div class= "replyList">
+			
+				
+			</div>
 		</form>
+	</div>
+	
+	
+	<div class="result-wrap">
+		<textarea id="result" class="result"></textarea>
 		
-	
-	
-		<div>
+		<div class="control">
 			<h5>게시글 목록</h5>
 			<label for="pageNum">pageNum</label>
 			<input type="number" id="pageNum" value="0" />
@@ -423,11 +659,11 @@
 			
 			<button id="listBtn">LIST</button>
 		</div>
-		<div>	
+		<div class="control">	
 			<h5>게시글 쓰기 (ajax)</h5>
 			<button id="registerBtn">REGISTER</button>
 		</div>
-		<div>
+		<div class="control">
 			<h5>게시글 읽기/수정/삭제</h5>
 			<label for="boardNo">boardNo</label>
 			<input type="number" id="boardNo" value="0" />
@@ -435,12 +671,26 @@
 			<button id="deleteBtn">DELETE</button>
 			<button id="updateBtn">UPDATE</button>
 		</div>
+		<!--  댓글 입력 -->
+	<div class="control">
+	<h5>댓글</h5>
+	<label for="replyNo">replyNo</label>
+			<input type="number" id="replyNo" value="0" />
+			<button id="readReplyBtn">READ</button>
+			<button id="deleteReplyBtn">DELETE</button>
+			<button id="updateReplyBtn">UPDATE</button>
+			<button id="answerReplyBtn">answer</button>
+			<br>
+		<input type="text" name="replyWriter" id="replyWriter"
+			placeholder="작성자" class="writer"> </br>
+		<textarea rows="5" cols="80" placeholder="댓글입력" id="replyContent"></textarea>
+		<div>
+			<button type="button" id="btnReplyRegister">Reigister</button>
+		</div>
+	</div>
+	<br>
 	</div>
 	
-	
-	<div class="result-wrap">
-		<textarea id="result"></textarea>
-	</div>
 
 </body>
 </html>
