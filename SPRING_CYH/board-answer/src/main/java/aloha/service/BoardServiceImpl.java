@@ -136,11 +136,11 @@ public class BoardServiceImpl implements BoardService{
 		
 		//부모글이 최초 부모글인 경우
 		
-		if(board.getSeqNo()==0) {
-			//순서번호 MAX
+//		if(board.getSeqNo()==0) {
+//			//순서번호 MAX
 			int maxSeqNo= mapper.maxSeqNoByGroupNo(groupNo);
 			board.setSeqNo(maxSeqNo+1);
-		}
+//		}
 		mapper.answerCreate(board);
 	}
 	

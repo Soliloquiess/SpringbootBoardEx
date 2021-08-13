@@ -234,8 +234,14 @@ public class BoardServiceImpl implements BoardService{
 			int maxSeqNo = mapper.replyMaxSeqNoByGroupNo(groupNo);
 			reply.setSeqNo(maxSeqNo+1);
 			
-			mapper.replyAnswerCreate(reply);
 		}
+		//부모글이 답글인 경우
+		//부모글이 순서번호 --> 답글의 순서번호
 		
+		else {
+			reply.setSeqNo(parent.getSeqNo());		
+			}
+
+		mapper.replyAnswerCreate(reply);
 	}
 }

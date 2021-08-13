@@ -391,8 +391,6 @@ public class BoardController {
 			board.setUserNo(userNo);
 			service.deleteLikes(board);
 		}
-		
-	
 }
 	
 
