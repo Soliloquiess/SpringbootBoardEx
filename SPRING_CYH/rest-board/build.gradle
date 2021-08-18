@@ -38,6 +38,11 @@ dependencies {
 	// 이미지 변환을 처리하기 위한 의존 라이브러리 
 	implementation group: 'org.imgscalr', name: 'imgscalr-lib', version: '4.2'
 	
+	
+		// jwt 관련 의존성
+	implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.10.5'
+	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.10.5'
+	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.10.5'
 }
 
 test {
