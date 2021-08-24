@@ -1,14 +1,15 @@
-<!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{/layouts/main_template}">
+	
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 
-<script src="/js/jquery-3.5.1.min.js"></script>
-<script src="/js/board.js"></script> 
-
-<body>
+<body layout:fragment="content">
+<div class ="content">
+<div class ="content-center">
 	<a href = "#replyList"> 댓글목록 이동 </a>
 	<h2>글 읽기</h2>
 
@@ -52,7 +53,6 @@
 		</table>
 	</form>
 
-	<div style="height:1000px;"></div>
 	<!--  댓글 목록 영역 -->
 	<div id="replyList">
 		<ul>
@@ -70,21 +70,32 @@
 
 	<!--  댓글 입력 -->
 	<div>
+	<h3></h3>
+		<th:block th:if="${userCheck}">
 		<input type="text" name="replyWriter" id="replyWriter"
-			placeholder="작성자" class="writer"> </br>
-		<textarea rows="5" cols="80" placeholder="댓글입력" id="replyContent"></textarea>
-		<div>
+			placeholder="작성자" class="writer"  th:value="${userId}"  readonly> </br>
+		<textarea rows="5" cols="" placeholder="댓글입력" id="replyContent"  class="w-100"></textarea>
+		<div class="txt-right">
 			<button type="button" id="btnReplyRegister">등록</button>
 		</div>
+		</th:block>
+		<th:block th:if="${!userCheck}">
+			<a href="/auth/loginForm">로그인</a>
+			<span>이 필요합니다</span>
+		</th:block>
 	</div>
 	<br>
 
-	<div>
+	<div class="txt-center">
+		<th:block th:if="${userCheck}">
+			<button type="submit" id="btnAnswer">답글</button>
 	
-		<button type="submit" id="btnAnswer">답글</button>
-		<button type="submit" id="btnModify">수정</button>
-		<button type="submit" id="btnRemove">삭제</button>
+			<button type="submit" id="btnModify">수정</button>
+			<button type="submit" id="btnRemove">삭제</button>
+		</th:block>
 		<button type="button" id="btnList">목록</button>
+	</div>
+	</div>
 	</div>
 </body>
 

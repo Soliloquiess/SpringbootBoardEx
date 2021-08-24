@@ -12,8 +12,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 
-public class LoginSuccessHandler implements AuthenticationSuccessHandler{
+//public class LoginSuccessHandler implements AuthenticationSuccessHandler{
+public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler{
 
 	
 	private static final Logger log = LoggerFactory.getLogger(LoginSuccessHandler.class);
@@ -55,6 +57,19 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler{
 		//요청 온 경로로 보내줌
 //		response.sendRedirect(requestURI);
 
-		response.sendRedirect("/");
+//		response.sendRedirect("/");
+//		response.sendRedirect(requestURI);
+		 if (session != null) {
+	            String redirectUrl = (String) session.getAttribute("prevPage");
+	            if (redirectUrl != null) {
+	                session.removeAttribute("prevPage");
+	                getRedirectStrategy().sendRedirect(request, response, redirectUrl);
+	            } else {
+	                super.onAuthenticationSuccess(request, response, authentication);
+	            }
+	        } else {
+	            super.onAuthenticationSuccess(request, response, authentication);
+	        }	
+		
 	}
 }

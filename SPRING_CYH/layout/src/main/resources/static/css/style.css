@@ -9,6 +9,23 @@
 	margin: 0 auto;
 }
 
+.content > .content-center{
+	
+	margin : 0 auto;
+	width:fit-content;
+	text-align:left;
+	
+}
+
+.txt-left {text-align:left;}
+.txt-center{text-align:center;}
+.txt-right{text-align:right;}
+
+.w-100 {width:100%;}
+.w-50 {width:50%;}
+.w-10 {width:10%;}
+
+
 .center-box {
 	position: absolute;
 	left: 50%;

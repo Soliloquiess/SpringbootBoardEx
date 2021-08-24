@@ -31,12 +31,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		// hasRole(), hasAnyRoles()		: 특정권한을 가진 사용자만 허용
 		http.authorizeRequests()
 				.antMatchers("/").permitAll()
+				.antMatchers("/board/list").permitAll()	//목록은 열어줌
 				.antMatchers("/css/**", "/js/**", "/img/**").permitAll()
 //				.antMatchers("/guest/**").permitAll()
 //				.antMatchers("/member/**").hasAnyRole("USER", "ADMIN")
 //				.antMatchers("/admin/**").hasRole("ADMIN")
-				.antMatchers("/**").permitAll()
-			.anyRequest().authenticated();
+//				.antMatchers("/**").permitAll()
+//			.anyRequest().authenticated();
+				.anyRequest().permitAll();
 		
 		// 로그인 설정
 		// - default 로그인 화면 URL 		: /login
@@ -47,7 +49,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.loginPage("/auth/loginForm")	//로그인 페이지
 			.loginProcessingUrl("/auth/login")	//로그인 처리하는 페이지
 			.successHandler(new LoginSuccessHandler())   //객체인스턴스 만듬	//로그인 성공했을떄 작업을 클래스내부에서 해줌.
-			
 			.failureUrl("/auth/loginError")			//로그인 시 에러나면 연결된 url은 경로를 이렇게 지정하고 
 			.usernameParameter("username")		//여기엔 id를 넘겨줄 파라미터를 이름을 뭐라 할 건지(username=id)
 			.passwordParameter("password")			//password넘겨주는게 파라미터

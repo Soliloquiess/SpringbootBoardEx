@@ -1,3 +1,8 @@
+
+ var header = $("meta[name='_csrf_header']").attr("content");
+ var token = $("meta[name='_csrf']").attr("content");
+              
+
 $(function() {
 		var form = $("#board");
 		var board_no = $("#boardNo").val();
@@ -22,6 +27,12 @@ $(function() {
 		//수정버튼 클릭 이벤트
 		$("#btnModify").on("click", function() {
 			self.location = "/board/modify?boardNo=" + board_no;
+		})
+		
+		//
+		$("#btnUpdate").on("click", function() {
+			form.attr("action", "modify");
+			form.submit();
 		})
 
 		//삭제버튼 클릭 이벤트
@@ -63,6 +74,7 @@ $(function() {
 				'boardNo' : board_no,
 			},
 			dataType : "text",
+			
 			success : function(data) {
 				//서버로부터 정상적으로 응답이 왔을 때 실행
 				//data: 서버로 부터 응답 받은 text 또는 view(.html)

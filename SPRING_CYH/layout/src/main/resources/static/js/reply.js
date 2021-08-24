@@ -1,4 +1,11 @@
 
+/* 헤더, 토큰*/
+
+ var header = $("meta[name='_csrf_header']").attr("content");
+ var token = $("meta[name='_csrf']").attr("content");
+              
+              
+                       
 var board_no = $('#boardNo').val();
 
 		// 댓글 수정 버튼 클릭 이벤트
@@ -65,6 +72,10 @@ var board_no = $('#boardNo').val();
 				'content' : reply_content
 			},
 			dataType : "text",
+			beforeSend: function (jqXHR, settings) {
+             
+              jqXHR.setRequestHeader(header, token);
+      },
 			success : function(data) {
 				//서버로부터 정상적으로 응답이 왔을 때 실행
 				//data: 서버로 부터 응답 받은 text 또는 view(.html)
@@ -94,6 +105,10 @@ var board_no = $('#boardNo').val();
 				'content' : reply_content
 			},
 			dataType : "text",
+			beforeSend: function (jqXHR, settings) {
+             
+              jqXHR.setRequestHeader(header, token);
+      },
 			success : function(data) {
 				//서버로부터 정상적으로 응답이 왔을 때 실행
 				//data: 서버로 부터 응답 받은 text 또는 view(.html)
@@ -121,6 +136,10 @@ var board_no = $('#boardNo').val();
 				'boardNo' : board_no,
 			},
 			dataType : "text",
+			beforeSend: function (jqXHR, settings) {
+             
+              jqXHR.setRequestHeader(header, token);
+      },
 			success : function(data) {
 				//서버로부터 정상적으로 응답이 왔을 때 실행
 				//data: 서버로 부터 응답 받은 text 또는 view(.html)
