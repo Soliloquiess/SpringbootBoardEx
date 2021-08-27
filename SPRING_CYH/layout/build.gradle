@@ -37,6 +37,8 @@ dependencies {
 	
 	testImplementation 'org.springframework.security:spring-security-test'
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
+	//이게 있어서 타임리프 인증 라이브러리를 쓸 수 있다.
+	//이클립스 업그레이드 되면서 그러는지 시큐리티 의존성 체크하고 이게 자동으로 들어감.
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	
 	// 타임리프 레이아웃 다이얼렉트 라이브러리 추가 

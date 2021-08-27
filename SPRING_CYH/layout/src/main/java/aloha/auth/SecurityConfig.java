@@ -32,13 +32,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()
 				.antMatchers("/").permitAll()
 				.antMatchers("/board/list").permitAll()	//목록은 열어줌
+				.antMatchers("/board/read").permitAll()	//읽기도 열어줌
+				.antMatchers("/board/replyList").permitAll()	//댓글읽기 열어줌
+				.antMatchers("/user/**").permitAll()
+//				.antMatchers("/user/register").permitAll()	//회원가입 열어줌
+//				.antMatchers("/user/success").permitAll()	//회원가입 열어줌
+				
 				.antMatchers("/css/**", "/js/**", "/img/**").permitAll()
 //				.antMatchers("/guest/**").permitAll()
 //				.antMatchers("/member/**").hasAnyRole("USER", "ADMIN")
 //				.antMatchers("/admin/**").hasRole("ADMIN")
 //				.antMatchers("/**").permitAll()
-//			.anyRequest().authenticated();
-				.anyRequest().permitAll();
+			.anyRequest().authenticated();
+//				.anyRequest().permitAll();
 		
 		// 로그인 설정
 		// - default 로그인 화면 URL 		: /login

@@ -350,7 +350,11 @@ Board board = service.read(boardNo);
 
 		@PreAuthorize("isAuthenticated()")
 		@PostMapping("/replyRegister")
-		public String replyRegister(Model model, Reply reply) throws Exception{
+		public String replyRegister(Model model, Reply reply, Principal user) throws Exception{
+			
+			String userId  = user ==null? null:user.getName();
+			model.addAttribute("userId",userId);
+			
 			//Reply이라는 객체로 받아옴( boardNo, writer,content)
 			//댓글 등록
 			service.replyRegister(reply);
@@ -365,7 +369,13 @@ Board board = service.read(boardNo);
 
 		@PreAuthorize("isAuthenticated()")
 		@PostMapping("/replyModify")
-		public String replyModify(Model model, Reply reply) throws Exception{
+		public String replyModify(Model model, Reply reply, Principal user) throws Exception{
+			
+//			String writer = board.getWriter();
+			String userId  = user ==null? null:user.getName();
+//			boolean userCheck = writer.equals(userId);
+			
+			model.addAttribute("userId",userId);
 			
 			//댓글 등록
 			service.replyModify(reply);
@@ -381,8 +391,14 @@ Board board = service.read(boardNo);
 
 		@PreAuthorize("isAuthenticated()")
 		@PostMapping("/replyRemove")
-		public String replyRemove(Model model, Reply reply) throws Exception{
+		public String replyRemove(Model model, Reply reply, Principal user) throws Exception{
 			service.replyRemove(reply);
+			
+//			String writer = board.getWriter();
+			String userId  = user ==null? null:user.getName();
+//			boolean userCheck = writer.equals(userId);
+			
+			model.addAttribute("userId",userId);
 			
 			
 			Integer boardNo = reply.getBoardNo();
@@ -396,7 +412,14 @@ Board board = service.read(boardNo);
 		
 		//댓글 목록 조회
 		@GetMapping("/replyList")
-		public String replyList(Model model, Reply reply) throws Exception{
+		public String replyList(Model model, Reply reply, Principal user) throws Exception{
+			
+//			String writer = board.getWriter();
+			String userId  = user ==null? null:user.getName();
+//			boolean userCheck = writer.equals(userId);
+			
+			model.addAttribute("userId",userId);
+			
 			
 			Integer boardNo = reply.getBoardNo();
 			//댓글 목록 조회
