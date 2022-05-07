@@ -1,0 +1,63 @@
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{/layouts/main_template}">
+<head>
+<meta charset="UTF-8">
+<title>Login</title>
+</head>
+<body layout:fragment="content" >
+<div class="content">
+	<div class ="center-box input-box">
+	<h1>Login</h1>
+	
+	<form th:action="@{/auth/login}" method="post">
+	<input type="hidden" name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+		<table>
+			<tr>
+				<th>ID</th>
+				<td>
+					<input type="text" name="username" th:value="${userId}"/>
+				</td>
+			</tr>
+			<tr>
+				<th>PW</th>
+				<td>
+					<input type="password" name="password" />
+				</td>
+			</tr>
+			<tr>
+			<td></td>
+			<td>
+				<th:block th:if="!${rememberId}"> 	<!-- rememberId가 true일떄 -->
+					<input type ="checkbox" name ="rememberId" id="rememberId"/>
+					<label for="rememberId">아이디 저장</label>
+				</th:block>
+				
+				<th:block th:if="${rememberId}">
+					<input type ="checkbox" name ="rememberId" id="rememberId" checked="checked"/>	<!-- rememberId가 true일떄 -->
+					<label for="rememberId">아이디 저장</label>
+				</th:block>
+				
+				
+			</td>
+			</tr>
+			
+			<tr>
+			<td></td>
+			<td>
+				<input type ="checkbox" name ="remember-me" id="rememberId"/>
+				<label for="rememberMe">자동로그인</label>
+			</td>
+			</tr>
+			
+			<tr>
+				<td colspan="2" align="right">
+					<input type="submit" value="LOGIN" />
+				</td>
+			</tr>
+		</table>
+		</div>
+		</div>
+	</form>
+</body>
+</html>

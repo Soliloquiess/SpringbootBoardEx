@@ -78,8 +78,10 @@
 			board b left join
 							(select board_no, count(*) reply_count from board_reply group by board_no) r
 							on b.board_no = r.board_no
-		order by board_no desc
-		, reg_date desc
+			order by group_no desc
+					, seq_no ASC
+					, depth_no ASC
+					, reg_date DESC
 		limit #{startRowIndex}, #{rowsPerPage}
 		
 	]]>
@@ -93,8 +95,6 @@
 			타이틀에 키워드가 포함된 경우 -->
 		or writer like concat('%',#{keyword},'%')	<!-- 작성자 키워드가 포함된 경우 -->
 		or content like concat('%',#{keyword},'%')	<!-- 내용에 키워드가 포함된 경우 -->
-
-
 	</select>
 
 
@@ -116,10 +116,11 @@
 		or content like concat('%',#{keyword},'%')	
 		
 		
-		order by board_no desc
-		, reg_date desc
+			order by group_no desc
+							, seq_no ASC
+							, depth_no ASC
+							, reg_date DESC
 		limit #{startRowIndex}, #{rowsPerPage}
-		
 	]]>
 	</select>
 
@@ -188,4 +189,39 @@
 		delete from board_reply
 		where reply_no = #{replyNo}
 	</delete>
+	
+	
+	<!--  계층번호 조회  -->
+	<select id = "readDepthNo" resultType = "int">
+		select depth_no
+		from board
+		where board_no = ${boardNo}
+	</select>
+	<!--  같은 그룹번호, Max(seq_no) -->
+	<select id="maxSeqNoByGroupNo" resultType="int">
+		select max(seq_no)
+		from board
+		where group_no =#{groupNo}
+	</select>
+	
+	<!--  답글 쓰기 -->
+	<insert id = "answerCreate">
+		Insert into board (title, content, writer, group_no, depth_no, seq_no)
+		values(#{title}, #{content},#{writer}, #{groupNo}, #{depthNo}, #{seqNo})
+	</insert>
+	
+	
+	<!--  MAX(글번호) -->
+	<select id = "maxBoardNo" resultType="int">
+		select max(board_no)
+		from board
+	</select>
+	
+	<!--  그룹 번호 수정  -->
+	<update id = "updateGroupNo" >
+		update board
+		set group_no =#{groupNo}
+		where board_no = #{boardNo}
+	</update>
+	
 </mapper>

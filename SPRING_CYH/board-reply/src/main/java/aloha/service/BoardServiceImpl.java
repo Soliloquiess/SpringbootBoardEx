@@ -20,6 +20,12 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public void register(Board board) throws Exception {
 		mapper.insert(board);
+		
+		int boardNo = mapper.maxBoardNo();
+		board.setGroupNo(boardNo);
+		board.setBoardNo(boardNo);
+		
+		mapper.updateGroupNo(board);
 	}
 
 	@Override
@@ -115,5 +121,26 @@ public class BoardServiceImpl implements BoardService{
 		mapper.deleteReply(reply);
 		
 	}
-	
+
+	@Override
+	public void answerRegister(Board board) throws Exception {
+		
+		//그룹번호
+		
+		int groupNo = board.getGroupNo();
+		
+		
+		//계층번호
+		int depthNo= mapper.readDepthNo(board.getBoardNo());
+		board.setDepthNo(depthNo+1);
+		
+		//부모글이 최초 부모글인 경우
+		
+		if(board.getSeqNo()==0) {
+			//순서번호 MAX
+			int maxSeqNo= mapper.maxSeqNoByGroupNo(groupNo);
+			board.setSeqNo(maxSeqNo+1);
+		}
+		mapper.answerCreate(board);
+	}
 }

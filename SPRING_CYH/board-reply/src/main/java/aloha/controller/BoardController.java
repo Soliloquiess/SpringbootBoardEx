@@ -1,6 +1,7 @@
 package aloha.controller;
 
 import java.io.File;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -9,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
@@ -45,12 +47,17 @@ public class BoardController {
 	private String uploadPath;
 	
 	
+	//게시글 쓰기 - 화면
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/register")
 //	@RequestMapping(vaule="/register",method = RequestMethod.GET)
-	public void registerForm(Model model, Board board) throws Exception{
-	
-	
+	public void registerForm(Model model, Board board, Principal user) throws Exception{
+		String userId = user.getName();	
+		
+		model.addAttribute("userId", userId);
 	}
+	//게시글 쓰기 - 처리
+	
 	@PostMapping("/register")
 	public String register(Model model, Board board) throws Exception{
 		//파일정보
@@ -126,12 +133,25 @@ public class BoardController {
 	}
 	
 	//게시글 읽기 화면
-	
+
+//	@PreAuthorize("permitAll")
 	@GetMapping("/read")
-	public void read(Model model, Integer boardNo) throws Exception{
-			
+	public void read(Model model, Integer boardNo, Principal user) throws Exception{
+
+		Board board = service.read(boardNo);
+		
+		String writer = board.getWriter();
+		String userId  = user ==null? null:user.getName();
+		boolean userCheck = writer.equals(userId);
+		
+		model.addAttribute("userId",userId);
+		//userCheck: 글 작성자인지 여부
+		model.addAttribute("userCheck",userCheck);
+		
+		
 		// 게시글 조회
-		model.addAttribute("board",service.read(boardNo));
+		
+		model.addAttribute("board",board);
 		
 		//파일 목록 조회
 		model.addAttribute("files",service.readFileList(boardNo));
@@ -140,20 +160,52 @@ public class BoardController {
 	}
 	
 	//게시글 수정화면
-	
-	@GetMapping("/modify")
-	public void modifyForm(Model model, Integer boardNo) throws Exception{
 
-		model.addAttribute("board",service.read(boardNo));
+	@PreAuthorize("isAuthenticated()")
+	@GetMapping("/modify")
+	public String modifyForm(Model model, Integer boardNo, Principal user) throws Exception{
+
+		
+Board board = service.read(boardNo);
+		
+		String writer = board.getWriter();
+		String userId  = user.getName();
+		boolean userCheck = writer.equals(userId);
+		
+		model.addAttribute("userId",userId);
+		//userCheck: 글 작성자인지 여부
+		model.addAttribute("userCheck",userCheck);
+		
+		if(!userCheck) {
+			model.addAttribute("msg", "접근 권한이 없습니다.");
+			return "error/noAuth";
+		}
+		model.addAttribute("board",board);
 		model.addAttribute("files",service.readFileList(boardNo));
+		
+//		model.addAttribute("board",service.read(boardNo));
+//		model.addAttribute("files",service.readFileList(boardNo));
+		
+		return "board/modify";
 	}
 	
 	
 	//게시글 수정처리
-	
-	@PostMapping("/modify")
-	public String modify(Model model, Board board) throws Exception{
 
+	@PreAuthorize("isAuthenticated()")
+	@PostMapping("/modify")
+	public String modify(Model model, Board board , Principal user) throws Exception{
+
+		String writer = board.getWriter();
+		String userId  = user.getName();
+		boolean userCheck = writer.equals(userId);
+		
+		
+		if(!userCheck) {
+			model.addAttribute("msg", "접근 권한이 없습니다.");
+			return "error/noAuth";
+		}
+		
 		service.modify(board);	//board객체 받아옴
 		model.addAttribute("msg","수정 완료되었습니다.");
 		return "board/success";
@@ -161,9 +213,26 @@ public class BoardController {
 	}
 	
 	//게시글 삭제처리
-	
+
+	@PreAuthorize("isAuthenticated()")
 	@PostMapping("/remove")
-	public String remove(Model model, Integer boardNo) throws Exception{
+	public String remove(Model model, Integer boardNo, Principal user) throws Exception{
+		
+Board board = service.read(boardNo);
+		
+		String writer = board.getWriter();
+		String userId  = user.getName();
+		boolean userCheck = writer.equals(userId);
+		
+		model.addAttribute("userId",userId);
+		//userCheck: 글 작성자인지 여부
+		model.addAttribute("userCheck",userCheck);
+		
+		if(!userCheck) {
+			model.addAttribute("msg", "접근 권한이 없습니다.");
+			return "error/noAuth";
+		}
+		
 		
 		List<BoardAttach> attachList =  service.readFileList(boardNo);
 		
@@ -278,9 +347,14 @@ public class BoardController {
 		}
 		
 		// 댓글 등록
-		
+
+		@PreAuthorize("isAuthenticated()")
 		@PostMapping("/replyRegister")
-		public String replyRegister(Model model, Reply reply) throws Exception{
+		public String replyRegister(Model model, Reply reply, Principal user) throws Exception{
+			
+			String userId  = user ==null? null:user.getName();
+			model.addAttribute("userId",userId);
+			
 			//Reply이라는 객체로 받아옴( boardNo, writer,content)
 			//댓글 등록
 			service.replyRegister(reply);
@@ -292,9 +366,16 @@ public class BoardController {
 		}
 		
 	// 댓글 수정
-		
+
+		@PreAuthorize("isAuthenticated()")
 		@PostMapping("/replyModify")
-		public String replyModify(Model model, Reply reply) throws Exception{
+		public String replyModify(Model model, Reply reply, Principal user) throws Exception{
+			
+//			String writer = board.getWriter();
+			String userId  = user ==null? null:user.getName();
+//			boolean userCheck = writer.equals(userId);
+			
+			model.addAttribute("userId",userId);
 			
 			//댓글 등록
 			service.replyModify(reply);
@@ -307,9 +388,17 @@ public class BoardController {
 		}
 		
 		//댓글 삭제
+
+		@PreAuthorize("isAuthenticated()")
 		@PostMapping("/replyRemove")
-		public String replyRemove(Model model, Reply reply) throws Exception{
+		public String replyRemove(Model model, Reply reply, Principal user) throws Exception{
 			service.replyRemove(reply);
+			
+//			String writer = board.getWriter();
+			String userId  = user ==null? null:user.getName();
+//			boolean userCheck = writer.equals(userId);
+			
+			model.addAttribute("userId",userId);
 			
 			
 			Integer boardNo = reply.getBoardNo();
@@ -323,11 +412,61 @@ public class BoardController {
 		
 		//댓글 목록 조회
 		@GetMapping("/replyList")
-		public String replyList(Model model, Reply reply) throws Exception{
+		public String replyList(Model model, Reply reply, Principal user) throws Exception{
+			
+//			String writer = board.getWriter();
+			String userId  = user ==null? null:user.getName();
+//			boolean userCheck = writer.equals(userId);
+			
+			model.addAttribute("userId",userId);
+			
 			
 			Integer boardNo = reply.getBoardNo();
 			//댓글 목록 조회
 			model.addAttribute("replyList", service.replyList(boardNo));
 			return "reply/list";
+		}
+		
+		//답글 쓰기 화면
+
+		@PreAuthorize("isAuthenticated()")
+		@GetMapping("/answer")
+		public void answerForm(Model model, Board board, Principal user) throws Exception {
+			
+			Integer boardNo = board.getGroupNo();
+			 board = service.read(boardNo);
+			
+			
+			String userId  = user ==null? null:user.getName();
+			
+			
+			model.addAttribute("userId",userId);			
+			
+			
+			//부모글 정보 조회
+			model.addAttribute("board",board);
+			//파일 목록 조회
+			model.addAttribute("files",service.readFileList(boardNo));
+		}
+		
+		//답글 쓰기 처리
+
+		@PreAuthorize("isAuthenticated()")
+		@PostMapping("/answerRegister")
+		public String answerRegister(Model model, Board board) throws Exception{
+			//파일 업로드
+			MultipartFile[] files = board.getFile();
+			
+			//파일 업로드 처리
+			ArrayList<BoardAttach> attachList = uploadFiles(files);
+			service.answerRegister(board);
+			
+			for(BoardAttach attach : attachList) {
+				service.uploadFile(attach);
+			}
+			model.addAttribute("msg", "등록이 완료되었습니다.");
+			
+			return "board/success";
+		
 		}
 }

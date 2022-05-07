@@ -1,4 +1,6 @@
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{/layouts/main_template}">
 
 <head>
 <meta charset="UTF-8">
@@ -27,37 +29,42 @@
 	
 </script>
 
-<body>
-	<h2>글 쓰기</h2>
-	<form id="board" th:action="@{register}" th:object="${board}" method="post" enctype="multipart/form-data">
-		<table>
-			<tr>
-				<td>제목</td>
-				<td><input type="text" name="title" th:field="*{title}" /></td>
-			</tr>
-			<tr>
-				<td>작성자</td>
-				<td><input type="text" name="writer" th:field="*{writer}" /></td>
-			</tr>
-			<tr>
-				<td>내용</td>
-				<td>	
-					<textarea name="content" th:field="*{content}" rows="20" cols="80"></textarea>
-				</td>
-			</tr>
-			<tr>
-				<td>파일</td>
-				<td>
-					<input type="file" name="file" multiple/>
-				</td>
-			</tr>
-		</table>
-	</form>
-	
-	<div>
-		<button type="submit" id="btnRegister">등록</button>
-		<button type="button" id="btnList">목록</button>
+<body layout:fragment="content" >
+<div class="content">
+	<div class="content-center">
+		<h2>글 쓰기</h2>
+		<form id="board" th:action="@{register}" th:object="${board}" method="post" enctype="multipart/form-data">
+			<table>
+				<tr>
+					<td>제목</td>
+					<td><input type="text" name="title" th:field="*{title}" /></td>
+				</tr>
+				<tr>
+					<td>작성자</td>
+					<!-- <td><input type="text" name="writer" th:field="*{writer}" /></td> -->
+					<td><input type="text" name="writer" th:value="${userId}"  readonly/></td> 
+				</tr>
+				<tr>
+					<td>내용</td>
+					<td>	
+						<textarea name="content" th:field="*{content}" rows="20" cols="80"></textarea>
+					</td>
+				</tr>
+				<tr>
+					<td>파일</td>
+					<td>
+						<input type="file" name="file" multiple/>
+					</td>
+				</tr>
+			</table>
+		</form>
+		
+		<div>
+			<button type="submit" id="btnRegister">등록</button>
+			<button type="button" id="btnList">목록</button>
+		</div>
 	</div>
+</div>
 </body>
 </html>
 

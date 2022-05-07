@@ -62,4 +62,8 @@ public interface BoardService {
 		
 		//댓글 삭제
 		public void replyRemove(Reply reply) throws Exception;
+		
+		//답글등록
+		public void answerRegister(Board board) throws Exception;
+		
 }

@@ -61,6 +61,22 @@ public interface BoardMapper {
 	
 	//댓글 수정
 	public void replyUpdate (Reply reply) throws Exception;
+	
 	//댓글 삭제
 	public void deleteReply(Reply reply);
+
+	//답글등록
+	public void answerCreate(Board board) throws Exception;
+
+	//계층 번호 조회
+	public int readDepthNo(Integer boardNo) throws Exception;
+	
+	//같은 그룹번호인 그룹 번호에 따른 순서번호 MAX 조회
+	public int maxSeqNoByGroupNo(Integer groupNo) throws Exception;
+
+	//max(글번호)
+	public int maxBoardNo();
+
+	//그룹번호 수정
+	public void updateGroupNo(Board board);
 }

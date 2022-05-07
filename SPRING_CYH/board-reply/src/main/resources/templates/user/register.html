@@ -1,0 +1,168 @@
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{/layouts/main_template}"
+	  >
+
+<head>
+	<meta charset="UTF-8">
+	<!-- csrf token -->
+	<meta name="_csrf" th:content="${_csrf.token}">
+	<meta name="_csrf_header" th:content="${_csrf.headerName}">
+	
+	<title>ALOHA CAMPUS</title>
+	<script src="/js/jquery-3.5.1.min.js"></script>
+</head>
+<body layout:fragment="content" >
+<div class="content">
+	<div class="center-box input-box">
+		<h2>회원가입</h2>
+		<form id="member" th:action="@{/user/register}" th:object="${member}" method="POST">
+			<table>
+				<tr>
+					<td><input type="text" name="userId" th:field="*{userId}" id="userId" placeholder="아이디" /></td>
+					<td>
+						<button type="button" id="checkDuplicated">중복확인</button>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<span id="idError"></span>
+					</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td><input type="password" name="userPw" th:field="*{userPw}" id="userPw" placeholder="비밀번호" /></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td><input type="text" name="userName" th:field="*{userName}" id="userName" placeholder="이름" /></td>
+					<td></td>
+				</tr>
+			</table>
+		</form>
+		<div>
+			<button type="button" id="btnRegister">등록</button>
+			<button type="button" id="btnList">목록</button>
+		</div>
+	</div>
+</div>
+	<script>
+	
+		let idChk = false;
+		let pwChk = false;
+		let nameChk = false;
+	
+		$(document).ready(function() {
+			
+			var form = $("#member");
+			
+			// 등록 버튼 - 클릭 이벤트
+			$("#btnRegister").on("click", function() {
+				
+				let userId = $('#userId').val();
+				let userPw = $('#userPw').val();
+				let userName = $('#userName').val();
+				
+				if( userId == undefined || userId == "" ){
+					alert("아이디를 입력해주세요!");
+					return;
+				}
+				else if( idChk == false ){
+					alert("아이디 중복확인을 해주세요!");
+					return;
+				}
+				else if( userPw == undefined || userPw == "" ){
+					alert("비밀번호를 입력해주세요!");
+					return;
+				}
+				else if( userName == undefined || userName == "" ){
+					alert("이름을 입력해주세요!");
+					return;
+				}
+				
+				form.submit();
+			});
+			
+			// 목록 버튼 - 클릭 이벤트
+			$("#btnList").on("click", function() {
+				self.location = "list";				
+			});
+			
+			// csrf  token
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+			
+			$(document).ajaxSend(function(e, xhr, options) { 
+				xhr.setRequestHeader(header, token); 
+			});
+			
+			
+			// 중복확인 - 클릭 이벤트
+			$("#checkDuplicated, #userId").on("click keyup",function() {
+				
+				var userId = $("#userId").val();
+				
+				
+				$.ajax({
+					// url, type, data, dataType, success(), error()
+					url:		'/user/checkUserId',			// request 보낼 서버의 경로
+					type:		'post',						// method (get, post, put 등)
+					data:		{
+									'userId'	:	userId
+								},
+					dateType:	"text",
+					success:	function(data) {
+						// 서버로부터 정상적으로 응답이 왔을 때 실행
+						// data : 서버로 부터 응답 받은 text 또는 view(.html)
+						let success = "사용 가능한 아이디 입니다.";
+						let fail = "이미 사용 중인 아이디 입니다.";
+						
+						if( data ){
+// 							alert(success);
+							$('#idError').css('color', 'green').text(success);
+							idChk = true;
+						} else {
+// 							alert(fail);
+							$('#idError').css('color', 'red').text(fail);
+							idChk = false;
+						}
+						
+					},
+					error:		function(request, status, error) {
+						// 서버로부터 응답이 정상적으로 처리되지 못했을 때 실행
+						alert("code = "+ request.status + " message = " + request.responseText + " error = " + error);
+					}
+					
+				});
+				
+				
+			});
+			
+		});
+	</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
