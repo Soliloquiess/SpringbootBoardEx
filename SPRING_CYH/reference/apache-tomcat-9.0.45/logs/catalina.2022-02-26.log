@@ -1,0 +1,34 @@
+26-Feb-2022 17:13:34.124 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log 서버 버전 이름:    Apache Tomcat/9.0.45
+26-Feb-2022 17:13:34.138 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server 빌드 시각:  Mar 30 2021 10:29:04 UTC
+26-Feb-2022 17:13:34.138 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server 버전 번호:  9.0.45.0
+26-Feb-2022 17:13:34.139 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log 운영체제 이름:     Windows 10
+26-Feb-2022 17:13:34.141 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log 운영체제 버전:     10.0
+26-Feb-2022 17:13:34.141 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log 아키텍처:          amd64
+26-Feb-2022 17:13:34.142 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log 자바 홈:           D:\Program Files\Java\jdk-15.0.1
+26-Feb-2022 17:13:34.143 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log JVM 버전:          15.0.1+9-18
+26-Feb-2022 17:13:34.143 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log JVM 벤더:          Oracle Corporation
+26-Feb-2022 17:13:34.144 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_BASE:     D:\apache-tomcat-9.0.45
+26-Feb-2022 17:13:34.144 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_HOME:     D:\apache-tomcat-9.0.45
+26-Feb-2022 17:13:34.200 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log 명령 행 아규먼트:  --add-opens=java.base/java.lang=ALL-UNNAMED
+26-Feb-2022 17:13:34.204 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log 명령 행 아규먼트:  --add-opens=java.base/java.io=ALL-UNNAMED
+26-Feb-2022 17:13:34.208 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log 명령 행 아규먼트:  --add-opens=java.base/java.util=ALL-UNNAMED
+26-Feb-2022 17:13:34.213 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log 명령 행 아규먼트:  --add-opens=java.base/java.util.concurrent=ALL-UNNAMED
+26-Feb-2022 17:13:34.219 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log 명령 행 아규먼트:  --add-opens=java.rmi/sun.rmi.transport=ALL-UNNAMED
+26-Feb-2022 17:13:34.221 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log 명령 행 아규먼트:  -Djava.util.logging.config.file=D:\apache-tomcat-9.0.45\conf\logging.properties
+26-Feb-2022 17:13:34.223 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log 명령 행 아규먼트:  -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager
+26-Feb-2022 17:13:34.225 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log 명령 행 아규먼트:  -Djdk.tls.ephemeralDHKeySize=2048
+26-Feb-2022 17:13:34.227 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log 명령 행 아규먼트:  -Djava.protocol.handler.pkgs=org.apache.catalina.webresources
+26-Feb-2022 17:13:34.229 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log 명령 행 아규먼트:  -Dignore.endorsed.dirs=
+26-Feb-2022 17:13:34.232 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log 명령 행 아규먼트:  -Dcatalina.base=D:\apache-tomcat-9.0.45
+26-Feb-2022 17:13:34.234 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log 명령 행 아규먼트:  -Dcatalina.home=D:\apache-tomcat-9.0.45
+26-Feb-2022 17:13:34.236 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log 명령 행 아규먼트:  -Djava.io.tmpdir=D:\apache-tomcat-9.0.45\temp
+26-Feb-2022 17:13:34.405 INFO [main] org.apache.catalina.core.AprLifecycleListener.lifecycleEvent APR 버전 [1.7.0]을(를) 사용한, APR 기반 Apache Tomcat Native 라이브러리 [1.2.27]을(를) 로드했습니다.
+26-Feb-2022 17:13:34.413 INFO [main] org.apache.catalina.core.AprLifecycleListener.lifecycleEvent APR 용량정보들: IPv6 [true], sendfile [true], accept filters [false], random [true].
+26-Feb-2022 17:13:34.417 INFO [main] org.apache.catalina.core.AprLifecycleListener.lifecycleEvent APR/OpenSSL 설정: useAprConnector [false], useOpenSSL [true]
+26-Feb-2022 17:13:34.472 INFO [main] org.apache.catalina.core.AprLifecycleListener.initializeSSL OpenSSL이 성공적으로 초기화되었습니다: [OpenSSL 1.1.1k  25 Mar 2021]
+26-Feb-2022 17:13:35.244 INFO [main] org.apache.coyote.AbstractProtocol.init 프로토콜 핸들러 ["http-nio-8080"]을(를) 초기화합니다.
+26-Feb-2022 17:13:35.658 INFO [main] org.apache.catalina.startup.Catalina.load [2071] 밀리초 내에 서버가 초기화되었습니다.
+26-Feb-2022 17:13:35.830 INFO [main] org.apache.catalina.core.StandardService.startInternal 서비스 [Catalina]을(를) 시작합니다.
+26-Feb-2022 17:13:35.833 INFO [main] org.apache.catalina.core.StandardEngine.startInternal 서버 엔진을 시작합니다: [Apache Tomcat/9.0.45]
+26-Feb-2022 17:13:35.910 INFO [main] org.apache.catalina.startup.HostConfig.deployWAR 웹 애플리케이션 아카이브 [D:\apache-tomcat-9.0.45\webapps\Ex30_WebJars.war]을(를) 배치합니다.
+26-Feb-2022 17:13:41.523 INFO [main] org.apache.jasper.servlet.TldScanner.scanJars 적어도 하나의 JAR가 TLD들을 찾기 위해 스캔되었으나 아무 것도 찾지 못했습니다. 스캔했으나 TLD가 없는 JAR들의 전체 목록을 보시려면, 로그 레벨을 디버그 레벨로 설정하십시오. 스캔 과정에서 불필요한 JAR들을 건너뛰면, 시스템 시작 시간과 JSP 컴파일 시간을 단축시킬 수 있습니다.

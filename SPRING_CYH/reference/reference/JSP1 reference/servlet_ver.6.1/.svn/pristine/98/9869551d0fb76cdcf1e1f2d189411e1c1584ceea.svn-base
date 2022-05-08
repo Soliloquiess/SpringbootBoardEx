@@ -1,0 +1,145 @@
+<!-- sitemesh 사용을 위한 설정 파일 -->
+<!-- 작성자 : 이영환 -->
+<!-- 작성일 : 2020-06-30 -->
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="decorator"
+	uri="http://www.opensymphony.com/sitemesh/decorator"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>웹짱:<decorator:title /></title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<style type="text/css">
+/* 주석 : BootStrap이 먼저 적용이 된다. 태그안에 style -> id -> class -> tag -> *(모든 태그)
+	BoardStap은 디자인을 class를 사용. tag 보다 우선 적용이 된다. 원하는 CSS는 바로 태그안에 적용시킨다. */
+header, footer {
+	background: AntiqueWhite;
+}
+
+pre {
+	background: white;
+	border: 0px; /* 테두리를 없앤다. */
+}
+
+/* Remove the navbar's default margin-bottom and rounded borders */
+.navbar {
+	margin-bottom: 0; /* 아래쪽(bottom) 바깥 여백(margin) */
+	border-radius: 0; /* 테두리 모서리의 둥근 정도 반지름으로 표시 */
+}
+
+/* Add a gray background color and some padding to the footer */
+footer {
+	background-color: black;
+	padding: 25px;
+	color: #ddd;
+}
+
+.carousel-inner img {
+	width: 100%; /* Set width to 100% */
+	margin: auto;
+	min-height: 200px;
+}
+
+/* media 쿼리 - 반응형 웹 */
+/* Hide the carousel text when the screen is less than 600 pixels wide */
+@media ( max-width : 600px) {
+	.carousel-caption {
+		display: none;
+	}
+	#logoImageDiv{
+		/* 화면에서 사라지게 만든다. 데이터가 가져오지 않는다. */
+		display: none;
+	}
+}
+
+article {
+	min-height: 400px;
+	margin-top: 80px; /* 메뉴와 내용이 겹치지 않게 하기 위한 여백 */
+	margin-bottom: 120px; /* 회사소개와 내용이 겹치지 않게 하기 위한 여백 */
+}
+
+#welcome {
+	color: grey;
+	margin: 0 auto; /* block 속성의 태그의 가운데 정렬 */
+}
+</style>
+<script type="text/javascript">
+	$(document).ready(function() {
+		
+		<c:if test="${!empty msg }">
+			// 약간(0.5초) 기다렸다가 경고창 띄우기 : js setTimeout
+			setTimeout(
+				function(){
+					alert("${msg}");
+				},
+				200 // 0.2 초 : 1000 -> 1초
+			);
+		</c:if>
+		
+	});
+</script>
+<decorator:head/>
+</head>
+<body>
+	<!-- 위에 메뉴나 로고가 들어 있는 태그 - header : div로 사용 가능 -->
+	<header>
+<!-- 		<div id="logoImageDiv"><img src="/img/logo.jpg" style="width: 100%; height: 300px"/></div> -->
+		<!-- nav(navigation) : 클릭해서 페이지 이동이되는 메뉴 부분
+				navbar-fixed-top : 다른 내용과 상관없이 맨 위에 항상 고정으로 보임 -->
+		<nav class="navbar navbar-inverse navbar-fixed-top" >
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse"
+						data-target="#myNavbar">
+						<span class="icon-bar"></span> <span class="icon-bar"></span> <span
+							class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="/">Logo</a>
+				</div>
+				<div class="collapse navbar-collapse" id="myNavbar">
+					<!-- ul(unorder list)안에 li(list)tag는 한줄이여야 하고 앞에 기호가 붙어야 하지만
+						CSS로 기호를 없애고 한줄안에 같이 어우러지게 만들 수 있다. -->
+					<ul class="nav navbar-nav">
+						<li><a href="/notice/list.do">공지사항</a></li>
+						<li><a href="/board/list.do">게시판</a></li>
+						<li><a href="/image/list.do">이미지</a></li>
+						<li><a href="/qna/list.do">질문답변</a></li>
+						<c:if test="${!empty login }">
+							<li><a href="/message/list.do">메시지</a></li>
+							<c:if test="${login.gradeNo == 9 }">
+								<li><a href="/member/list.do">회원관리</a></li>
+							</c:if>
+							<li><a href="/member/logout.jsp">로그아웃</a></li>
+							<li><a>${login.name }(${login.id })-${login.gradeName }</a></li>
+						</c:if>
+						<c:if test="${empty login }">
+							<li><a href="/member/login.jsp">로그인</a></li>
+							<li><a href="/member/adminLogin.jsp">관리자로그인</a></li>
+						</c:if>
+					</ul>
+				</div>
+			</div>
+		</nav>
+	</header>
+	<article>
+		<decorator:body />
+	</article>
+	<!-- navbar-fixed-bottom : 다른 내용과 상관없이 맨 아래에 항상 고정으로 보임 -->
+	<footer class="container-fluid text-center navbar navbar-inverse navbar-fixed-bottom">
+		<p>이 홈페이지의 저작권은 이영환에게 있습니다.</p>
+	</footer>
+</body>
+</html>
+
+<%
+ session.removeAttribute("msg");
+%>

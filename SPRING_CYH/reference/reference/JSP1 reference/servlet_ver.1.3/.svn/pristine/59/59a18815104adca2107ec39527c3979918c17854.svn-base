@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" id="WebApp_ID" version="4.0">
+  <display-name>webjjang_servlet</display-name>
+  <welcome-file-list>
+    <welcome-file>list.do</welcome-file>
+    <welcome-file>main.do</welcome-file>
+  </welcome-file-list>
+  
+  <!-- Servlet 등록 : servlet과 servlet-mappring tag 사용 -->
+  <servlet>
+  	<servlet-name>dispacherServlet</servlet-name>
+  	<!-- *.do를 받아가서 처리해 주는 서블릿 프로그램 -->
+  	<servlet-class>com.webjjang.main.controller.DispacherServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>dispacherServlet</servlet-name>
+  	<!-- url-pattern : 확장자 기반 - *.do, 위치기반 - /board/* -> 혼합해서 사용 못함. -->
+  	<url-pattern>*.do</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Filter  등록 : 등록된 순서대로 실행이 된다. -->
+  <filter>
+  	<description>한글 처리 필터</description>
+  	<filter-name>encoding</filter-name>
+  	<filter-class>com.webjjang.util.filter.EncodingFilter</filter-class>
+  </filter>
+  <filter-mapping>
+  	<filter-name>encoding</filter-name>
+  	<url-pattern>/*</url-pattern>
+  </filter-mapping>
+  
+</web-app>

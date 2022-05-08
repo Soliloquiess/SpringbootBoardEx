@@ -1,0 +1,72 @@
+18-Apr-2022 16:46:51.740 INFO [main] org.apache.catalina.core.ApplicationContext.log 2 Spring WebApplicationInitializers detected on classpath
+18-Apr-2022 16:46:54.200 INFO [main] org.apache.catalina.core.ApplicationContext.log Initializing Spring embedded WebApplicationContext
+18-Apr-2022 16:46:58.058 INFO [main] org.apache.catalina.core.ApplicationContext.log No Spring WebApplicationInitializer types detected on classpath
+18-Apr-2022 16:46:58.207 INFO [main] org.apache.catalina.core.ApplicationContext.log Initializing Spring root WebApplicationContext
+18-Apr-2022 16:46:59.433 INFO [main] org.apache.catalina.core.ApplicationContext.log Initializing Spring FrameworkServlet 'appServlet'
+18-Apr-2022 16:47:03.780 INFO [main] org.apache.catalina.core.ApplicationContext.log No Spring WebApplicationInitializer types detected on classpath
+18-Apr-2022 16:47:03.888 INFO [main] org.apache.catalina.core.ApplicationContext.log Initializing Spring root WebApplicationContext
+18-Apr-2022 16:47:04.292 INFO [main] org.apache.catalina.core.ApplicationContext.log Initializing Spring FrameworkServlet 'appServlet'
+18-Apr-2022 16:47:08.168 INFO [main] org.apache.catalina.core.ApplicationContext.log ContextListener: contextInitialized()
+18-Apr-2022 16:47:08.168 INFO [main] org.apache.catalina.core.ApplicationContext.log SessionListener: contextInitialized()
+18-Apr-2022 16:47:08.170 INFO [main] org.apache.catalina.core.ApplicationContext.log ContextListener: attributeAdded('StockTicker', 'async.Stockticker@23532a0e')
+18-Apr-2022 16:47:58.496 INFO [main] org.apache.catalina.core.ApplicationContext.log Destroying Spring FrameworkServlet 'appServlet'
+18-Apr-2022 16:47:58.503 INFO [main] org.apache.catalina.core.ApplicationContext.log Closing Spring root WebApplicationContext
+18-Apr-2022 16:47:58.513 INFO [main] org.apache.catalina.core.ApplicationContext.log Closing Spring root WebApplicationContext
+18-Apr-2022 16:47:58.533 INFO [main] org.apache.catalina.core.ApplicationContext.log SessionListener: contextDestroyed()
+18-Apr-2022 16:47:58.533 INFO [main] org.apache.catalina.core.ApplicationContext.log ContextListener: contextDestroyed()
+18-Apr-2022 16:47:58.540 INFO [main] org.apache.catalina.core.ApplicationContext.log Destroying Spring FrameworkServlet 'appServlet'
+18-Apr-2022 16:47:58.550 INFO [main] org.apache.catalina.core.ApplicationContext.log Closing Spring root WebApplicationContext
+18-Apr-2022 16:48:53.334 INFO [main] org.apache.catalina.core.ApplicationContext.log 2 Spring WebApplicationInitializers detected on classpath
+18-Apr-2022 16:48:55.527 INFO [main] org.apache.catalina.core.ApplicationContext.log Initializing Spring embedded WebApplicationContext
+18-Apr-2022 16:48:57.592 INFO [main] org.apache.catalina.core.ApplicationContext.log No Spring WebApplicationInitializer types detected on classpath
+18-Apr-2022 16:48:57.704 INFO [main] org.apache.catalina.core.ApplicationContext.log Initializing Spring root WebApplicationContext
+18-Apr-2022 16:48:58.565 INFO [main] org.apache.catalina.core.ApplicationContext.log Initializing Spring FrameworkServlet 'appServlet'
+18-Apr-2022 16:49:01.055 INFO [main] org.apache.catalina.core.ApplicationContext.log No Spring WebApplicationInitializer types detected on classpath
+18-Apr-2022 16:49:01.143 INFO [main] org.apache.catalina.core.ApplicationContext.log Initializing Spring root WebApplicationContext
+18-Apr-2022 16:49:01.555 INFO [main] org.apache.catalina.core.ApplicationContext.log Initializing Spring FrameworkServlet 'appServlet'
+18-Apr-2022 16:49:03.520 INFO [main] org.apache.catalina.core.ApplicationContext.log ContextListener: contextInitialized()
+18-Apr-2022 16:49:03.520 INFO [main] org.apache.catalina.core.ApplicationContext.log SessionListener: contextInitialized()
+18-Apr-2022 16:49:03.522 INFO [main] org.apache.catalina.core.ApplicationContext.log ContextListener: attributeAdded('StockTicker', 'async.Stockticker@5c0f82f')
+18-Apr-2022 16:53:55.456 INFO [main] org.apache.catalina.core.ApplicationContext.log Destroying Spring FrameworkServlet 'appServlet'
+18-Apr-2022 16:53:55.465 INFO [main] org.apache.catalina.core.ApplicationContext.log Closing Spring root WebApplicationContext
+18-Apr-2022 16:53:55.480 INFO [main] org.apache.catalina.core.ApplicationContext.log Closing Spring root WebApplicationContext
+18-Apr-2022 16:53:55.505 INFO [main] org.apache.catalina.core.ApplicationContext.log SessionListener: contextDestroyed()
+18-Apr-2022 16:53:55.505 INFO [main] org.apache.catalina.core.ApplicationContext.log ContextListener: contextDestroyed()
+18-Apr-2022 16:53:55.510 INFO [main] org.apache.catalina.core.ApplicationContext.log Destroying Spring FrameworkServlet 'appServlet'
+18-Apr-2022 16:53:55.515 INFO [main] org.apache.catalina.core.ApplicationContext.log Closing Spring root WebApplicationContext
+18-Apr-2022 17:07:01.812 INFO [main] org.apache.catalina.core.ApplicationContext.log 2 Spring WebApplicationInitializers detected on classpath
+18-Apr-2022 17:07:03.809 INFO [main] org.apache.catalina.core.ApplicationContext.log Initializing Spring embedded WebApplicationContext
+18-Apr-2022 17:07:05.929 INFO [main] org.apache.catalina.core.ApplicationContext.log No Spring WebApplicationInitializer types detected on classpath
+18-Apr-2022 17:07:06.028 INFO [main] org.apache.catalina.core.ApplicationContext.log Initializing Spring root WebApplicationContext
+18-Apr-2022 17:07:06.898 INFO [main] org.apache.catalina.core.ApplicationContext.log Initializing Spring FrameworkServlet 'appServlet'
+18-Apr-2022 17:07:09.336 INFO [main] org.apache.catalina.core.ApplicationContext.log No Spring WebApplicationInitializer types detected on classpath
+18-Apr-2022 17:07:09.424 INFO [main] org.apache.catalina.core.ApplicationContext.log Initializing Spring root WebApplicationContext
+18-Apr-2022 17:07:09.828 INFO [main] org.apache.catalina.core.ApplicationContext.log Initializing Spring FrameworkServlet 'appServlet'
+18-Apr-2022 17:07:11.649 INFO [main] org.apache.catalina.core.ApplicationContext.log ContextListener: contextInitialized()
+18-Apr-2022 17:07:11.649 INFO [main] org.apache.catalina.core.ApplicationContext.log SessionListener: contextInitialized()
+18-Apr-2022 17:07:11.651 INFO [main] org.apache.catalina.core.ApplicationContext.log ContextListener: attributeAdded('StockTicker', 'async.Stockticker@7d2ae92b')
+18-Apr-2022 17:12:03.405 INFO [main] org.apache.catalina.core.ApplicationContext.log Destroying Spring FrameworkServlet 'appServlet'
+18-Apr-2022 17:12:03.412 INFO [main] org.apache.catalina.core.ApplicationContext.log Closing Spring root WebApplicationContext
+18-Apr-2022 17:12:03.429 INFO [main] org.apache.catalina.core.ApplicationContext.log Closing Spring root WebApplicationContext
+18-Apr-2022 17:12:03.450 INFO [main] org.apache.catalina.core.ApplicationContext.log SessionListener: contextDestroyed()
+18-Apr-2022 17:12:03.450 INFO [main] org.apache.catalina.core.ApplicationContext.log ContextListener: contextDestroyed()
+18-Apr-2022 17:12:03.455 INFO [main] org.apache.catalina.core.ApplicationContext.log Destroying Spring FrameworkServlet 'appServlet'
+18-Apr-2022 17:12:03.463 INFO [main] org.apache.catalina.core.ApplicationContext.log Closing Spring root WebApplicationContext
+18-Apr-2022 17:13:54.372 INFO [main] org.apache.catalina.core.ApplicationContext.log 2 Spring WebApplicationInitializers detected on classpath
+18-Apr-2022 17:13:56.440 INFO [main] org.apache.catalina.core.ApplicationContext.log Initializing Spring embedded WebApplicationContext
+18-Apr-2022 17:13:59.299 INFO [main] org.apache.catalina.core.ApplicationContext.log No Spring WebApplicationInitializer types detected on classpath
+18-Apr-2022 17:13:59.431 INFO [main] org.apache.catalina.core.ApplicationContext.log Initializing Spring root WebApplicationContext
+18-Apr-2022 17:14:00.393 INFO [main] org.apache.catalina.core.ApplicationContext.log Initializing Spring FrameworkServlet 'appServlet'
+18-Apr-2022 17:14:03.178 INFO [main] org.apache.catalina.core.ApplicationContext.log No Spring WebApplicationInitializer types detected on classpath
+18-Apr-2022 17:14:03.261 INFO [main] org.apache.catalina.core.ApplicationContext.log Initializing Spring root WebApplicationContext
+18-Apr-2022 17:14:03.676 INFO [main] org.apache.catalina.core.ApplicationContext.log Initializing Spring FrameworkServlet 'appServlet'
+18-Apr-2022 17:14:05.603 INFO [main] org.apache.catalina.core.ApplicationContext.log ContextListener: contextInitialized()
+18-Apr-2022 17:14:05.603 INFO [main] org.apache.catalina.core.ApplicationContext.log SessionListener: contextInitialized()
+18-Apr-2022 17:14:05.605 INFO [main] org.apache.catalina.core.ApplicationContext.log ContextListener: attributeAdded('StockTicker', 'async.Stockticker@1fa21cb8')
+18-Apr-2022 17:20:58.410 INFO [main] org.apache.catalina.core.ApplicationContext.log Destroying Spring FrameworkServlet 'appServlet'
+18-Apr-2022 17:20:58.416 INFO [main] org.apache.catalina.core.ApplicationContext.log Closing Spring root WebApplicationContext
+18-Apr-2022 17:20:58.428 INFO [main] org.apache.catalina.core.ApplicationContext.log Closing Spring root WebApplicationContext
+18-Apr-2022 17:20:58.457 INFO [main] org.apache.catalina.core.ApplicationContext.log SessionListener: contextDestroyed()
+18-Apr-2022 17:20:58.457 INFO [main] org.apache.catalina.core.ApplicationContext.log ContextListener: contextDestroyed()
+18-Apr-2022 17:20:58.464 INFO [main] org.apache.catalina.core.ApplicationContext.log Destroying Spring FrameworkServlet 'appServlet'
+18-Apr-2022 17:20:58.473 INFO [main] org.apache.catalina.core.ApplicationContext.log Closing Spring root WebApplicationContext

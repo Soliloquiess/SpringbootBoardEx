@@ -1,0 +1,82 @@
+package com.webjjang.main.controller;
+
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+
+import com.webjjang.board.controller.BoardController;
+import com.webjjang.board.dao.BoardDAO;
+import com.webjjang.board.service.BoardDeleteService;
+import com.webjjang.board.service.BoardListService;
+import com.webjjang.board.service.BoardUpdateService;
+import com.webjjang.board.service.BoardViewService;
+import com.webjjang.board.service.BoardWriteService;
+import com.webjjang.util.bean.Beans;
+
+/**
+ * Servlet implementation class Init
+ */
+
+// @WebServlet() -> 웹정보를 설정 value = 접근 url, loadOnStartup = 서버의 시작과 함께 로드하는 순서 번호
+@WebServlet(value = "/Init", loadOnStartup = 1)
+public class Init extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public Init() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see Servlet#init(ServletConfig)
+	 * 서버가 실행이 될 때 초기화 시키는 작업 메서드
+	 */
+	public void init(ServletConfig config) throws ServletException {
+		// TODO Auto-generated method stub
+		try {
+			// DBInfo 확인 - 드라이버 확인 한다.
+			Class.forName("com.webjjang.util.db.DBInfo");
+			// 객체를 생성해서 저장해 놓는다. -Beans 객체 - controllerMap, serviceMap, daoMap 만들어서 저장
+			newAndSave();
+			// 서로 연관되어 있는 객체를 넣어준다. (DI - Dependency Inject : 의존성 주입)
+			inject();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new ServletException("드라이버가 존재하지 않습니다.");
+		}
+	}
+	
+	// 객체를 생성해서 저장하는 메서드
+	private void newAndSave() {
+		// Beans 객체가 필요하다.
+		// Controller 생성 저장
+		Beans.put("/board", new BoardController());
+		
+		// Service 생성 저장한다. URL -> 실행할 서비스를 선택한다.
+		Beans.put("/board/list.do", new BoardListService());
+		Beans.put("/board/view.do", new BoardViewService());
+		Beans.put("/board/write.do", new BoardWriteService());
+		Beans.put("/board/update.do", new BoardUpdateService());
+		Beans.put("/board/delete.do", new BoardDeleteService());
+		
+		// DAO 생성 저장한다.
+		Beans.put("boardDAO", new BoardDAO());
+	}
+	
+	// 필요한 객체 넣어주기 : service -> controller, dao -> sevice
+	public void inject() {
+		// board**Service -> boradController : URL에 따라서 자동 선택되도록 작성하다. 코드를 없앤다.
+		// dao -> board**Service
+		Beans.getService("/board/list.do").setDao(Beans.getDAO("boardDAO"));
+		Beans.getService("/board/view.do").setDao(Beans.getDAO("boardDAO"));
+		Beans.getService("/board/write.do").setDao(Beans.getDAO("boardDAO"));
+		Beans.getService("/board/update.do").setDao(Beans.getDAO("boardDAO"));
+		Beans.getService("/board/delete.do").setDao(Beans.getDAO("boardDAO"));
+	}
+
+}
