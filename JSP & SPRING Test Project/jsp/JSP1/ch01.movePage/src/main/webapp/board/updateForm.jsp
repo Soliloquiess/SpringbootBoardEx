@@ -1,4 +1,4 @@
-<%@page import="com.webjjang.board.service.BoardViewService"%>
+<%-- <%@page import="com.webjjang.board.service.BoardViewService"%>
 <%@page import="com.webjjang.main.controller.ExecuteService"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -68,4 +68,4 @@ $(function(){
 
 </div>
 </body>
-</html>
+</html> --%>

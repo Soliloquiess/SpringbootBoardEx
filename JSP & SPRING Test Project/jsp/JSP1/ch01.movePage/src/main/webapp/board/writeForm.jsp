@@ -6,24 +6,9 @@
 <meta charset="UTF-8">
 <title>게시판 글쓰기 폼</title>
 
-  <!-- bootstrap 라이브러리 CDN 방식 등록 -->
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
 <script type="text/javascript">
-// jquery()
-$(function(){
-	// 이벤트 처리
-	// jquery 에서 선택 - tr : tag, .dataRow : class, #cancelBtn : id
-	$("#cancelBtn").click(function(){
-		// alert("취소 클릭");
-		// history - 방문한 페이지의 정보가 저장되어 있는 객체 : JS
-		// history.back() - 이전 페이지로 이동. histoty.go(-1)
-		history.back();
-	})
-});
+
 </script>
 
 </head>

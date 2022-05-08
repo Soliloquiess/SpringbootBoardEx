@@ -1,17 +1,14 @@
-<%@page import="com.webjjang.board.service.BoardViewService"%>
-<%@page import="com.webjjang.main.controller.ExecuteService"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
 // 데이터 수집
-String noStr = request.getParameter("no");
+/* String noStr = request.getParameter("no");
 Long no = Long.parseLong(noStr);
 String incStr = request.getParameter("inc");
-int inc = Integer.parseInt(incStr);
+int inc = Integer.parseInt(incStr); */
 
 // 데이터를 DB에 전달하면서 no에 맞는 DB 데이터를 가져 오기
 // 여러개의 데이터를 한개로 넘길때 -> 1. 클래스 작성하는 방법. 2. Object 배열을 만든다.
-request.setAttribute("vo", ExecuteService.execute(new BoardViewService(), new Object[]{no, inc}));
 %>
 
 <!DOCTYPE html>
@@ -28,7 +25,7 @@ request.setAttribute("vo", ExecuteService.execute(new BoardViewService(), new Ob
 
 <script type="text/javascript">
 // jquery() - html 문서가 로딩이 되면 함수를 호출해서 처리해 주세요~.
-$(function(){
+ $(function(){
 	// 이벤트 처리
 	// 대상 선택.이벤트(function(){})
 	// 대상 선택 - $("tag"), $(".class"), $("#id")
@@ -46,7 +43,7 @@ $(function(){
 		// alert("글 수업 버튼 클릭");
 		location = "list.jsp";
 	});
-});
+}); 
 </script>
 
 </head>
@@ -87,4 +84,4 @@ $(function(){
 <button id="listBtn" class="btn btn-default">리스트</button>
 </div>
 </body>
-</html>
+</html> 

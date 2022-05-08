@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">&#x0A;<refactoring comment="Rename resource &apos;security-db&apos; to &apos;security-hell&apos;" description="Rename resource &apos;security-db&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="/security-db" name="security-hell" stamp="1626861818304" updateReferences="true"/>&#x0A;<refactoring comment="Rename resource &apos;security-hell&apos; to &apos;security-db&apos;" description="Rename resource &apos;security-hell&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="/security-hell" name="security-db" stamp="1626861871972" updateReferences="true"/>
+</session>

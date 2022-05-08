@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename type &apos;MS03.solution.ThreeSixNine&apos; to &apos;ThreeSixNineGame&apos;&#x0D;&#x0A;- Original project: &apos;JAVA MISSION&apos;&#x0D;&#x0A;- Original element: &apos;MS03.solution.ThreeSixNine&apos;&#x0D;&#x0A;- Renamed element: &apos;MS03.solution.ThreeSixNineGame&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" description="Rename type &apos;ThreeSixNine&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.type" input="/src&lt;MS03.solution{ThreeSixNine.java[ThreeSixNine" matchStrategy="1" name="ThreeSixNineGame" qualified="false" references="true" similarDeclarations="false" stamp="1624881111667" textual="false" version="1.0"/>
+</session>
