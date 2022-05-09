@@ -1,25 +1,37 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-// 한글 처리
-request.setCharacterEncoding("utf-8");
 
-// 데이터 수집
-/* String noStr = request.getParameter("no");
-Long no = Long.parseLong(noStr);
-String title = request.getParameter("title");
-String content = request.getParameter("content");
-String writer = request.getParameter("writer");
-BoardVO vo = new BoardVO();
-vo.setNo(no);
-vo.setTitle(title);
-vo.setContent(content);
-vo.setWriter(writer); */
+%> 
 
-// 수집한 데이터를 DB에 보내서 적용시킨다. BoardUpdateService
-/* ExecuteService.execute(new BoardUpdateService(), vo); */
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>게시판 글수정</title>
 
-// 자동으로 글보기로 가야하고 글번호와 inc 데이터를 같이 보낸다. - 데이터 중 하나라도 넘기지 않으면 오류가 난다.
-/* response.sendRedirect("view.jsp?no=" + no + "&inc=0"); */
-response.sendRedirect("view.jsp");
-%> --%>
+ 
+
+</head>
+<body>
+<div class="container">
+<h1>게시판 글수정 처리</h1>
+<!-- html로 데이터 입력 받기 -->
+
+글번호 <%=request.getParameter("no") %><br>
+<!-- EL객체 사용. 데이터 표시용 , param- 넘어도는 데이터를 의미 -->
+
+제목 : ${param.title};
+내용 : ${param.content};
+작성자 : ${param.writer};
+</div>
+</body>
+
+<script type = "text/javascript">
+	//JS-5초 후 글보기 페이지로 이동시킨다.
+	
+	setTimeout(()=>{)
+	location = "view.jsp?no=2";
+	},5000);
+</script>
+</html>

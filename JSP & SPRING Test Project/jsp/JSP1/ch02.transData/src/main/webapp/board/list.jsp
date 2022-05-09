@@ -54,7 +54,7 @@ $(function(){
 </table>
 
 <!-- <a href="view.jsp" class="btn btn-default">자바입니다.</a><p> -->
-<span onclick = "location.href='view.jsp'" class="btn btn-default">자바입니다.</a><p>
+<span onclick = "location.href='view.jsp?no=2'" class="btn btn-default">자바입니다.</a><p>
 <!-- html tag 안에 클래스를 이용한 디자인 : BootStrap -->
 <a href="writeForm.jsp" class="btn btn-default">글쓰기</a>
 

@@ -11,6 +11,7 @@ String title = request.getParameter("title");
 String content = request.getParameter("content");
 String writer = request.getParameter("writer");
 
+System.out.println("게시판 글 등록");
 //콘솔 출력 확인
 System.out.println("제목"+title);
 System.out.println("내용"+content);
