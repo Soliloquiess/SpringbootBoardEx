@@ -6,11 +6,12 @@
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
-		<item key="selection" value=""/>
+		<item key="selection" value="updateBtn"/>
 		<list key="findhistory">
+			<item value="글"/>
+			<item value="updateBtn"/>
 			<item value="54"/>
 			<item value="8.5"/>
-			<item value="updateBtn"/>
 		</list>
 		<list key="replacehistory">
 		</list>

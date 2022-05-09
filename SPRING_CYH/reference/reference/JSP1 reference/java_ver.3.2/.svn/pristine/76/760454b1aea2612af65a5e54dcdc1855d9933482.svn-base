@@ -1,0 +1,5 @@
+package com.webjjang.image.controller;
+
+public class ImageController {
+
+}
