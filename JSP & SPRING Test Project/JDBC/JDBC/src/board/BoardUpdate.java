@@ -4,21 +4,23 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 
+import com.util.db.DB;
+
 // update board set title = 'oracle', content = 'oracle jjang', writer = 'son' where no = 8
 public class BoardUpdate {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		// 수정할 데이터 - 글번호 , 제목, 내용, 작성자
-		long no = 6;
-		String title = "oracle"; 
-		String content = "oracle jjang"; 
-		String writer = "son"; 
+		
+
+		Class.forName("board.DB");
+		
+		long no = 5;
+		String title = "update"; 
+		String content = "updtae yacho"; 
+		String writer = "yacho"; 
 		
 		// DB 정보
-		String driver = "oracle.jdbc.driver.OracleDriver";
-		String url = "jdbc:oracle:thin:@localhost:1521:orcl";
-		String UID = "java00";
-		String UPW = "java00";
 		
 		// 사용 객체
 		Connection con = null;
@@ -27,9 +29,10 @@ public class BoardUpdate {
 		// 예외처리
 		try {
 			//1. 확인
-			Class.forName(driver);
 			// 2. 연결
-			con = DriverManager.getConnection(url, UID, UPW);
+//			con = DriverManager.getConnection(url, UID, UPW);
+
+			con = DB.getConenction();
 			// 3. SQL
 			String sql = "update board set title = ?, content = ?, writer = ? where no = ?";
 			// 4. 실행객체 & 데이터 세팅
@@ -48,8 +51,11 @@ public class BoardUpdate {
 		} finally {
 			try {
 				// 7. 닫기
-				if(con != null) con.close();
-				if(pstmt != null) pstmt.close();
+//				if(con != null) con.close();
+//				if(pstmt != null) pstmt.close();
+				
+
+				DB.close(con, pstmt);
 			} catch (Exception e) {
 				// TODO: handle exception
 				e.printStackTrace();

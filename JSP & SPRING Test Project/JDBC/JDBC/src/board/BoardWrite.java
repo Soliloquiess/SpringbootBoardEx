@@ -4,21 +4,24 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 
+import com.util.db.DB;
+
 // insert into board(no, title, content, writer) values(board_seq.nextval, 'java', 'java jjang','lee')
 // 실행하기 위한 프로그램
 public class BoardWrite {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
+		
+
+		Class.forName("board.DB");
+		
 		// DB에 입력할 정보 - 사용자 입력
 		String title = "JDBC";
 		String content = "데이터베이스 연결 프로그램";
-		String writer = "이영환";
+		String writer = "yacho";
 		
 		// DB 정보
-		String driver = "oracle.jdbc.driver.OracleDriver";
-		String url = "jdbc:oracle:thin:@localhost:1521:orcl";
-		String UID = "java00";
-		String UPW = "java00";
+
 		
 		// 사용객체
 		Connection con = null;
@@ -27,11 +30,13 @@ public class BoardWrite {
 		// 예외처리
 		try {
 			// 1. 드라이버확인
-			Class.forName(driver);
-			System.out.println("1. 드라이버 확인 완료");
+			
+//			System.out.println("1. 드라이버 확인 완료");
 			
 			// 2. 연결
-			con = DriverManager.getConnection(url, UID, UPW);
+//			con = DriverManager.getConnection(url, UID, UPW);
+			
+			con = DB.getConenction();
 			System.out.println("2. 연결 완료 - " + con);
 			
 			// 3. 실행 SQL 작성
@@ -60,8 +65,10 @@ public class BoardWrite {
 		} finally {
 			try {
 				// 7. 사용객체 닫기
-				if(con != null) con.close();
-				if(pstmt != null) pstmt.close();
+//				if(con != null) con.close();
+//				if(pstmt != null) pstmt.close();
+				
+				DB.close(con, pstmt);
 				System.out.println("7. 객체 닫기 성공");
 			} catch (Exception e) {
 				// TODO: handle exception
