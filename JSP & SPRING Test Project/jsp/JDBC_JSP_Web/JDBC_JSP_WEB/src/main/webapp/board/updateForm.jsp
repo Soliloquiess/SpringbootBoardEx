@@ -1,6 +1,6 @@
 <%@page import="com.board.vo.BoardVO"%>
 <%@page import="com.board.service.BoardViewService"%>
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
 //자바 부분입니다.
@@ -15,7 +15,7 @@ System.out.println("updateForm.jsp - vo " + vo);
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
+<meta charset="UTF-8">
 <title>게시판 글수정 폼</title>
 </head>
 <body>

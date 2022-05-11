@@ -1,7 +1,7 @@
 <%@page import="com.board.vo.BoardVO"%>
 <%@page import="java.util.List"%>
 <%@page import="com.board.service.BoardListService"%>
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
 
@@ -20,7 +20,7 @@ System.out.println(list);
 <!--  페이지 정보 -->
 
 <head>
-<meta charset="EUC-KR">
+<meta charset="UTF-8">
 <title>Insert title here</title>
 <style type="text/css">
 th, td {	/*태그 선택 */

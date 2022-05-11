@@ -1,5 +1,5 @@
 <%@page import="com.board.service.BoardDeleteService"%>
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
 <%
@@ -20,7 +20,7 @@ response.sendRedirect("list.jsp");
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
+<meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>

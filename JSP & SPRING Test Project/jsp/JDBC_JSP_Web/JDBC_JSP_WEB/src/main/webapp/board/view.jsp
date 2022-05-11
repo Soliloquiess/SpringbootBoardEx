@@ -1,6 +1,6 @@
 <%@page import="com.board.vo.BoardVO"%>
 <%@page import="com.board.service.BoardViewService"%>
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
 
@@ -21,7 +21,7 @@ BoardVO vo = service.service(no,inc);
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
+<meta charset="UTF-8">
 <title>Insert title here</title>
 <style type = "text/css">
 th,td{
