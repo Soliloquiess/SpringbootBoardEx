@@ -2,14 +2,14 @@
 <%@page import="java.util.List"%>
 <%@page import="com.board.service.BoardListService"%>
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
-	pageEncoding="EUC-KR"%>
+	pageEncoding="UTF-8"%>
 
 
 <%
-//µ¥ÀÌÅÍ °¡Á®¿À±â - »ı¼ºÇÏ°í È£ÃâÇÑ´Ù.
-//DB Å¬·¡½º È®ÀÎ
+//ë°ì´í„° ê°€ì ¸ì˜¤ê¸° - ìƒì„±í•˜ê³  í˜¸ì¶œí•œë‹¤.
+//DB í´ë˜ìŠ¤ í™•ì¸
 Class.forName("com.util.db.DB");
-//¿©±â°¡ ÀÚ¹ÙÀÇÃ³¸® ºÎºĞ
+//ì—¬ê¸°ê°€ ìë°”ì˜ì²˜ë¦¬ ë¶€ë¶„
 //[Controller(jsp)]] - service - DAO
 BoardListService boardListService = new BoardListService();
 List<BoardVO> list = boardListService.service();
@@ -17,50 +17,57 @@ System.out.println(list);
 %>
 <!DOCTYPE html>
 <html>
-<!--  ÆäÀÌÁö Á¤º¸ -->
+<!--  í˜ì´ì§€ ì •ë³´ -->
 
 <head>
 <meta charset="EUC-KR">
 <title>Insert title here</title>
 <style type="text/css">
-th, td {
+th, td {	/*íƒœê·¸ ì„ íƒ */
 	border: 1px solid;
 	padding: 5px;
-	align-center;
+}
+
+.dataRow:hover {/*í´ë˜ìŠ¤ ì„ íƒ, "."ë¥¼ ë¶™ì¸ë‹¤.*/
+/*ë§ˆìš°ìŠ¤ ì˜¬ë¼ê°”ì„ë•Œì˜ ë™ì‘*/
+	cursor: pointer; 
+	background: #eee;
 }
 </style>
 <script type="java/javascript">
 
 </script>
 </head>
-<!--  µ¥ÀÌÅÍ Ç¥½Ã ºÎºĞ  -->
+<!--  ë°ì´í„° í‘œì‹œ ë¶€ë¶„  -->
 <body>
-	<h2>°Ô½ÃÆÇ ¸®½ºÆ®</h2>
+	<h2>ê²Œì‹œíŒ ë¦¬ìŠ¤íŠ¸</h2>
 	<table>
 		<tr>
-			<th>¹øÈ£</th>
-			<th>Á¦¸ñ</th>
-			<th>ÀÛ¼ºÀÚ</th>
-			<th>ÀÛ¼ºÀÏ</th>
-			<th>Á¶È¸¼ö</th>
+			<th>ë²ˆí˜¸</th>
+			<th>ì œëª©</th>
+			<th>ì‘ì„±ì</th>
+			<th>ì‘ì„±ì¼</th>
+			<th>ì¡°íšŒìˆ˜</th>
 		</tr>
-		<!-- µ¥ÀÌÅÍ ÀÖ´Â ¸¸Å­ ¹İº¹Ã³¸®ÇØ¼­ ÁÙÀ» ¸¸µé¾î³½´Ù -->
+		<!-- ë°ì´í„° ìˆëŠ” ë§Œí¼ ë°˜ë³µì²˜ë¦¬í•´ì„œ ì¤„ì„ ë§Œë“¤ì–´ë‚¸ë‹¤ -->
 		<%
 		for (BoardVO vo : list) {
 		%>
-		<tr>
+		<!-- no:ë³´ì—¬ì¤„ ê¸€ ë²ˆí˜¸, inc:ì¡°íšŒìˆ˜ ì¦ê°€ ì—¬ë¶€ 1:ì¦ê°€, 0 :ë¯¸ì¦ê°€ -->
+		<tr onclick="document.location='view.jsp?no=<%=vo.getNo()%>&inc=1'" class="dataRow">
 			<td><%=vo.getNo()%></td>
-			<td><a href="view.jsp?no=<%=vo.getNo()%>"><%=vo.getTitle()%></a></td>
+
+			<td><%=vo.getTitle()%></td>
+			<%-- <td><a href="view.jsp?no=<%=vo.getNo()%>"><%=vo.getTitle()%></a></td> --%>
 			<td><%=vo.getWriter()%></td>
 			<td><%=vo.getWriteDate()%></td>
 			<td><%=vo.getHit()%></td>
 		</tr>
 		<%
-		} //for¹®ÀÇ ³¡
+		} //forë¬¸ì˜ ë
 		%>
 		<tr>
-			<td colspan="5">
-				<a href = "writeForm.jsp"><button>±Û¾²±â</button></a>
+			<td colspan="5"><a href="writeForm.jsp"><button>ê¸€ì“°ê¸°</button></a>
 			</td>
 		</tr>
 	</table>

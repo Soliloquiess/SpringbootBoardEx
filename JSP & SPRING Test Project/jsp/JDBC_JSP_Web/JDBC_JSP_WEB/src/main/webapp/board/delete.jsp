@@ -1,16 +1,19 @@
 <%@page import="com.board.service.BoardDeleteService"%>
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
-	pageEncoding="EUC-KR"%>
+	pageEncoding="UTF-8"%>
 
 <%
+//í•œê¸€ì²˜ë¦¬
+Class.forName("com.util.db.DB");
+request.setCharacterEncoding("utf-8");
 String strNo = request.getParameter("no");
 long no = Long.parseLong(strNo);
 
-//»ý¼ºÇÏ°í È£Ãâ BoardDeleteService
+//ìƒì„±í•˜ê³  í˜¸ì¶œ BoardDeleteService
 BoardDeleteService service = new BoardDeleteService();
 int result = service.service(no);
 
-//ÀÚµ¿À¸·Î list·Î º¸³½´Ù.
+//ìžë™ìœ¼ë¡œ listë¡œ ë³´ë‚¸ë‹¤.
 response.sendRedirect("list.jsp");
 
 %>

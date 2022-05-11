@@ -5,7 +5,7 @@ import com.board.vo.BoardVO;
 
 public class BoardUpdateService {
 	public int service(BoardVO vo) throws Exception {
-		//»ı¼º - È£Ãâ
+		//ìƒì„± - í˜¸ì¶œ
 		BoardDAO dao = new BoardDAO();
 		return dao.update(vo);
 	}

@@ -8,41 +8,41 @@ import java.sql.SQLException;
 
 public class DB {
 	
-	//DB Á¤º¸ - DB.DRIVER
+	//DB ì •ë³´ - DB.DRIVER
 	private final static String DRIVER = "oracle.jdbc.driver.OracleDriver";
-	//privateÀº ¿©±â¼­¸¸ ¾µ°ÍÀÌ¹Ç·Î publicÀÏ ÇÊ¿ä°¡ ¾ø´Â°Å. ´Ù¸¥µ¥´Â ´Ù Áö¿öµµ µÊ.(´Ù¸¥µ¥ classforname ´Ù Áö¿öµµ µÊ)
-	private final static String URL = "jdbc:oracle:thin:@localhost:1521:orcl"; // ¼­¹ö, Æ÷Æ® Á¤º¸ µîÀÌ ÀÖ¾î¾ß ÇÑ´Ù.
+	//privateì€ ì—¬ê¸°ì„œë§Œ ì“¸ê²ƒì´ë¯€ë¡œ publicì¼ í•„ìš”ê°€ ì—†ëŠ”ê±°. ë‹¤ë¥¸ë°ëŠ” ë‹¤ ì§€ì›Œë„ ë¨.(ë‹¤ë¥¸ë° classforname ë‹¤ ì§€ì›Œë„ ë¨)
+	private final static String URL = "jdbc:oracle:thin:@localhost:1521:orcl"; // ì„œë²„, í¬íŠ¸ ì •ë³´ ë“±ì´ ìˆì–´ì•¼ í•œë‹¤.
 	private final static String UID = "java00";
 	private final static String UPW = "java00";
 	
-	//checkDriver°¡ true¸é ÀÖ´Â°Å. false¸é ¾ø´Â°Å
+	//checkDriverê°€ trueë©´ ìˆëŠ”ê±°. falseë©´ ì—†ëŠ”ê±°
 	private static boolean checkDriver = false;
-	//static ÃÊ±âÈ­ ºí·Ï
-	//Ã³À½ ½ÇÇàµÇ´Â main¿¡¼­ class.forName(DB)ÄÚµå¸¦ ³Ö¾îÁà¾ß ½ÇÇàµÈ´Ù.
+	//static ì´ˆê¸°í™” ë¸”ë¡
+	//ì²˜ìŒ ì‹¤í–‰ë˜ëŠ” mainì—ì„œ class.forName(DB)ì½”ë“œë¥¼ ë„£ì–´ì¤˜ì•¼ ì‹¤í–‰ëœë‹¤.
 	static {
 		try {
 		Class.forName(DRIVER);
-		//µå¶óÀÌ¹ö ÀÖ´Â °æ¿ì
+		//ë“œë¼ì´ë²„ ìˆëŠ” ê²½ìš°
 		checkDriver = true;
 	}catch(ClassNotFoundException e) {
 		e.printStackTrace();
 		}
 	}	
-	//¿¬°á °´Ã¼¸¦ ¹Ş¾Æ°¡´Â ¸Ş¼­µå = getConnection()
+	//ì—°ê²° ê°ì²´ë¥¼ ë°›ì•„ê°€ëŠ” ë©”ì„œë“œ = getConnection()
 	public static Connection getConnection() throws SQLException {
 		if(checkDriver) return DriverManager.getConnection(URL, UID, UPW);
 //		return null; 
-		//¿¹¿ÜÃ³¸®
-		throw new SQLException("DBµå¶óÀÌ¹ö°¡ ¾ø´Ù");
+		//ì˜ˆì™¸ì²˜ë¦¬
+		throw new SQLException("DBë“œë¼ì´ë²„ê°€ ì—†ë‹¤");
 	}
 	
-	//2°³ÀÇ °´Ã¼ ´İ±â - con, pstmt
+	//2ê°œì˜ ê°ì²´ ë‹«ê¸° - con, pstmt
 	public static void close(Connection con, PreparedStatement pstmt) throws SQLException {
 		if(con!=null) con.close();
 		if(pstmt!=null) pstmt.close();
 	}
 	
-	//3°³ÀÇ °´Ã¼ ´İ±â - con, pstmt, rs
+	//3ê°œì˜ ê°ì²´ ë‹«ê¸° - con, pstmt, rs
 	public static void close(Connection con, PreparedStatement pstmt, ResultSet rs) throws SQLException {
 		close(con,pstmt);
 		if(rs!=null) rs.close();

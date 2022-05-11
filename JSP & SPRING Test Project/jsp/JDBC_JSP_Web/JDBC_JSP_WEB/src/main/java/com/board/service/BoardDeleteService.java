@@ -7,7 +7,7 @@ import com.board.vo.BoardVO;
 
 public class BoardDeleteService {
 	public int service(long no) throws Exception{
-		//»ı¼ºÈ£Ãâ
+		//ìƒì„±í˜¸ì¶œ
 		BoardDAO  dao = new BoardDAO();
 		return dao.delete(no);
 	}

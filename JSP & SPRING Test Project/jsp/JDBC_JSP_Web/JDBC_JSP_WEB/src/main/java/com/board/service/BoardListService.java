@@ -7,7 +7,7 @@ import com.board.vo.BoardVO;
 
 public class BoardListService {
 	public List<BoardVO> service() throws Exception{
-		//»ı¼ºÈ£Ãâ
+		//ìƒì„±í˜¸ì¶œ
 		BoardDAO  dao = new BoardDAO();
 		return dao.list();
 	}

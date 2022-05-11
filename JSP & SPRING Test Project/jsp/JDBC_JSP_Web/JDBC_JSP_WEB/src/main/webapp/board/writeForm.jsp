@@ -1,30 +1,30 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
-	pageEncoding="EUC-KR"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="EUC-KR">
-<title>╟т╫цфг ╠ш╬╡╠Б фШ</title>
+<title>Й╡▄Л▀°М▄░ Й╦─Л⌠╟Й╦╟ М▐╪</title>
 </head>
 <body>
-	<h2>╠ш ╬╡╠Б фШ</h2>
-	<!-- ╩Г©Кюз©║╟т ╣╔юлем╦╕ ют╥бго╣╣╥о гя╢ы. -->
-	<!-- action: ╣╔юлем╦╕ ╧чю╩ URL, method : get-URL ╣з©║ ╣╔юлем, post: ╣з©║ ╣Ш╥н ╨╦юлаЖ ╬й╟т ╣╔юлем юЭ╪ш -->
+	<h2>Й╦─ Л⌠╟Й╦╟ М▐╪</h2>
+	<!-- Л┌╛Л ╘Л·░Л≈░Й╡▄ К█╟Л²╢М└╟К╔╪ Л·┘К═╔М∙≤К▐└К║² М∙°К▀╓. -->
+	<!-- action: К█╟Л²╢М└╟К╔╪ К╟⌡Л²└ URL, method : get-URL К▓╓Л≈░ К█╟Л²╢М└╟, post: К▓╓Л≈░ К■╟К║° КЁ╢Л²╢Л╖─ Л∙┼Й╡▄ К█╟Л²╢М└╟ Л═└Л├║ -->
 	<form action="write.jsp" method = "post">
 		<table>
 			<tr>
-				<th>а╕╦Я</th>
-				<!--  input ╣╔юлем ют╥б, type = ют╥бгЭеб -->
+				<th>Л═°К╙╘</th>
+				<!--  input К█╟Л²╢М└╟ Л·┘К═╔, type = Л·┘К═╔М≤∙М┐° -->
 
 				<td><input type="text" name="title" maxlength="100" /></td>
 			</tr>
 			<tr>
-				<th>Ё╩©К</th>
+				<th>К┌╢Л ╘</th>
 				<td><textarea rows="7" cols="80" name="content"></textarea></td>
 			</tr>
 
 			<tr>
-				<th>юш╪╨юз</th>
+				<th>Л·▒Л└╠Л·░</th>
 				<td><input type="text" name="writer" maxlength="10">
 				</textarea></td>
 			</tr>
@@ -32,10 +32,10 @@
 
 			<tr>
 				<td colspan="2">
-				<!--  ╧Жф╟юл form еб╠в ╬х©║ южю╦╦И ╣╔юлем╦╕ юЭ╢чго╢б ╣©юшю╩ го╟т  ╣х╢ы.	 -->
-					<button type="submit">╣Н╥о</button>
-					<button type="reset">╢ы╫ц ют╥б</button>
-					<button type ="button" onclick = "history.back()">цК╪р</button>
+				<!--  К╡└М┼╪Л²╢ form М┐°Й╥╦ Л∙┬Л≈░ Л·┬Л°╪К╘╢ К█╟Л²╢М└╟К╔╪ Л═└К▀╛М∙≤К┼■ К▐≥Л·▒Л²└ М∙≤Й╡▄  К░°К▀╓.	 -->
+					<button type="submit">К⌠╠К║²</button>
+					<button type="reset">К▀╓Л▀° Л·┘К═╔</button>
+					<button type ="button" onclick = "history.back()">Л╥╗Л├▄</button>
 					
 				</td>
 			</tr>
