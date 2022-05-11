@@ -13,7 +13,9 @@ public class BoardList {
 	public static void main(String[] args) throws Exception {
 		// DB 접속 정보
 
-		Class.forName("board.DB");
+//		Class.forName("board.DB");
+
+		Class.forName("com.util.db.DB");
 		// 사용할 객체
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -28,7 +30,7 @@ public class BoardList {
 			// 2. 서버 연결 - 서버, 사용자 정보
 //			con = DriverManager.getConnection(url, UID, UPW);
 
-			con = DB.getConenction();
+			con = DB.getConnection();
 			System.out.println("2. 오라클 서버 연결 완료. - " + con);
 			
 			//3. 실행할 SQL을 작성

@@ -12,8 +12,9 @@ public class BoardWrite {
 
 	public static void main(String[] args) throws Exception {
 		
+//		Class.forName("board.DB");
 
-		Class.forName("board.DB");
+		Class.forName("com.util.db.DB");
 		
 		// DB에 입력할 정보 - 사용자 입력
 		String title = "JDBC";
@@ -36,7 +37,7 @@ public class BoardWrite {
 			// 2. 연결
 //			con = DriverManager.getConnection(url, UID, UPW);
 			
-			con = DB.getConenction();
+			con = DB.getConnection();
 			System.out.println("2. 연결 완료 - " + con);
 			
 			// 3. 실행 SQL 작성

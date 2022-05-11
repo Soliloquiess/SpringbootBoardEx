@@ -13,7 +13,7 @@ public class BoardUpdate {
 		// 수정할 데이터 - 글번호 , 제목, 내용, 작성자
 		
 
-		Class.forName("board.DB");
+		Class.forName("com.util.db.DB");
 		
 		long no = 5;
 		String title = "update"; 
@@ -32,7 +32,7 @@ public class BoardUpdate {
 			// 2. 연결
 //			con = DriverManager.getConnection(url, UID, UPW);
 
-			con = DB.getConenction();
+			con = DB.getConnection();
 			// 3. SQL
 			String sql = "update board set title = ?, content = ?, writer = ? where no = ?";
 			// 4. 실행객체 & 데이터 세팅

@@ -14,8 +14,9 @@ public class BoardDelete {
 		
 		
 
-		Class.forName("board.DB");
-		
+//		Class.forName("board.DB");
+
+		Class.forName("com.util.db.DB");
 		long no = 2;//이 번호 가진 글 삭제
 		
 		// DB 정보 - Connection을 만들기
@@ -33,7 +34,7 @@ public class BoardDelete {
 //			con = DriverManager.getConnection(url, UID, UPW);
 			
 
-			con = DB.getConenction();
+			con = DB.getConnection();
 			System.out.println("2. 연결 완료");
 			// 3. sql
 			String sql = "delete from board where no =?";

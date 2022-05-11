@@ -22,13 +22,13 @@ public class BoardView {
 			// 1. 드라이버가 있는지 확인하고 클래스의 정보를 로딩(static)해야만 한다. 
 			// -> 서버가 돌아갈때 맨처음 한번만 하면된다.
 
-			Class.forName("board.DB");
+			Class.forName("com.util.db.DB");
 			System.out.println("1. 드라이버확인 완료.");
 			
 			// 2. 서버 연결 - 서버, 사용자 정보
 //			con = DriverManager.getConnection(url, UID, UPW);
 
-			con = DB.getConenction();
+			con = DB.getConnection();
 			System.out.println("2. 오라클 서버 연결 완료. - " + con);
 			
 			//3. 실행할 SQL을 작성
