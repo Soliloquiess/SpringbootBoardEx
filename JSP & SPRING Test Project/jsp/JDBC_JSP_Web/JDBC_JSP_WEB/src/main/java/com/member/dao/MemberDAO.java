@@ -19,37 +19,32 @@ import com.member.vo.MemberVO;
 import com.util.db.DAO;
 import com.util.db.DB;
 
-public class MemberDAO extends DAO {
+public class MemberDAO extends DAO{
 
-	// 회원 리스트
-//	public List<MemberVO> list() throws Exception{
-	public List<MemberVO> list() throws Exception {
-//	System.out.println("MemberDAO.list()");
+	// 필요한 객체
+	Connection con = null;
+	PreparedStatement pstmt = null;
+	ResultSet rs = null;
+	
+	public List<MemberVO> list() throws Exception{
 		List<MemberVO> list = null;
+		// 예외처리
 		try {
 			// 1. 2.
 			con = DB.getConnection();
-			// 3. sql
-
-			String sql = "select m.id, m.name, m.birth, m.tel, m.gradeNo, g.gradeName, m.conDate from member m, grade g where m.gradeNo = g.gradeNo order by m.id";
-//			sql = "select rownum rnum,  id, name, gender, birth, tel, gradeNo, gradeName, status from( "
-//					+ sql + ")";
-//			sql = "select rnum,  id, name, gender, birth, tel, gradeNo, gradeName, status from( "
-//					+ sql + ") where rnum between ? and ? ";
-			// 4. 실행객체 & 데이터 셋팅
+			// 3.
+			String sql = "SELECT m.id, m.name, m.birth, m.tel, m.gradeNo, g.gradeName, m.conDate "
+					+ " FROM member m, grade g "
+					+ " WHERE m.gradeNo = g.gradeNo "
+					+ " ORDER BY m.id ";
+			//4 
 			pstmt = con.prepareStatement(sql);
-
-			// pstmt.setInt(1, 1);
-//			pstmt.setLong(1,no);
-//			pstmt.setInt(2, 10);
-			// 5. 실행
+			// 5
 			rs = pstmt.executeQuery();
-			// 6. 데이터 저장
-			if (rs != null) {
-
-				while (rs.next()) {
-					if (list == null)
-						list = new ArrayList<MemberVO>();
+			// 6. 
+			if(rs != null) {
+				while(rs.next()) {
+					if(list == null) list = new ArrayList<MemberVO>();
 					MemberVO vo = new MemberVO();
 					vo.setId(rs.getString("id"));
 					vo.setName(rs.getString("name"));
@@ -58,40 +53,44 @@ public class MemberDAO extends DAO {
 					vo.setGradeNo(rs.getInt("gradeNo"));
 					vo.setGradeName(rs.getString("gradeName"));
 					vo.setConDate(rs.getString("conDate"));
-
+					
 					list.add(vo);
 				}
-
-			} // if의 끝
-
+			}
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
-			throw new Exception("회원 리스트 DB 처리 오류");
 		} finally {
-			DB.close(con, pstmt, rs);
+			try {
+				// 7.
+				DB.close(con, pstmt, rs);
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
 		}
-
 		return list;
 	}
 
-	// 보여주기
-
-	public MemberVO view(String id) throws Exception {
+	public MemberVO view(String id) throws Exception{
+		// TODO Auto-generated method stub
 		MemberVO vo = null;
-
 		// 예외처리
 		try {
-			// 1.2.
+			// 1. 2.
 			con = DB.getConnection();
-			String sql = "select m.id, m.name, m.gender, m.birth, m.tel, m.email, m.regDate, m.conDate, m.status, m.gradeNo, g.gradeName from member m , grade g where (id=?) and (m.gradeNo=g.gradeNo)";
+			//3
+			String sql = "SELECT m.id, m.name, m.gender, m.birth, m.tel, m.email, m.regDate, "
+					+ " m.conDate, m.status, m.gradeNo, g.gradeName "
+					+ " FROM member m, grade g "
+					+ " WHERE (id = ?) AND (m.gradeNo = g.gradeNo) ";
 			// 4.
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, id);
-			// 5.실행
+			//5. 실행
 			rs = pstmt.executeQuery();
-			// 6.
-			if (rs != null && rs.next()) {
+			// 6. 
+			if(rs != null && rs.next()) {
 				vo = new MemberVO();
 				vo.setId(rs.getString("id"));
 				vo.setName(rs.getString("name"));
@@ -104,30 +103,34 @@ public class MemberDAO extends DAO {
 				vo.setStatus(rs.getString("status"));
 				vo.setGradeNo(rs.getInt("gradeNo"));
 				vo.setGradeName(rs.getString("gradeName"));
-
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
-			throw new Exception("회원 넣기 DB 처리 오류");
 		} finally {
-			DB.close(con, pstmt, rs);
+			try {
+				//7.
+				DB.close(con, pstmt, rs);
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
 		}
 		return vo;
 	}
 
-	// 회원 가입
-	public int write(MemberVO vo) throws Exception {
-		// System.out.println("MemberDAO.write().vo : " + vo);
+	public int write(MemberVO vo) throws Exception{
+		// TODO Auto-generated method stub
 		int result = 0;
-
+		
+		// 예외처리
 		try {
-			// 1. 2.
+			// 1.2.
 			con = DB.getConnection();
-			// 3. sql
-			String sql = " insert into member(id, pw, name, gender, birth, tel, email, photo) "
-					+ " values(?, ?, ?, ? , ?, ?, ?, ?) ";
-			// 4. 실행객체 & 데이터 셋팅
+			// 3.
+			String sql = "INSERT INTO member(id, pw, name, gender, birth, tel, email, photo) "
+					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?) ";
+			//4
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, vo.getId());
 			pstmt.setString(2, vo.getPw());
@@ -137,31 +140,40 @@ public class MemberDAO extends DAO {
 			pstmt.setString(6, vo.getTel());
 			pstmt.setString(7, vo.getEmail());
 			pstmt.setString(8, vo.getPhoto());
-			// 5. 실행
+			//5
 			result = pstmt.executeUpdate();
-			// 6. 데이터 저장
-			Out.title("회원가입이 되셨습니다.");
+			// 6. 
+			System.out.println("회원가입 완료");
+			
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
-			throw new Exception("회원 가입 DB 처리 오류");
 		} finally {
-			DB.close(con, pstmt);
+			try {
+				//7.
+				DB.close(con, pstmt);
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
 		}
-
+		
 		return result;
 	}
 
-	// 회원 가입
-	public int update(MemberVO vo) throws Exception {
-		// System.out.println("MemberDAO.write().vo : " + vo);
+	public int update(MemberVO vo) throws Exception{
+		// TODO Auto-generated method stub
 		int result = 0;
-
+		
+		// 예외처리
 		try {
-			// 1. 2.
+			//1.2
 			con = DB.getConnection();
-			// 3. sql
-			String sql ="update member set name = ?, gender=?, birth=?, tel=?, email=? where id=? and pw=?";		// 4. 실행객체 & 데이터 셋팅
+			// 3.
+			String sql = "UPDATE member set name = ?, gender = ?, "
+					+ " birth = ?, tel= ?, email = ? "
+					+ " WHERE id = ? AND pw = ? ";
+			//4 
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, vo.getName());
 			pstmt.setString(2, vo.getGender());
@@ -170,70 +182,66 @@ public class MemberDAO extends DAO {
 			pstmt.setString(5, vo.getEmail());
 			pstmt.setString(6, vo.getId());
 			pstmt.setString(7, vo.getPw());
-
-			// 5. 실행
-			
-			//result =1 :수정 완료 0: 아이디나 비밀번호가 틀림
+			// 5.
+			//  result : 1 - 수정 완료, result : 0 - 아이디나 비밀번호가 틀림.
 			result = pstmt.executeUpdate();
-			// 6. 데이터 저장
-			if (result == 1) {
-				System.out.println("MemberDAO.update()- 회원 수정 완료");
-
-			} else {
-				System.out.println("memberdao.update()-회원 수정 실패, 아이디나 비밀번호 틀림");
-
-			//	throw new Exception("다시 입력"); 
+			// 6
+			if(result == 1)
+				System.out.println("MemberDAO.update() - 회원 정보 수정 완료");
+			else {
+				System.out.println("MemberDAO.update() - 회원 정보 수정 실패 : 아이디나 비밀번호 틀림.");
+				// throw new Exception("아이디나 비밀번호를 확인해 주세요.");
 			}
 		} catch (Exception e) {
+			// TODO: handle exception
 			e.printStackTrace();
- 
+			throw new Exception(e);
 		} finally {
 			try {
 				DB.close(con, pstmt);
 			} catch (Exception e) {
+				// TODO: handle exception
 				e.printStackTrace();
 			}
 		}
-
+		
 		return result;
 	}
-	
-	
-	public int delete(MemberVO vo) throws Exception {
-		// System.out.println("MemberDAO.write().vo : " + vo);
-		int result = 0;
 
+	public int delete(MemberVO vo) throws Exception{
+		// TODO Auto-generated method stub
+		int result = 0;
+		
 		try {
 			// 1. 2.
 			con = DB.getConnection();
-			// 3. sql
-			String sql = "delete from member where id = ? and pw = ? and tel =?";
-			// 4. 실행객체 & 데이터 셋팅
-			
+			//3
+			String sql = "DELETE FROM member "
+					+ " WHERE id = ? AND pw = ? AND tel = ?";
+			//4
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, vo.getId());
 			pstmt.setString(2, vo.getPw());
 			pstmt.setString(3, vo.getTel());
-				
-			// 5. 실행
+			//5
 			result = pstmt.executeUpdate();
-			// 6. 데이터 저장
-			if (result == 1) {
-				System.out.println("회원 탈퇴 성공");
-
-			} else {
-				System.out.println("삭제 오류 "+ vo.getId());
-			}
+			// 6
+			if(result == 1) System.out.println("회원 탈퇴/삭제 성공");
+			else System.out.println("삭제 오류 - 글번호 없음. id = " + vo.getId());
 		} catch (Exception e) {
+			// TODO: handle exception
 			e.printStackTrace();
 		} finally {
 			try {
+				// 7.
 				DB.close(con, pstmt);
 			} catch (Exception e) {
+				// TODO: handle exception
 				e.printStackTrace();
 			}
 		}
-
+		
 		return result;
 	}
+
 }
