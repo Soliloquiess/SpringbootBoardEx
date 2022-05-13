@@ -4,10 +4,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>게시판 글쓰기 폼</title>
+<title>회원가입 폼</title>
 </head>
 <body>
-	<h2>글 쓰기 폼</h2>
+	<h2>회원 가입 폼</h2>
 	<!-- 사용자에게 데이터를 입력하도록 한다. -->
 	<!-- action: 데이터를 받을 URL, method : get-URL 뒤에 데이터, post: 뒤에 따로 보이지 않게 데이터 전송 -->
 	<form action="write.jsp" method = "post">

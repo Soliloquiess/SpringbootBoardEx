@@ -1,4 +1,5 @@
-package com.webjjang.util.db;
+package com.util.db;
+
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

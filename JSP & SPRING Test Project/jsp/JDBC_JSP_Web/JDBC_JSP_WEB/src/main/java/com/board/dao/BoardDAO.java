@@ -187,8 +187,7 @@ public class BoardDAO {
 			throw new Exception("게시판 글수정 - 글수정 중 DB 오류");
 		} finally {
 			// 7. 닫기
-			DB.close(con, pstmt);
-		}
+ 		}
 
 		return result;
 	}
