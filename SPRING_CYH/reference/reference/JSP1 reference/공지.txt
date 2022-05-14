@@ -1,0 +1,37 @@
+--현재 공지 리스트
+select no, title, startDate, endDate, updateDate
+from notice
+where startDate<=sysdate and endDate>=trunc(sysdate)
+order by updateDate desc;
+
+-- 지난 공지 리스트
+
+select no, title, startDate, endDate, updateDate
+from notice
+where endDate<trunc(sysdate)
+order by updateDate desc;
+
+-- 지난 공지 리스트
+
+select no, title, startDate, endDate, updateDate
+from notice
+where startDate>sysdate
+order by updateDate desc;
+
+
+select to_char(trunc(sysdate),'yyyy-mm-dd hh24:mi:ss') from dual;
+select to_char(trim(sysdate),'yyyy-mm-dd hh24:mi:ss') from dual;
+
+
+
+INSERT INTO notice(no, title, content, startDate, endDate)
+VALUES(notice_seq.nextval, 'jsp뭔데', 'ㅇㅇ jsp진행', '2022-01-15', '2022-08-01');
+
+INSERT INTO notice(no, title, content, startDate, endDate)
+VALUES(notice_seq.nextval, 'jsp뭔데', 'ㅇㅇ jsp진행', '2022-03-15', '2022-09-01');
+
+
+INSERT INTO notice(no, title, content, startDate, endDate)
+VALUES(notice_seq.nextval, 'jsp뭔데', 'ㅇㅇ jsp진행', '2022-03-15', '2022-12-01');
+
+commit;

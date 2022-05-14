@@ -1,0 +1,10 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<div style="background: #d08; color: white; font-size: 2em; clear: both;">
+	<a href="/main/index.jsp"><button>Home</button></a>
+	<a href="/notice/list.jsp"><button>공지사항</button></a>
+	<a href="/image/list.jsp"><button>이미지</button></a>
+	<a href="/board/list.jsp"><button>게시판</button></a>
+	<a href="/member/loginForm.jsp"><button>로그인</button></a>
+	<a href="/member/logout.jsp"><button>로그아웃</button></a>
+</div>
