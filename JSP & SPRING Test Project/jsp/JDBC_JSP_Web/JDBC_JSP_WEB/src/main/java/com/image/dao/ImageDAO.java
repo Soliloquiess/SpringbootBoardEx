@@ -77,11 +77,11 @@ public class ImageDAO {
 					+ " where (no = ?) and (m.id = i.id) ";
 			//4 
 			pstmt = con.prepareStatement(sql);
-			pstmt.setLong(1, no);
+			pstmt.setLong(1, no);//1번이고 넘어온 정보
 			// 5
-			rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();	
 			// 6. 
-			if(rs != null && rs.next()) {
+			if(rs != null && rs.next()) {	//rs가 널이면 안되고 널이 아닌 경우 뒤에거 실행.
 					vo = new ImageVO();
 					vo.setNo(rs.getLong("no"));
 					vo.setTitle(rs.getString("title"));

@@ -25,6 +25,8 @@ th, td{
 	border: 1px solid #444;
 	padding: 5px;
 }
+
+/* 이미지 크기 설정 */
 #viewImg{
 	width: 400px;
 }
@@ -52,7 +54,7 @@ th, td{
 		<img alt="<%= vo.getTitle() %>" src="<%= vo.getFileName() %>" id="viewImg">
 		<hr>
 		<a href="<%= vo.getFileName() %>" download><button>다운로드</button></a>
-		<button onclick="$('#changeImageDiv').show()">바꾸기</button>
+		<button onclick="$('#changeImageDiv').show()">바꾸기</button>	<!-- 제이쿼리 사용 -->
 		<hr>
 		<div id="changeImageDiv">
 		<form action="changeImage.jsp" method="post" enctype="multipart/form-data">
