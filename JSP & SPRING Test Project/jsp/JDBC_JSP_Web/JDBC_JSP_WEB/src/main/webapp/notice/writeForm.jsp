@@ -35,7 +35,8 @@
 		<td>
 			<!-- 정규 표현식 - \d : 숫자. [0-9] -->
 			<input name="startDate" placeholder="yyyy-mm-dd" 
-			 maxlength="10" pattern="\d{4}-\d{2}-\d{2}" title="날짜형식 : yyyy-mm-dd">
+			 maxlength="10" pattern="\d{4}-\d{2}-\d{2}" title="날짜형식 : yyyy-mm-dd">	
+			 
 		</td>
 	</tr>
 	<tr>

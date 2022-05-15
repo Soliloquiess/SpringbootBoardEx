@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.member.vo.LoginVO;
 import com.member.vo.MemberVO;
 import com.member.vo.MemberVO;
 import com.util.db.DB;
@@ -243,5 +244,44 @@ public class MemberDAO extends DAO{
 		
 		return result;
 	}
-
+	public LoginVO login(LoginVO inVO) throws Exception{
+		// TODO Auto-generated method stub
+		LoginVO vo = null;
+		// 예외처리
+		try {
+			// 1. 2.
+			con = DB.getConnection();
+			//3
+			String sql = "SELECT m.id, m.name, m.gradeNo, g.gradeName, m.photo "
+					+ " FROM member m, grade g "
+					+ " WHERE (id = ? AND pw = ?) AND (m.gradeNo = g.gradeNo) ";
+			// 4.
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, inVO.getId());
+			pstmt.setString(2, inVO.getPw());
+			//5. 실행
+			rs = pstmt.executeQuery();
+			// 6. 
+			if(rs != null && rs.next()) {
+				vo = new LoginVO();
+				vo.setId(rs.getString("id"));
+				vo.setName(rs.getString("name"));
+				vo.setGradeNo(rs.getInt("gradeNo"));
+				vo.setGradeName(rs.getString("gradeName"));
+				vo.setPhoto(rs.getString("photo"));
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			try {
+				//7.
+				DB.close(con, pstmt, rs);
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+		}
+		return vo;
+	}
 }

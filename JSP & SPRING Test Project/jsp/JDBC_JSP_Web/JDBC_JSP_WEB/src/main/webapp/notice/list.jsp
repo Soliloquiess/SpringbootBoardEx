@@ -81,7 +81,7 @@ if(list == null){
 <% } // end of for
 } // end of if%>
 
-<% if(loginVO != null && loginVO.getGradeNo() == 9) { %>
+<% if(loginVO != null && loginVO.getGradeNo() == 9) { %> 
 	<tr>
 		<td colspan="5" style="text-align: center;">
 			<a href="writeForm.jsp"><button>등록</button></a>
