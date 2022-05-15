@@ -15,7 +15,7 @@ ImageDeleteService service = new ImageDeleteService();
 int result = service.service(no);
 
 // DB에서 데이터가 삭제되었으면 파일도 삭제한다.
-//파일명으로 realPath를 구한다. -> File 객체로 만든다. delete() 호출해서 삭제한다.
+//파일명으로 realPath를 구한다. -> File 객체로 만든다. delete() 호출해서 삭제한다.(파일 객체는 자바에서 제공함)
 File oldFile = new File(request.getServletContext().getRealPath(oldFileName));
 
 if(result > 0 && oldFile.exists())
