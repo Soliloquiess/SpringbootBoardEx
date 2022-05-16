@@ -1,0 +1,21 @@
+ <script src="/js/reply.js"></script>
+<!--  댓글 목록 영역 -->
+
+<ul>
+	<th:block th:each="reply: ${replyList}">
+	<li>
+	<span class="replyWriter"th:text="${reply.writer}"></span> 
+	<span class="replyDate" th:text="${#dates.format(reply.regDate, 'yyyy-MMMM-dd HH:mm:ss')}"></span>
+	
+	<th:block th:if="${userId} == ${reply.writer}">	<!-- 문자열이기 때문에 아까 자바에서 처럼 비교가 안된다. -->
+	<!-- ${userId}==${reply.writer} 해도 되기는 함 -->
+		<a href="javascript:;" title=""  class="btnReplyModify" th:data="${reply.replyNo}"> 수정</a> 
+		<a href="javascript:;" title=""  class="btnReplyRemove" th:data="${reply.replyNo}"> 삭제</a> 
+	</th:block>
+	<br> 
+		<span class="replyContent" th:text="${reply.content}"></span>
+	</li>
+<br>
+</th:block>
+		
+</ul>

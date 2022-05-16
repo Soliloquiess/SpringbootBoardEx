@@ -1,0 +1,23 @@
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+
+
+<head>
+<script src="/js/jquery-3.5.1.min.js"></script>
+<script src="/js/board.js"></script>
+<script src="/js/reply.js"></script>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+	<div th:replace="~{fragments/header::header}"></div>
+	<hr>
+	<div th:replace="~{fragments/menu::menu}"></div>
+	<hr>
+	<div align="center" layout:fragment="content" ></div>
+	<hr>
+	<div th:replace="~{fragments/footer::footer}"></div>
+	<hr>
+</body>
+</html>

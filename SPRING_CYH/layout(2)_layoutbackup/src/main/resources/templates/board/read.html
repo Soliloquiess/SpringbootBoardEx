@@ -1,0 +1,105 @@
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+	layout:decorate="~{/layouts/main_template}">
+	
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+
+<body layout:fragment="content">
+<div class ="content">
+<div class ="content-center">
+	<a href = "#replyList"> 댓글목록 이동 </a>
+	<h2>글 읽기</h2>
+
+	<form id="board" th:action="@{remove}" th:object="${board}"
+		method="post">
+
+		<input type="hidden" id="boardNo" name="boardNo" th:value="*{boardNo}" />
+		<table>
+			<tr>
+				<td>제목</td>
+				<td><input type="text" name="title" th:field="*{title}"
+					readonly="readonly" /></td>
+			</tr>
+			<tr>
+				<td>작성자</td>
+				<td><input type="text" name="writer" th:field="*{writer}"
+					readonly="readonly" /></td>
+			</tr>
+			<tr>
+				<td>내용</td>
+				<td><textarea name="content" th:field="*{content}" rows="20"
+						cols="80" readonly="readonly"></textarea></td>
+			</tr>
+			<tr>
+				<td>파일</td>
+				<td>
+					<div id="files">
+						<div th:each="file: ${files}" class="file">
+							<a
+								th:href="|/file/fileDownload?fullName=${file.fullName}&fileName=${file.fileName}|"
+								th:text="${file.fileName}"></a>
+						</div>
+					</div>
+					<div th:if="!${#lists.isEmpty(files)}">
+						<a
+							th:href="|/file/zipDownload?boardNo=${board.boardNo}&title=${board.title}|">전체
+							다운로드</a>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</form>
+
+	<!--  댓글 목록 영역 -->
+	<div id="replyList">
+		<ul>
+			<li th:each="reply: ${replyList}"><span class="replyWriter"
+				th:text="${reply.writer}"></span> <span class="replyDate"
+				th:text="${#dates.format(reply.regDate, 'yyyy-MMMM-dd HH:mm:ss')}"></span>
+				<a href="javascript:;" title="" class="btnReplyModify"
+				th:data="${reply.replyNo}"> 수정</a> <a href="javascript:;"  title=""
+				class="btnReplyRemove"  th:data="${reply.replyNo}"> 삭제</a> <br>
+				<span class="replyContent" th:text="${reply.content}"></span> 
+			</li>
+
+		</ul>
+	</div>
+
+	<!--  댓글 입력 -->
+	<div>
+	<h3>댓글</h3>
+	<!--  인증 되었을때 -->
+		<th:block sec:authorize="isAuthenticated()">
+		<input type="text" name="replyWriter" id="replyWriter"
+			placeholder="작성자" class="writer"  th:value="${userId}"  readonly> </br>
+		<textarea rows="5" cols="" placeholder="댓글입력" id="replyContent"  class="w-100"></textarea>
+		<div class="txt-right">
+			<button type="button" id="btnReplyRegister">등록</button>
+		</div>
+		</th:block >
+		<th:block sec:authorize="!isAuthenticated()">
+			<a href="/auth/loginForm">로그인</a>
+			<span>이 필요합니다</span>
+		</th:block>
+	</div>
+	<br>
+
+	<div class="txt-center">
+		<th:block th:if="${userCheck}">
+			<button type="submit" id="btnAnswer">답글</button>
+	
+			<button type="submit" id="btnModify">수정</button>
+			<button type="submit" id="btnRemove">삭제</button>
+		</th:block>
+		<button type="button" id="btnList">목록</button>
+	</div>
+	</div>
+	</div>
+</body>
+
+
+</html>
