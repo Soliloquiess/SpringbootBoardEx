@@ -56,7 +56,7 @@ th, td{
 		<a href="<%= vo.getFileName() %>" download><button>다운로드</button></a>
 		<button onclick="$('#changeImageDiv').show()">바꾸기</button>	<!-- 제이쿼리 사용 -->
 		<hr>
-		<div id="changeImageDiv">
+		<div id="changeImageDiv"> 
 		<form action="changeImage.jsp" method="post" enctype="multipart/form-data">
 			<!-- type="hidden" : 사용자는 볼수 없고 데이터는 넘어간다. -->
 			<input type="hidden" name="no" value="<%= vo.getNo() %>">
