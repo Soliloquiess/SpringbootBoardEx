@@ -21,7 +21,7 @@ MultipartRequest multi
 
 // 데이터 수집 - multi - 파일이름, 텍스트 데이터(번호)
 String strNo = multi.getParameter("no");
-long no = Long.parseLong(strNo);
+long no = Long.parseLong(strNo);	//Long은 Long타입으로 저장할 수 있는 클래스 변수라는 뜻.그걸 parseLong해주는 것.
 String fileName = multi.getFilesystemName("image");
 // DB 변경이 다 되면 삭제할 파일
 String oldFileName = multi.getParameter("oldImage");
