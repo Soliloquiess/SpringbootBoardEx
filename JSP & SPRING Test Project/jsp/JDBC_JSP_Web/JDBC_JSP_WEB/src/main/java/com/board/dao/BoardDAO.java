@@ -107,7 +107,7 @@ public class BoardDAO {
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
-			e.printStackTrace();
+			e.printStackTrace();	//여기 주석 처리 하면 아래 exception을 강제로 발생시킨다.
 			throw new Exception("게시판 글보기 - 데이터 가져오는 중 DB 오류");
 		} finally {
 			// 7. 닫기

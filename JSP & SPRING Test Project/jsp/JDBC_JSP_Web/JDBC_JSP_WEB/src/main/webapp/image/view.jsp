@@ -25,8 +25,6 @@ th, td{
 	border: 1px solid #444;
 	padding: 5px;
 }
-
-/* 이미지 크기 설정 */
 #viewImg{
 	width: 400px;
 }
@@ -54,25 +52,16 @@ th, td{
 		<img alt="<%= vo.getTitle() %>" src="<%= vo.getFileName() %>" id="viewImg">
 		<hr>
 		<a href="<%= vo.getFileName() %>" download><button>다운로드</button></a>
-		<button onclick="$('#changeImageDiv').show()">바꾸기</button>	<!-- 제이쿼리 사용 -->
+		<button onclick="$('#changeImageDiv').show()">바꾸기</button>
 		<hr>
-<<<<<<< HEAD
-		<div id="changeImageDiv"> 
-		<form action="changeImage.jsp" method="post" enctype="multipart/form-data">
-=======
 		<div id="changeImageDiv">
-		<form action="changeImage.jsp" method="post" enctype="multipart/form-data">	
-		<!-- enctype으로 form-data,  -->
->>>>>>> 145901c80c24388d133b882db9071341a2e73099
+		<form action="changeImage.jsp" method="post" enctype="multipart/form-data">
 			<!-- type="hidden" : 사용자는 볼수 없고 데이터는 넘어간다. -->
-			<!-- 아래는 첨부파일에 해당 -->
 			<input type="hidden" name="no" value="<%= vo.getNo() %>">
 			<input type="hidden" name="oldImage" value="<%= vo.getFileName() %>">
-			<input type="file" name="image" required="required">	
-			<!-- required로 필수입력하게 만듬 -->
+			<input type="file" name="image" required="required">
 			<button>바꾸기</button>
 			<button type="button" onclick="$('#changeImageDiv').hide()">취소</button>
-			<!-- 제이쿼리로 changeImageDiv라는 문자열을 찾으면 실행한다. -->
 		</form>
 		</div>
 	</td>

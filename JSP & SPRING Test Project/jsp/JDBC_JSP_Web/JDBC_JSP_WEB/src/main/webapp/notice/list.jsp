@@ -64,7 +64,7 @@ th{
 	<th>등록</th>
 </tr>
 <%
-if(list == null){
+if(list == null){	//list가 db에 존재하지 않는 경우.
 %>
 	<tr>
 		<td colspan="5">데이터가 존재하지 않습니다.</td>
