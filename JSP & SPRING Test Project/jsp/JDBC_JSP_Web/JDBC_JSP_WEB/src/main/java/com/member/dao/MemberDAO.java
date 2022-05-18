@@ -34,7 +34,8 @@ public class MemberDAO extends DAO{
 			// 1. 2.
 			con = DB.getConnection();
 			// 3.
-			String sql = "SELECT m.id, m.name, m.birth, m.tel, m.gradeNo, g.gradeName, m.conDate "
+			String sql = "SELECT m.id, m.name, m.birth, m.tel, m.gradeNo, g.gradeName, "
+					+ " to_char(m.conDate, 'yyyy-mm-dd') conDate, m.photo "
 					+ " FROM member m, grade g "
 					+ " WHERE m.gradeNo = g.gradeNo "
 					+ " ORDER BY m.id ";
@@ -54,7 +55,7 @@ public class MemberDAO extends DAO{
 					vo.setGradeNo(rs.getInt("gradeNo"));
 					vo.setGradeName(rs.getString("gradeName"));
 					vo.setConDate(rs.getString("conDate"));
-					
+					vo.setPhoto(rs.getString("photo"));
 					list.add(vo);
 				}
 			}

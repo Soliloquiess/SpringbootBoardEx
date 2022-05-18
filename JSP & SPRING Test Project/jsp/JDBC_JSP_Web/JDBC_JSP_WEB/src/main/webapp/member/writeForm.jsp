@@ -11,7 +11,8 @@
 <!-- 사용자에게 데이터를 입력하도록 한다. : form, input, select, textarea tag -->
 <!-- 입력 데이터 : 아이디, 비밀번호, 비밀번호확인, 이름, 성별, 생년월일, 연락처, 이메일, 사진 -->
 <!-- action : 데이터를 받을 URL, method : get - URL 뒤에 데이터, post - 따로 보이지 않게 데이터 -->
-<form action="write.jsp" method="post">
+<form action="write.jsp" method="post" enctype="multipart/form-data">	
+<!--  여기서 넘겨줄 때 multipart/form-data가 아니면 파일을 넘길 수가 없다. -->
 	<table>
 		<tr>
 			<th>아이디</th>

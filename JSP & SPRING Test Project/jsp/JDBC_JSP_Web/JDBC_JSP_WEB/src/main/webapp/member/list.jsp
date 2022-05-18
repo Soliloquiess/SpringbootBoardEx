@@ -37,6 +37,7 @@ th, td{/* 태그 선택 */
 	<table>
 		<tr>
 			<th>아이디</th>
+			<th>사진</th>
 			<th>이름</th>
 			<th>생년월일</th>
 			<th>연락처</th>
@@ -51,6 +52,9 @@ th, td{/* 태그 선택 */
 			<tr onclick="document.location='view.jsp?id=<%= vo.getId() %>'" class="dataRow">
 				<!-- 자바 -> <a href="view.jsp?id=test">id</a> -->
 				<td><%= vo.getId() %></td>
+			
+				<td><img src="<%= vo.getPhoto() %>" style="width: 40px; height: 50px;"></td>
+			
 				<td><%= vo.getName() %></td>
 				<td><%= vo.getBirth() %></td>
 				<td><%= vo.getTel() %></td>
@@ -60,7 +64,7 @@ th, td{/* 태그 선택 */
 			</tr>
 		<% } // for 문의 끝 %>
 		<tr>
-			<td colspan="7">
+			<td colspan="8">
 				<a href="writeForm.jsp"><button>회원등록</button></a>
 			</td>
 		</tr>
