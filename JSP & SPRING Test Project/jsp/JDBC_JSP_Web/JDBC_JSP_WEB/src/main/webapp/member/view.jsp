@@ -43,6 +43,11 @@ th,td{
 #id, #pw, #tel{
 	width: 100px;
 }
+
+#changePhotoDiv{
+	display: none;
+}
+
 </style>
 
 <script type="text/javascript">
@@ -81,6 +86,25 @@ $(function(){
 <tr>
 	<th>이메일</th>
 	<td><%= vo.getEmail() %></td>
+</tr>
+<tr>
+	<th>사진</th>
+	<td>
+		<img src="<%= vo.getPhoto() %>">
+		<br>
+		<button onclick="$('#changePhotoDiv').show()">바꾸기</button>
+		<div id="changePhotoDiv">
+			<hr>
+			<form action="changePhoto.jsp" method="post" enctype="multipart/form-data">
+				<input type="hidden" name="id" value="<%= vo.getId() %>">
+				<input type="hidden" name="oldPhoto" value="<%= vo.getPhoto() %>">
+				<input type="file" name="photo" required="required">
+				<button>바꾸기</button>
+				<button type="button" onclick="$('#changePhotoDiv').hide()">취소</button>
+				
+			</form>
+		</div>
+	</td>
 </tr>
 <tr>
 	<th>회원등록일</th>

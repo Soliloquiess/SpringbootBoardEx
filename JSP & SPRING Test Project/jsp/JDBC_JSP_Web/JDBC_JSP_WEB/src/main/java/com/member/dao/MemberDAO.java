@@ -3,24 +3,14 @@ package com.member.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.member.vo.LoginVO;
 import com.member.vo.MemberVO;
-import com.member.vo.MemberVO;
-import com.util.db.DB;
-import com.util.io.Out;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import com.member.vo.MemberVO;
-import com.util.db.DAO;
 import com.util.db.DB;
 
-public class MemberDAO extends DAO{
+public class MemberDAO {
 
 	// 필요한 객체
 	Connection con = null;
@@ -56,6 +46,7 @@ public class MemberDAO extends DAO{
 					vo.setGradeName(rs.getString("gradeName"));
 					vo.setConDate(rs.getString("conDate"));
 					vo.setPhoto(rs.getString("photo"));
+					
 					list.add(vo);
 				}
 			}
@@ -83,7 +74,7 @@ public class MemberDAO extends DAO{
 			con = DB.getConnection();
 			//3
 			String sql = "SELECT m.id, m.name, m.gender, m.birth, m.tel, m.email, m.regDate, "
-					+ " m.conDate, m.status, m.gradeNo, g.gradeName "
+					+ " m.conDate, m.status, m.gradeNo, g.gradeName, m.photo "
 					+ " FROM member m, grade g "
 					+ " WHERE (id = ?) AND (m.gradeNo = g.gradeNo) ";
 			// 4.
@@ -100,6 +91,7 @@ public class MemberDAO extends DAO{
 				vo.setBirth(rs.getString("birth"));
 				vo.setTel(rs.getString("tel"));
 				vo.setEmail(rs.getString("email"));
+				vo.setPhoto(rs.getString("photo"));
 				vo.setRegDate(rs.getString("regDate"));
 				vo.setConDate(rs.getString("conDate"));
 				vo.setStatus(rs.getString("status"));
@@ -245,6 +237,36 @@ public class MemberDAO extends DAO{
 		
 		return result;
 	}
+
+	// 조회수 1 증가 : list -> view
+	public void increase(long no) throws Exception {
+		// TODO Auto-generated method stub
+		try {
+			//1.2.
+			con = DB.getConnection();
+			//3
+			String sql = "update member set hit = hit + 1 where no = ?";
+			// 4.
+			pstmt = con.prepareStatement(sql);
+			pstmt.setLong(1, no);
+			// 5.
+			pstmt.executeUpdate();
+			//6.
+			System.out.println(no + "번 글의 조회수가 1증가 되었습니다.");
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			try {
+				//7.
+				DB.close(con, pstmt);
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	public LoginVO login(LoginVO inVO) throws Exception{
 		// TODO Auto-generated method stub
 		LoginVO vo = null;
@@ -285,4 +307,38 @@ public class MemberDAO extends DAO{
 		}
 		return vo;
 	}
-}
+
+	public int changePhoto(MemberVO vo) throws Exception {
+		// TODO Auto-generated method stub
+		int result = 0;
+
+		try {
+			//1.2.
+			con = DB.getConnection();
+			//3
+			String sql = "update member set photo = ? where id = ?";
+			// 4.
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, vo.getPhoto());
+			pstmt.setString(2, vo.getId());
+			// 5.
+			result = pstmt.executeUpdate();
+			//6.
+			System.out.println("회원님의 사진 정보가 변경되었습니다.");
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			try {
+				//7.
+				DB.close(con, pstmt);
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+		}
+
+		return result;
+	}
+
+} // end of MemberDAO class

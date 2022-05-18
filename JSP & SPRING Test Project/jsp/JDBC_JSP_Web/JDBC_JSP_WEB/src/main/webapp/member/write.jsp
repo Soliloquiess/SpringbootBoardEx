@@ -6,19 +6,16 @@
     pageEncoding="UTF-8"%>
 <%
 /// 여기는 자바 입니다.
-// 한글 처리
-request.setCharacterEncoding("utf-8");
 
-
-//서버에서 저장할 localhost 뒤에 붙는 위치가 된다.
+// 서버에서 저장할 localhost 뒤에 붙는 위치가 된다.
 String path = "/upload/member/";
 String realPath = request.getServletContext().getRealPath(path);
 System.out.println("write.jsp - realPath : " + realPath);
-//저장 용량 제한
+// 저장 용량 제한
 int size = 10 * 1024 * 1024; // 10M
 
-//실제적으로 파일 업로드 하는 처리문
-//new MultipartRequest(request, 저장위치, 용량제한, 엔코딩, 중복파일명 처리 객체)
+// 실제적으로 파일 업로드 하는 처리문
+// new MultipartRequest(request, 저장위치, 용량제한, 엔코딩, 중복파일명 처리 객체)
 MultipartRequest multi 
 = new MultipartRequest(request, realPath, size, "utf-8", new DefaultFileRenamePolicy());
 
@@ -35,6 +32,7 @@ String photo = multi.getFilesystemName("photo");
 System.out.println("write.jsp - photo : " + photo);
 // 사진이 안들어오면 NoImage.jpg로 기본 세팅한다.
 if(photo == null || photo.equals("")) photo ="/upload/member/noImage.jpg";
+System.out.println("write.jsp - photo : " + photo);
 
 // Controller -> Service -> DAO : MemberVO 객체를 만들어서 전달한다.
 MemberVO vo = new MemberVO();
@@ -45,13 +43,13 @@ vo.setGender(gender);
 vo.setBirth(birth);
 vo.setTel(tel);
 vo.setEmail(email);
-vo.setPhoto(photo);
+vo.setPhoto(path + photo);
 
 System.out.println("회원가입 vo - " + vo);
-//MemberWriteService -> MemberDAO.write
+// MemberWriteService -> MemberDAO.write
 MemberWriteService service = new MemberWriteService();
 service.service(vo);
 
-//회원 리스트로 자동 이동시킨다.
+// 회원 리스트로 자동 이동시킨다.
 response.sendRedirect("list.jsp");
 %>
