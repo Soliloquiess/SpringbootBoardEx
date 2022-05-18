@@ -2,7 +2,8 @@
 <%@page import="java.util.List"%>
 <%@page import="com.board.service.BoardListService"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8" errorPage = "/error/board_err.jsp"%>
+	pageEncoding="UTF-8" errorPage = "/error/board_err.jsp"%>	
+<!-- 	에러나면 error의 에러페이지로 보내는 코드 -->
 
 
 <%

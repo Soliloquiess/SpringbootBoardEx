@@ -12,6 +12,7 @@ List<ImageVO> list = service.service();
 
 System.out.println("list.jsp - list : " + list);
 
+//System.out.println("list.jsp - 10/0 : " + (10/0));	//일부러 오류 주는 코드(에러페이지로 이동)
 // 로그인 한 경우만 이미지 등록이 가능하도록 한다. - 로그인한 정보는 session에 있다.
 //디비 안에 있는 경우와는 상관이 없음.
 //LoginVO가 널이면 로그인 안한거, 널이 아니면 로그인을 한거.

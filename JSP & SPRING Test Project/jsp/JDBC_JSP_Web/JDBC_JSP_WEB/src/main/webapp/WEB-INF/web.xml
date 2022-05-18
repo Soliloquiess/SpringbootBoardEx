@@ -40,4 +40,17 @@
 		<!-- 위는 확장자 기반인데 확장자 기반과 위치기반을 동시에 쓰지는 못한다(에러 발생)-->
 	</filter-mapping>
 
+
+	<!-- 예외 처리(500)와 404 에러에 대한 처리 선언 : JSP 페이지 개별로 지정한 것을 우선한다.-->
+	
+
+	<!-- 에러 페이지가 아니라 에러 코드로, 또 여기 안 쓰인 에러 타입으로도 설정 가능-->
+	<error-page>
+		<error-code>500</error-code>
+		<location>/error/error_500.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>404</error-code>
+		<location>/error/error_404.jsp</location>
+	</error-page>
 </web-app>
