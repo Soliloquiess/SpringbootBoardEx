@@ -11,11 +11,9 @@ ImageListService service = new ImageListService();
 List<ImageVO> list = service.service();
 
 System.out.println("list.jsp - list : " + list);
+// System.out.println("list.jsp - 10/0 : " + (10/0));
 
-//System.out.println("list.jsp - 10/0 : " + (10/0));	//일부러 오류 주는 코드(에러페이지로 이동)
 // 로그인 한 경우만 이미지 등록이 가능하도록 한다. - 로그인한 정보는 session에 있다.
-//디비 안에 있는 경우와는 상관이 없음.
-//LoginVO가 널이면 로그인 안한거, 널이 아니면 로그인을 한거.
 LoginVO loginVO = (LoginVO) session.getAttribute("login");
 %>
 <!DOCTYPE html>
@@ -40,32 +38,40 @@ th, td{
 </style>
 </head>
 <body>
+<div class="container">
 <h2>이미지 리스트</h2>
-<table>
-<tr>
-	<th>번호</th>
-	<th>이미지</th>
-	<th>제목</th>
-	<th>작성자</th>
-	<th>작성일</th>
-</tr>
-<% for(ImageVO vo : list) { %>
-	<tr class="dataRow" onclick="location='view.jsp?no=<%= vo.getNo() %>';">
-		<td><%= vo.getNo() %></td>
-		<td><img src="<%= vo.getFileName() %>"></td>
-		<td><%= vo.getTitle() %></td>
-		<td><%= vo.getName() %>(<%= vo.getId() %>)</td>
-		<td><%= vo.getWriteDate() %></td>
-	</tr>
+
+<div class="row">
+	<!-- col-md-3 : 한 줄에 사진 4장 표시 3 * 4 = 12 -->
+	
+	<%
+	  int i = 0;
+	  for(ImageVO vo : list) { %>
+	  <div class="col-md-3">
+	    <div class="thumbnail dataRow" onclick="location='view.jsp?no=<%= vo.getNo() %>'">
+	        <img src="<%= vo.getFileName() %>" alt="Photo Lists" style="width:100%;height: 300px;">
+	        <div class="caption">
+	          <p>[<%= vo.getNo() %>] <%= vo.getTitle() %></p>
+	          <%= vo.getName() %>(<%= vo.getId() %>) - <%= vo.getWriteDate() %>
+	        </div>
+	    </div>
+	  </div>
+	<%
+	   i ++;
+		// 이미지 4개를 출력하면 새로운 줄을 만든다. 만약에 출력된 이미지가 총 데이터의 갯수와 같으면 더이상 만들지 않는다.
+		if(i % 4 == 0 && i != list.size() ){ %>
+		<!-- 한 줄을 마감하고 새로운 줄을 시작한다. -->
+		</div>
+		<div class="row">
+	<%	
+		} // if의 끝
+	  } // for의 끝 %>
+</div>
+
+<% if(loginVO != null) { %>
+	<a href="writeForm.jsp" class="btn btn-default">등록</a>
 <% } %>
-<tr>
-	<td colspan="5">
-		<% if(loginVO != null) { %>
-			<a href="writeForm.jsp"><button>등록</button></a>
-		<% } %>
-		<a href="list.jsp"><button>새로고침</button></a>
-	</td>
-</tr>
-</table>
+<a href="list.jsp" class="btn btn-default">새로고침</a>
+</div>
 </body>
 </html>

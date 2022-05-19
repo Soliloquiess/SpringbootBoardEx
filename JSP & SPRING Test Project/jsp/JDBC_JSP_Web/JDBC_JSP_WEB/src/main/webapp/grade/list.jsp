@@ -24,7 +24,7 @@ th, td{
 }
 </style>
 </head>
-<body>
+<body >
 <h2>등급 리스트</h2>
 <div>
 <form action="write.jsp" method="post">

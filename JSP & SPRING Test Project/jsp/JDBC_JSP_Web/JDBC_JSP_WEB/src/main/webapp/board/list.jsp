@@ -1,48 +1,38 @@
+<%@page import="com.board.service.BoardListService"%>
 <%@page import="com.board.vo.BoardVO"%>
 <%@page import="java.util.List"%>
-<%@page import="com.board.service.BoardListService"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8" errorPage = "/error/board_err.jsp"%>	
-<!-- 	에러나면 error의 에러페이지로 보내는 코드 -->
-
-
-<%
-//데이터 가져오기 - 생성하고 호출한다.
-//DB 클래스 확인
+    pageEncoding="UTF-8" errorPage="/error/board_err.jsp"%>
+ 
+<% 
+// DB에 관련 확인
 Class.forName("com.util.db.DB");
-//여기가 자바의처리 부분
-//[Controller(jsp)]] - service - DAO
-BoardListService boardListService = new BoardListService();
-List<BoardVO> list = boardListService.service();
-System.out.println(list);
+// DB에서 데이터 가져오기
+BoardListService service = new BoardListService();
+List<BoardVO> list = service.service();
+// System.out.println(10/0);
 %>
 <!DOCTYPE html>
 <html>
-<!--  페이지 정보 -->
-
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>게시판 리스트</title>
 <style type="text/css">
-th, td {	/*태그 선택 */
-	border: 1px solid;
-	padding: 5px;
-}
 
-.dataRow:hover {/*클래스 선택, "."를 붙인다.*/
-/*마우스 올라갔을때의 동작*/
-	cursor: pointer; 
+.dataRow:hover { /* class 선택. "."을 붙인다. */
+	cursor: pointer;
 	background: #eee;
 }
 </style>
-<script type="java/javascript">
 
+<script type="text/javascript">
+//alert("자바 스크립트 경고창이 실행됨.")
 </script>
 </head>
-<!--  데이터 표시 부분  -->
 <body>
+<div class="container">
 	<h2>게시판 리스트</h2>
-	<table>
+	<table class="table">
 		<tr>
 			<th>번호</th>
 			<th>제목</th>
@@ -50,27 +40,31 @@ th, td {	/*태그 선택 */
 			<th>작성일</th>
 			<th>조회수</th>
 		</tr>
-		<!-- 데이터 있는 만큼 반복처리해서 줄을 만들어낸다 -->
-		<%
-		for (BoardVO vo : list) {
-		%>
-		<!-- no:보여줄 글 번호, inc:조회수 증가 여부 1:증가, 0 :미증가 -->
-		<tr onclick="document.location='view.jsp?no=<%=vo.getNo()%>&inc=1'" class="dataRow">
-			<td><%=vo.getNo()%></td>
-
-			<td><%=vo.getTitle()%></td>
-			<%-- <td><a href="view.jsp?no=<%=vo.getNo()%>"><%=vo.getTitle()%></a></td> --%>
-			<td><%=vo.getWriter()%></td>
-			<td><%=vo.getWriteDate()%></td>
-			<td><%=vo.getHit()%></td>
-		</tr>
-		<%
-		} //for문의 끝
-		%>
+		<% if(list == null) {%>
 		<tr>
-			<td colspan="5"><a href="writeForm.jsp"><button>글쓰기</button></a>
+			<td colspan="5">데이터가 존재하지 않습니다.	</td>
+		</tr>
+		<% } else { %>
+			<%
+			for(BoardVO vo : list){
+			%>
+				<!-- no : 보여줄 글번호, inc - 조회수 증가 여부. 1:증가, 0:미증가 -->
+				<tr onclick="document.location='view.jsp?no=<%= vo.getNo() %>&inc=1'" class="dataRow">
+					<td><%= vo.getNo() %></td>
+					<!-- 자바 -> <a href="view.jsp?no=2">자바</a> -->
+					<td><%= vo.getTitle() %></td>
+					<td><%= vo.getWriter() %></td>
+					<td><%= vo.getWriteDate() %></td>
+					<td><%= vo.getHit() %></td>
+				</tr>
+			<% } // for 문의 끝 %>
+		<% } // if 문의 끝 %>
+		<tr>
+			<td colspan="5">
+				<a href="writeForm.jsp" class="btn btn-default">글쓰기</a>
 			</td>
 		</tr>
 	</table>
+</div>
 </body>
 </html>

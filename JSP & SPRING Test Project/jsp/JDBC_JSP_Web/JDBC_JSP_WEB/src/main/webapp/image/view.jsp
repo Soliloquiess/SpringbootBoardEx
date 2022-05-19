@@ -21,12 +21,9 @@ ImageVO vo = service.service(no);
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <style type="text/css">
-th, td{
-	border: 1px solid #444;
-	padding: 5px;
-}
 #viewImg{
 	width: 400px;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 #changeImageDiv{
@@ -36,8 +33,9 @@ th, td{
 </style>
 </head>
 <body>
+<div class="container">
 <h2>이미지 보기</h2>
-<table>
+<table class="table">
 <tr>
 	<th>번호</th>
 	<td><%= vo.getNo() %></td>
@@ -49,10 +47,11 @@ th, td{
 <tr>
 	<th>이미지</th>
 	<td>
-		<img alt="<%= vo.getTitle() %>" src="<%= vo.getFileName() %>" id="viewImg">
+		<img alt="<%= vo.getTitle() %>" src="<%= vo.getFileName() %>" id="viewImg"
+		 class="img-rounded" >
 		<hr>
-		<a href="<%= vo.getFileName() %>" download><button>다운로드</button></a>
-		<button onclick="$('#changeImageDiv').show()">바꾸기</button>
+		<a href="<%= vo.getFileName() %>" download  class="btn btn-default">다운로드</a>
+		<button onclick="$('#changeImageDiv').show()" class="btn btn-default">바꾸기</button>
 		<hr>
 		<div id="changeImageDiv">
 		<form action="changeImage.jsp" method="post" enctype="multipart/form-data">
@@ -60,8 +59,8 @@ th, td{
 			<input type="hidden" name="no" value="<%= vo.getNo() %>">
 			<input type="hidden" name="oldImage" value="<%= vo.getFileName() %>">
 			<input type="file" name="image" required="required">
-			<button>바꾸기</button>
-			<button type="button" onclick="$('#changeImageDiv').hide()">취소</button>
+			<button class="btn btn-default">바꾸기</button>
+			<button type="button" onclick="$('#changeImageDiv').hide()" class="btn btn-default">취소</button>
 		</form>
 		</div>
 	</td>
@@ -80,10 +79,12 @@ th, td{
 </tr>
 <tr>
 	<td colspan="2">
-		<a href="updateForm.jsp?no=<%= vo.getNo() %>"><button>정보수정</button></a>
-		<a href="delete.jsp?no=<%= vo.getNo() %>&oldImage=<%= vo.getFileName() %>"><button>삭제</button></a>
+		<a href="updateForm.jsp?no=<%= vo.getNo() %>" class="btn btn-default">정보수정</a>
+		<a href="delete.jsp?no=<%= vo.getNo() %>&oldImage=<%= vo.getFileName() %>" 
+		 class="btn btn-default">삭제</a>
 	</td>
 </tr>
 </table>
+</div>
 </body>
 </html>
