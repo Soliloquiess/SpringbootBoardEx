@@ -1,6 +1,7 @@
 package com.board.vo;
 
 public class BoardVO {
+
 	private long no;
 	private String title, content, writer, writeDate;
 	private long hit;
@@ -45,10 +46,5 @@ public class BoardVO {
 		return "BoardVO [no=" + no + ", title=" + title + ", content=" + content + ", writer=" + writer + ", writeDate="
 				+ writeDate + ", hit=" + hit + "]";
 	}
-	
-	
-	
-	
-	
 	
 }

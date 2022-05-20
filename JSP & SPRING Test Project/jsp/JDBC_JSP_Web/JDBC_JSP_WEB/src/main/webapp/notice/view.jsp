@@ -3,7 +3,8 @@
 <%@page import="com.notice.vo.NoticeVO"%>
 <%@page import="com.notice.service.NoticeViewService"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
+    pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 // 데이터 수집 - 글번호
 String strNo = request.getParameter("no");
@@ -20,7 +21,9 @@ vo.setContent(vo.getContent().replace("\n", "<br>"));
 System.out.println("view.jsp - vo : " + vo);
 
 // 로그인 정보 꺼내 오기
-LoginVO loginVO = (LoginVO) session.getAttribute("login");
+// LoginVO loginVO = (LoginVO) session.getAttribute("login");
+
+request.setAttribute("vo", vo);
 %>
 
 <!DOCTYPE html>
@@ -29,55 +32,47 @@ LoginVO loginVO = (LoginVO) session.getAttribute("login");
 <meta charset="UTF-8">
 <title>공지 보기</title>
 <style type="text/css">
-th, td {
-	border: 1px solid #444;
-	padding: 5px;
-}
-
-th {
-	text-align: right;
-}
 </style>
 
 </head>
 <body>
-	<h2>공지 보기</h2>
-	<table>
-		<tr>
-			<th>번호</th>
-			<td><%=vo.getNo()%></td>
-		</tr>
-		<tr>
-			<th>제목</th>
-			<td><%=vo.getTitle()%></td>
-		</tr>
-		<tr>
-			<th>내용</th>
-			<td><%=vo.getContent()%></td>
-		</tr>
-		<tr>
-			<th>공지 시작일</th>
-			<td><%=vo.getStartDate()%></td>
-		</tr>
-		<tr>
-			<th>공지 종료일</th>
-			<td><%=vo.getEndDate()%></td>
-		</tr>
-		<tr>
-			<th>등록일</th>
-			<td><%=vo.getUpdateDate()%></td>
-		</tr>
-		<tr>
-			<td colspan="2">
-				<%
-				if (loginVO != null && loginVO.getGradeNo() == 9) {
-				%> <a href="updateForm.jsp?no=<%=vo.getNo()%>"><button>수정</button></a>
-				<a href="delete.jsp?no=<%=vo.getNo()%>"><button>삭제</button></a> 
-				<%
- }
- %> <a href="list.jsp"><button>리스트</button></a>
-			</td>
-		</tr>
-	</table>
+<div class="container">
+<h2>공지 보기</h2>
+<table class="table">
+<tr>
+	<th>번호</th>
+	<td>${vo.no }</td>
+</tr>
+<tr>
+	<th>제목</th>
+	<td>${vo.title }</td>
+</tr>
+<tr>
+	<th>내용</th>
+	<td>${vo.content }</td>
+</tr>
+<tr>
+	<th>공지 시작일</th>
+	<td>${vo.startDate }</td>
+</tr>
+<tr>
+	<th>공지 종료일</th>
+	<td>${vo.endDate }</td>
+</tr>
+<tr>
+	<th>등록일</th>
+	<td>${vo.updateDate }</td>
+</tr>
+<tr>
+	<td colspan="2">
+		<c:if test="${!empty login && login.gradeNo ==9}">
+			<a href="updateForm.jsp?no=${vo.no }"><button>수정</button></a>
+			<a href="delete.jsp?no=${vo.no }"><button>삭제</button></a>
+		</c:if>
+		<a href="list.jsp"><button>리스트</button></a>
+	</td>
+</tr>
+</table>
+</div>
 </body>
 </html>

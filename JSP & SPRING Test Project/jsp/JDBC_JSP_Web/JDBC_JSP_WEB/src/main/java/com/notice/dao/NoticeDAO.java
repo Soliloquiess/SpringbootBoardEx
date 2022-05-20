@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.notice.vo.NoticeVO;
+import com.util.PageObject;
 import com.util.db.DB;
 
 public class NoticeDAO {
@@ -16,19 +17,22 @@ public class NoticeDAO {
 	PreparedStatement pstmt = null;
 	ResultSet rs = null;
 	
-	public List<NoticeVO> list(String pt) throws Exception{
+	// pt - 공지의 종류 = pageObject.period
+	public List<NoticeVO> list(PageObject pageObject) throws Exception{
 		List<NoticeVO> list = null;
 		// 예외처리
 		try {
 			// 1. 2.
 			con = DB.getConnection();
 			// 3.
+			// 3-1. 원본 데이터
 			String sql = "SELECT no, title, " 
 			+ " to_char(startDate, 'yyyy-mm-dd') startDate, "
 			+ " to_char(endDate, 'yyyy-mm-dd') endDate,"
+//			+ " updateDate FROM notice ";
 			+ " to_char(updateDate, 'yyyy-mm-dd') updateDate FROM notice ";
 			// 조건에 맞는 쿼리 추가. -> 동적 쿼리 : 넘어오는 pt 변수의 값으로 정한다.
-			switch (pt) {
+			switch (pageObject.getPeriod()) {
 			case "now":
 				sql += " WHERE startDate <= SYSDATE AND endDate >= TRUNC(SYSDATE) ";
 				break;
@@ -49,12 +53,22 @@ public class NoticeDAO {
 			}
 			
 			// 정렬
-			sql += " ORDER BY updateDate DESC ";
+			sql += " ORDER BY updateDate DESC, no DESC ";
+			
+			//3-2. 순서 번호 붙이기
+			sql = "SELECT rownum rnum, no, title, startDate, endDate, updateDate from( " + sql
+					+ ")";
+			
+			// 3-3. 페이지에 맞는 데이터 가져오기
+			sql = "SELECT rnum, no, title, startDate, endDate, updateDate from( " + sql
+					+ ") where rnum between ? and ?";
 			
 			System.out.println("NoticeDAO.list().sql : " + sql);
 			
 			//4 
 			pstmt = con.prepareStatement(sql);
+			pstmt.setLong(1, pageObject.getStartRow());
+			pstmt.setLong(2, pageObject.getEndRow());
 			// 5
 			rs = pstmt.executeQuery();
 			// 6. 
@@ -86,6 +100,63 @@ public class NoticeDAO {
 		return list;
 	}
 
+	// 페이지 처리를 위해서 전체 데이터 갯수를 가져오는 메서드
+	public long getTotalRow(PageObject pageObject) {
+		// TODO Auto-generated method stub
+		long totalRow = 0;
+		// 예외처리
+		try {
+			// 1. 2.
+			con = DB.getConnection();
+			//3
+			String sql = "select count(*)  from notice ";
+			// 조건에 맞는 쿼리 추가. -> 동적 쿼리 : 넘어오는 pt 변수의 값으로 정한다.
+			switch (pageObject.getPeriod()) {
+			case "now":
+				sql += " WHERE startDate <= SYSDATE AND endDate >= TRUNC(SYSDATE) ";
+				break;
+			case "old":
+				sql += " WHERE endDate < TRUNC(SYSDATE) ";
+				break;
+			case "res":
+				sql += " WHERE startDate > SYSDATE ";
+				break;
+			case "all":
+				sql += " ";
+				break;
+
+			default:
+				System.out.println("잘못된 정보가 넘어 왔습니다.");// 잘못된 데이터 일 경우 현재로 작성한다.
+				sql += " WHERE startDate <= SYSDATE AND endDate >= TRUNC(SYSDATE) ";
+				break;
+			}
+			
+
+			// 4.
+			pstmt = con.prepareStatement(sql);
+			//5. 실행
+			rs = pstmt.executeQuery();
+			// 6. 
+			if(rs != null && rs.next()) {
+				totalRow = rs.getLong(1);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			try {
+				//7.
+				DB.close(con, pstmt, rs);
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+		}
+		return totalRow;
+	}
+
+
+	
 	public NoticeVO view(long no) {
 		// TODO Auto-generated method stub
 		NoticeVO vo = null;

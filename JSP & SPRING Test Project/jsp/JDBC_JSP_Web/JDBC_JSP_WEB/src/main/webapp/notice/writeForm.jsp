@@ -5,10 +5,25 @@
 <head>
 <meta charset="UTF-8">
 <title>공지 등록</title>
+<script type="text/javascript" src="/js/formUtil.js"></script>
+<script type="text/javascript">
+$(function(){
+	// 폼 데이터 넘기기 전에 데이터 검사
+	$("#writeForm").submit(function(){
+		alert("데이터 검사");
+		
+		// 필수 입력 데이터 검사
+		if(emptyCheck("#title", "제목")) return false;
+		if(emptyCheck("#content", "내용")) return false;
+		
+		// return false;
+	});
+});
+</script>
 </head>
 <body>
 <h2>공지 등록</h2>
-<form action="write.jsp" method="post">
+<form action="write.jsp" method="post" id="writeForm">
 <table>
 	<tr>
 		<th>제목</th>
@@ -19,14 +34,14 @@
 				 title : 마우스가 올라 갔을 때 버블 창에 나타나는 텍스트. pattern이 틀리면 나타는 문자로도 사용됨.
 			 -->
 			<input name="title" placeholder="제목입력 - 4자이상 한글로 100자 이내" 
-			maxlength="100" pattern=".{4,100}" required="required"
+			maxlength="100" id="title"
 			title="제목입력 - 4자이상 한글로 100자 이내">
 		</td>
 	</tr>
 	<tr>
 		<th>내용</th>
 		<td>
-			<textarea rows="7" cols="80" placeholder="공지 내용 입력 2000자 이내" required="required"
+			<textarea rows="7" cols="80" placeholder="공지 내용 입력 2000자 이내"  id="content"
 			 name="content"></textarea>
 		</td>
 	</tr>
@@ -35,15 +50,14 @@
 		<td>
 			<!-- 정규 표현식 - \d : 숫자. [0-9] -->
 			<input name="startDate" placeholder="yyyy-mm-dd" 
-			 maxlength="10" pattern="\d{4}-\d{2}-\d{2}" title="날짜형식 : yyyy-mm-dd">	
-			 
+			 maxlength="10" title="날짜형식 : yyyy-mm-dd">
 		</td>
 	</tr>
 	<tr>
 		<th>종료일</th>
 		<td>
 			<input name="endDate" placeholder="yyyy-mm-dd" 
-			maxlength="10"pattern="\d{4}-\d{2}-\d{2}" title="날짜형식 : yyyy-mm-dd">
+			maxlength="10" title="날짜형식 : yyyy-mm-dd">
 		</td>
 	</tr>
 	<tr>

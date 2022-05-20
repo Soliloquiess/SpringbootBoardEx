@@ -16,6 +16,8 @@ BoardVO vo = service.service(no, inc);
 // 가져온 데이터를 웹에 표시하면 줄바꿈을 무시된다. \n을 <br> 바꾼다.
 vo.setContent(vo.getContent().replace("\n", "<br>"));
 // System.out.println("view.jsp - vo : " + vo);
+// el 객체를 사용한 데이터 표시를 위해서 JSP 기본 저장 객체에 데이터를 담아야만 한다.
+request.setAttribute("vo", vo); // el 객체는 getter를 사용하서 데이터를 꺼낸다.
 %>
 <!DOCTYPE html>
 <html>
@@ -31,33 +33,33 @@ vo.setContent(vo.getContent().replace("\n", "<br>"));
 <table class="table">
 <tr>
 	<th>번호</th>
-	<td><%= vo.getNo() %></td>
+	<td>${vo.no }</td>
 </tr>
 <tr>
 	<th>제목</th>
-	<td><%= vo.getTitle() %></td>
+	<td>${vo.title }</td>
 </tr>
 <tr>
 	<th>내용</th>
-	<td><%= vo.getContent() %></td>
+	<td>${vo.content }</td>
 </tr>
 <tr>
 	<th>작성자</th>
-	<td><%= vo.getWriter() %></td>
+	<td>${vo.writer }</td>
 </tr>
 <tr>
 	<th>작성일</th>
-	<td><%= vo.getWriteDate() %></td>
+	<td>${vo.writeDate }</td>
 </tr>
 <tr>
 	<th>조회수</th>
-	<td><%= vo.getHit() %></td>
+	<td>${vo.hit }</td>
 </tr>
 </table>
 
-<a href="updateForm.jsp?no=<%= vo.getNo()%>" class="btn btn-default">수정</a>
-<a href="delete.jsp?no=<%= vo.getNo()%>" class="btn btn-default">삭제</a>
-<a href="list.jsp" class="btn btn-default">리스트</a>
+<a href="updateForm.jsp?no=${vo.no }" class="btn btn-default">수정</a>
+<a href="delete.jsp?no=${vo.no }" class="btn btn-default">삭제</a>
+<a href="list.jsp?page=${param.page }&perPageNum=${param.perPageNum}" class="btn btn-default">리스트</a>
 </div>
 </body>
 </html>

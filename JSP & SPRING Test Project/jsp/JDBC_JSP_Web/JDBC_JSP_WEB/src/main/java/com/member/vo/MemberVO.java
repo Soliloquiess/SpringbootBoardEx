@@ -1,15 +1,11 @@
 package com.member.vo;
-/*
- * 회원 관리를 위한 저장객체
- * 
- */
+
 public class MemberVO {
 
-	private String id, pw, name, gender, birth, tel, email, regDate, conDate, status, photo;
+	private String id, pw, name, gender, birth, tel, email,
+		regDate, conDate, status, photo;
 	private int gradeNo;
 	private String gradeName;
-	
-	// 데이터를 가져오기와 저장하기 - getter, setter
 	public String getId() {
 		return id;
 	}
@@ -88,8 +84,6 @@ public class MemberVO {
 	public void setGradeName(String gradeName) {
 		this.gradeName = gradeName;
 	}
-	
-	// 데이터 확인용
 	@Override
 	public String toString() {
 		return "MemberVO [id=" + id + ", pw=" + pw + ", name=" + name + ", gender=" + gender + ", birth=" + birth

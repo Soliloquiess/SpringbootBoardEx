@@ -3,18 +3,27 @@
 	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
 	id="WebApp_ID" version="4.0">
-	
-	<!-- xmlns: xml namespace. 중복 피하기 위해 사용, -->
-	<display-name>yacho</display-name>
+	<display-name>ㅇㅇ</display-name>
 	<welcome-file-list>
-		<welcome-file>index.html</welcome-file>
-		<welcome-file>index.htm</welcome-file>
 		<welcome-file>index.jsp</welcome-file>
-		<welcome-file>default.html</welcome-file>
-		<welcome-file>default.htm</welcome-file>
-		<welcome-file>default.jsp</welcome-file>
 	</welcome-file-list>
 
+	<servlet>
+		<description>서버의 초기화 실행 서블릿</description>
+		<servlet-name>init</servlet-name>
+		<servlet-class>com.util.init.Init</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<filter>
+		<description>권한 처리 필터</description>
+		<filter-name>authority</filter-name>
+		<filter-class>com.util.filter.AuthorityFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>authority</filter-name>
+		<url-pattern>*.jsp</url-pattern>
+	</filter-mapping>
 
 	<filter>
 		<description>한글 처리 필터</description>
@@ -23,28 +32,20 @@
 	</filter>
 	<filter-mapping>
 		<filter-name>encoding</filter-name>
-		<url-pattern>*.jsp</url-pattern>	
-		<!-- 자동으로 jsp를 붙인다. -->
+		<url-pattern>*.jsp</url-pattern>
 	</filter-mapping>
 
 	<filter>
 		<description>사이트에 레이아웃을 잡는 필터 처리</description>
 		<filter-name>sitemesh</filter-name>
 		<filter-class>com.opensymphony.sitemesh.webapp.SiteMeshFilter</filter-class>
-		<!-- ctrl하고 커서 가져다 대서 링크 뜨면 잘임포트 된거 -->
 	</filter>
 	<filter-mapping>
 		<filter-name>sitemesh</filter-name>
 		<url-pattern>*.jsp</url-pattern>
-		<!-- *.jsp인 확장자일때 여기로 가자. 이거 이외에는 / 기반으로 할 수도 있다.(개별적으로/list.jsp 이런식으로 이건 위치기반 -->
-		<!-- 위는 확장자 기반인데 확장자 기반과 위치기반을 동시에 쓰지는 못한다(에러 발생)-->
 	</filter-mapping>
 
-
 	<!-- 예외 처리(500)와 404 에러에 대한 처리 선언 : JSP 페이지 개별로 지정한 것을 우선한다.-->
-	
-
-	<!-- 에러 페이지가 아니라 에러 코드로, 또 여기 안 쓰인 에러 타입으로도 설정 가능-->
 	<error-page>
 		<error-code>500</error-code>
 		<location>/error/error_500.jsp</location>
@@ -53,4 +54,5 @@
 		<error-code>404</error-code>
 		<location>/error/error_404.jsp</location>
 	</error-page>
+
 </web-app>

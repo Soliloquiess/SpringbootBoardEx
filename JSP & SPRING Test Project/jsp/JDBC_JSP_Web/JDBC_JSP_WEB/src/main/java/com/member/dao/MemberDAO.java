@@ -8,6 +8,7 @@ import java.util.List;
 
 import com.member.vo.LoginVO;
 import com.member.vo.MemberVO;
+import com.util.PageObject;
 import com.util.db.DB;
 
 public class MemberDAO {
@@ -17,20 +18,30 @@ public class MemberDAO {
 	PreparedStatement pstmt = null;
 	ResultSet rs = null;
 	
-	public List<MemberVO> list() throws Exception{
+	public List<MemberVO> list(PageObject pageObject) throws Exception{
 		List<MemberVO> list = null;
 		// 예외처리
 		try {
 			// 1. 2.
 			con = DB.getConnection();
 			// 3.
+			// 3-1. 원본 데이터
 			String sql = "SELECT m.id, m.name, m.birth, m.tel, m.gradeNo, g.gradeName, "
 					+ " to_char(m.conDate, 'yyyy-mm-dd') conDate, m.photo "
 					+ " FROM member m, grade g "
 					+ " WHERE m.gradeNo = g.gradeNo "
 					+ " ORDER BY m.id ";
+			// 3-2 순서 번호
+			sql = "SELECT rownum rnum, id, name, birth, tel, gradeNo, gradeName, "
+					+ " conDate, photo FROM ( " + sql + ")";
+			// 3-3. 페이지에 해당되는 10개 데이터
+			sql = "SELECT rnum, id, name, birth, tel, gradeNo, gradeName, "
+					+ " conDate, photo FROM ( " + sql + ") "
+					+ " where rnum between ? and ? ";
 			//4 
 			pstmt = con.prepareStatement(sql);
+			pstmt.setLong(1, pageObject.getStartRow());
+			pstmt.setLong(2, pageObject.getEndRow());
 			// 5
 			rs = pstmt.executeQuery();
 			// 6. 
@@ -64,6 +75,40 @@ public class MemberDAO {
 		}
 		return list;
 	}
+
+	// 페이지 처리를 위해서 전체 데이터 갯수를 가져오는 메서드
+	public long getTotalRow(PageObject pageObject) {
+		// TODO Auto-generated method stub
+		long totalRow = 0;
+		// 예외처리
+		try {
+			// 1. 2.
+			con = DB.getConnection();
+			//3
+			String sql = "select count(*)  from member";
+			// 4.
+			pstmt = con.prepareStatement(sql);
+			//5. 실행
+			rs = pstmt.executeQuery();
+			// 6. 
+			if(rs != null && rs.next()) {
+				totalRow = rs.getLong(1);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			try {
+				//7.
+				DB.close(con, pstmt, rs);
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+		}
+		return totalRow;
+	}
+
 
 	public MemberVO view(String id) throws Exception{
 		// TODO Auto-generated method stub

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.image.vo.ImageVO;
+import com.util.PageObject;
 import com.util.db.DB;
 
 public class ImageDAO {
@@ -17,19 +18,29 @@ public class ImageDAO {
 	PreparedStatement pstmt = null;
 	ResultSet rs = null;
 	
-	public List<ImageVO> list() throws Exception{
+	public List<ImageVO> list(PageObject pageObject) throws Exception{
 		List<ImageVO> list = null;
 		// 예외처리
 		try {
 			// 1. 2.
 			con = DB.getConnection();
 			// 3.
+			// 3-1. 원본 데이터 가져오기
 			String sql = "select i.no, i.title, i.id, m.name, "
 					+ " to_char(i.writeDate, 'yyyy-mm-dd') writeDate, i.fileName "
 					+ " from image i, member m "
 					+ " where (m.id = i.id) order by i.no desc";
-			//4 
+			// 3-2. 순서번호를 붙인다.
+			sql = " select rownum rnum, no, title, id, name, "
+					+ "	writeDate, fileName from (" + sql + ")";
+			// 3-3. 페이지에 대한 데이터 가져오기
+			sql = " select rnum, no, title, id, name, "
+					+ "	writeDate, fileName from (" + sql + ") "
+					+ " where rnum between ? and ? ";
+			//4. 실행 객체 & 데이터 세팅
 			pstmt = con.prepareStatement(sql);
+			pstmt.setLong(1, pageObject.getStartRow());
+			pstmt.setLong(2, pageObject.getEndRow());
 			// 5
 			rs = pstmt.executeQuery();
 			// 6. 
@@ -63,6 +74,40 @@ public class ImageDAO {
 		return list;
 	}
 
+	// 페이지 처리를 위해서 전체 데이터 갯수를 가져오는 메서드
+	public long getTotalRow(PageObject pageObject) {
+		// TODO Auto-generated method stub
+		long totalRow = 0;
+		// 예외처리
+		try {
+			// 1. 2.
+			con = DB.getConnection();
+			//3
+			String sql = "select count(*)  from image";
+			// 4.
+			pstmt = con.prepareStatement(sql);
+			//5. 실행
+			rs = pstmt.executeQuery();
+			// 6. 
+			if(rs != null && rs.next()) {
+				totalRow = rs.getLong(1);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			try {
+				//7.
+				DB.close(con, pstmt, rs);
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+		}
+		return totalRow;
+	}
+
+
 	public ImageVO view(long no) throws Exception {
 		// TODO Auto-generated method stub
 		ImageVO vo = null;
@@ -77,11 +122,11 @@ public class ImageDAO {
 					+ " where (no = ?) and (m.id = i.id) ";
 			//4 
 			pstmt = con.prepareStatement(sql);
-			pstmt.setLong(1, no);//1번이고 넘어온 정보
+			pstmt.setLong(1, no);
 			// 5
-			rs = pstmt.executeQuery();	
+			rs = pstmt.executeQuery();
 			// 6. 
-			if(rs != null && rs.next()) {	//rs가 널이면 안되고 널이 아닌 경우 뒤에거 실행.
+			if(rs != null && rs.next()) {
 					vo = new ImageVO();
 					vo.setNo(rs.getLong("no"));
 					vo.setTitle(rs.getString("title"));

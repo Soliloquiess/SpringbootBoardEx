@@ -7,96 +7,119 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.board.vo.BoardVO;
+import com.util.PageObject;
 import com.util.db.DB;
 
 public class BoardDAO {
 
-	public Connection con;
-	public PreparedStatement pstmt;
-	public ResultSet rs;
-
-	// 게시판 리스트 처리 메서드
-	public List<BoardVO> list() {
-		System.out.println("boarddao.list()");
+	// 필요한 객체
+	Connection con = null;
+	PreparedStatement pstmt = null;
+	ResultSet rs = null;
+	
+	public List<BoardVO> list(PageObject pageObject) throws Exception{
 		List<BoardVO> list = null;
-
 		// 예외처리
 		try {
 			// 1. 2.
 			con = DB.getConnection();
-			// 3.sql
-			String sql = "select no, title, writer, writeDate, hit from board order by no desc";
-
-			// 4.실행객체
+			// 3.
+			// 3-1. 순서에 맞게 원본 데이터 전체 가져오기
+			String sql = "select no, title, writer, "
+					+ " to_char(writeDate, 'yyyy-mm-dd') writeDate, hit from board order by no desc";
+			// 3-2. 가져온 데이터로 부터 다시 불러오면서 순서 번호를 붙인다.
+			sql = "select rownum rnum, no, title, writer, writeDate, hit from (" + sql + ") ";
+			// 3-3. 페이지에 맞는 데이터 가져오기
+			sql = "select rnum, no, title, writer, writeDate, hit from (" + sql + ") "
+					+ " where rnum between ? and ? ";
+			System.out.println("BoardDAO.sql - " + sql);
+			//4 
 			pstmt = con.prepareStatement(sql);
-			// 5. 실행
+			pstmt.setLong(1, pageObject.getStartRow());
+			pstmt.setLong(2, pageObject.getEndRow());
+			// 5
 			rs = pstmt.executeQuery();
-			// 6.표시 또는 담기
-			if (rs != null) {
-				// 다음글이 있다면 다음글로
-				while (rs.next()) {
-					// 만약 데이터 담을 리스트가 널이면 못 담아서 한번은 생성해야 됨.(뺴면 안됨)
-					if (list == null)
-						list = new ArrayList<BoardVO>();
-					// 실제적인 데이터 담을 객체 생성
+			// 6. 
+			if(rs != null) {
+				while(rs.next()) {
+					if(list == null) list = new ArrayList<BoardVO>();
 					BoardVO vo = new BoardVO();
-					// setter이용해서 데이터 담기 시전
 					vo.setNo(rs.getLong("no"));
 					vo.setTitle(rs.getString("title"));
 					vo.setWriter(rs.getString("writer"));
 					vo.setWriteDate(rs.getString("writeDate"));
 					vo.setHit(rs.getLong("hit"));
-
-					// vo를 list에 담기
-
+					
 					list.add(vo);
-
 				}
-			} // end of if(rs!=null)
+			}
 		} catch (Exception e) {
-			// handle exception
-			e.printStackTrace();
+			// TODO: handle exception
+			// e.printStackTrace();
+			throw new Exception("게시판 리스트 DB 처리 중 오류가 발생되었습니다.");
 		} finally {
 			try {
-
+				// 7.
+				DB.close(con, pstmt, rs);
 			} catch (Exception e) {
+				// TODO: handle exception
 				e.printStackTrace();
 			}
-		} // end of try
-
-		System.out.println("BoardDAO.list().list- " + list);
+		}
 		return list;
 	}
 
-//	public void view(long no) {
-//		// TODO Auto-generated method stub
-//		
-//	}
-
-	// 2-1. 글보기
-
-	// BoardVO리턴할 거
-	public BoardVO view(long no) throws Exception {
-		// 콘솔에서 확인해야 할 내용.
-		BoardVO vo = null;
-
-		// JDBC 프로그램
+	// 페이지 처리를 위해서 전체 데이터 갯수를 가져오는 메서드
+	public long getTotalRow(PageObject pageObject) {
+		// TODO Auto-generated method stub
+		long totalRow = 0;
+		// 예외처리
 		try {
-			// 1. 드라이버 확인 + 2. 연결
+			// 1. 2.
 			con = DB.getConnection();
-			// 3. sql
-			String sql = "select no, title, content, writer, writeDate, hit from board where no =?";
-//			String sql = "select no, title, content, writer, to_char(writeDate, 'yyyy.mm.dd') writeDate, "
-//					+ " hit from board where no = ?";
-//				System.out.println("BoardDAO.view().sql - " + sql);
-			// 4. 실행객체 && 데이터
+			//3
+			String sql = "select count(*)  from board";
+			// 4.
 			pstmt = con.prepareStatement(sql);
-			pstmt.setLong(1, no); // 첫번째 데이터
-			// 5. 실행
+			//5. 실행
 			rs = pstmt.executeQuery();
-			// 6. 표시 / 데이터 담기
-			if (rs != null && rs.next()) {
-				// 데이터가 있으면 vo 를 생성한다.
+			// 6. 
+			if(rs != null && rs.next()) {
+				totalRow = rs.getLong(1);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			try {
+				//7.
+				DB.close(con, pstmt, rs);
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+		}
+		return totalRow;
+	}
+
+	
+	public BoardVO view(long no) {
+		// TODO Auto-generated method stub
+		BoardVO vo = null;
+		// 예외처리
+		try {
+			// 1. 2.
+			con = DB.getConnection();
+			//3
+			String sql = "select no, title, content, writer, writeDate, hit "
+					+ " from board where no = ?";
+			// 4.
+			pstmt = con.prepareStatement(sql);
+			pstmt.setLong(1, no);
+			//5. 실행
+			rs = pstmt.executeQuery();
+			// 6. 
+			if(rs != null && rs.next()) {
 				vo = new BoardVO();
 				vo.setNo(rs.getLong("no"));
 				vo.setTitle(rs.getString("title"));
@@ -107,209 +130,153 @@ public class BoardDAO {
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
-			e.printStackTrace();	//여기 주석 처리 하면 아래 exception을 강제로 발생시킨다.
-			throw new Exception("게시판 글보기 - 데이터 가져오는 중 DB 오류");
+			e.printStackTrace();
 		} finally {
-			// 7. 닫기
-			DB.close(con, pstmt, rs);
+			try {
+				//7.
+				DB.close(con, pstmt, rs);
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
 		}
+		return vo;
+	}
 
-		return vo; // 리턴하고 서비스로 돌아감
-	} // view()의 끝
-
-	// 3. 글쓰기 - 처리문 들어 있는 메서드 작성
-	public int write(BoardVO vo) throws Exception {
+	public int write(BoardVO vo) throws Exception{
+		// TODO Auto-generated method stub
 		int result = 0;
-
-		// JDBC 프로그램 형태
+		
+		// 예외처리
 		try {
-			// 1. 드라이버 확인 + 2. 연결
+			// 1.2.
 			con = DB.getConnection();
-			// 3. sql
-			String sql = "insert into board(no, title, content, writer) " + " values(board_seq.nextval, ?, ?, ?)";
-			// 4. 실행객체 & 데이터 셋팅
+			// 3.
+			String sql = "insert into board(no, title, content, writer) "
+					+ " values(board_seq.nextval, ?, ?, ?)";
+			//4
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, vo.getTitle());
 			pstmt.setString(2, vo.getContent());
 			pstmt.setString(3, vo.getWriter());
-			// 5. 실행 - insert
+			//5
 			result = pstmt.executeUpdate();
-			// 6. 데이터 표시 또는 담기
-			System.out.println("게시판 글등록이 되었습니다.");
+			// 6. 
+			System.out.println("게시판 글등록 완료");
+			
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
-			throw new Exception("게시판 글쓰기 - 글쓰기 중 DB 오류");
 		} finally {
-			// 7. 닫기
 			try {
+				//7.
 				DB.close(con, pstmt);
 			} catch (Exception e) {
+				// TODO: handle exception
 				e.printStackTrace();
 			}
 		}
-
+		
 		return result;
 	}
 
-	// 4. 글수정
-	public int update(BoardVO vo) throws Exception {
-		System.out.println("BoardDAO.update().vo - " + vo);
+	public int update(BoardVO vo) throws Exception{
+		// TODO Auto-generated method stub
 		int result = 0;
-
-		// JDBC 프로그램
+		
+		// 예외처리
 		try {
-			// 1. 드라이버 확인 + 2. 연결
+			//1.2
 			con = DB.getConnection();
-			// 3. sql
+			// 3.
 			String sql = "update board set title = ?, content = ?, writer = ? where no = ?";
-			// 4. 실행객체 & 데이터
+			//4 
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, vo.getTitle());
 			pstmt.setString(2, vo.getContent());
 			pstmt.setString(3, vo.getWriter());
 			pstmt.setLong(4, vo.getNo());
-			// 5. 실행
+			// 5.
 			result = pstmt.executeUpdate();
-			// 6. 결과표시 & 데이터 담기
-			if (result == 1)
-				System.out.println("BoardDAO.update()- 글 수정 완료");
+			// 6
+			if(result == 1)
+				System.out.println("BoardDAO.update() - 글수정 완료");
 			else
-				System.out.println("BoardDAO.update()- 글 수정 실패");
-
-//			if (result == 0)
-//				System.out.println("수정할 데이터가 존재하지 않습니다.");
-//			else
-//				System.out.println("데이터 수정이 완료되었습니다.");
+				System.out.println("BoardDAO.update() - 글수정 실패 : 글번호 틀림.");
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
-			throw new Exception("게시판 글수정 - 글수정 중 DB 오류");
 		} finally {
-			// 7. 닫기
- 		}
-
-		return result;
-	}
-
-	// 5. 글삭제
-		public int delete(long no)  throws Exception {
-			System.out.println("BoardDAO.delete().no - " + no);
-			int result = 0;
-			
-			// JDBC 프로그램
 			try {
-				// 1. 드라이버 확인 + 2. 연결
-				con = DB.getConnection();
-				// 3.
-				String sql = "delete from board where no = ?";
-				// 4.
-				pstmt = con.prepareStatement(sql);
-				pstmt.setLong(1, no);
-				// 5.
-				result = pstmt.executeUpdate();
-				// 6. 
-				
-				if(result == 1) System.out.println(no+"번 데이터 삭제");
-				else System.out.println("삭제 오류 - 글번호 없음. no="+no);
-//				if(result == 0) System.out.println("정보를 확인해 주세요.");
-//				else System.out.println("데이터가 삭제 되었습니다.");
-			
-			
+				DB.close(con, pstmt);
 			} catch (Exception e) {
 				// TODO: handle exception
 				e.printStackTrace();
-				throw new Exception("게시판 글삭제 - 글삭제 중 DB 오류");
-			} finally {
-				// 7. 닫기
-				DB.close(con, pstmt);
 			}
-			
-			
-			return result;
 		}
+		
+		return result;
+	}
 
-		// 2. 조회수 1 증가: list->view
-		public int increase(long no) throws Exception {
-			
-			int result = 0;
-			
-			// JDBC 프로그램
+	public int delete(long no) throws Exception{
+		// TODO Auto-generated method stub
+		int result = 0;
+		
+		try {
+			// 1. 2.
+			con = DB.getConnection();
+			//3
+			String sql = "delete from board where no = ?";
+			//4
+			pstmt = con.prepareStatement(sql);
+			pstmt.setLong(1, no);
+			//5
+			result = pstmt.executeUpdate();
+			// 6
+			if(result == 1) System.out.println(no + "번 데이터 삭제");
+			else System.out.println("삭제 오류 - 글번호 없음. no = " + no);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
 			try {
-				// 1. 드라이버 확인 + 2. 연결
-				con = DB.getConnection();
-				// 3. sql
-				String sql = "update board set hit = hit + 1 where no = ?";
-//				System.out.println("BoardDAO.increase().sql - " + sql);
-				// 4. 실행객체 & 데이터 셋팅
-				pstmt = con.prepareStatement(sql);
-				pstmt.setLong(1, no);
-				// 5. 실행
-				result = pstmt.executeUpdate();
-				System.out.println(no+"번 글의 조회수가 1 증가");
-				// 6. 데이터 표시
+				// 7.
+				DB.close(con, pstmt);
 			} catch (Exception e) {
 				// TODO: handle exception
-				e.printStackTrace(); // 오류 출력
-				throw new Exception("게시판 글보기 - 조회수 1증가 DB 오류");
-			} finally {
-				// 7. 닫기
-				DB.close(con, pstmt);
+				e.printStackTrace();
 			}
-			
-			
-			return result;
 		}
-}
+		
+		return result;
+	}
 
-//	// 사용할 객체
-//	Connection con = null;
-//	PreparedStatement pstmt = null;
-//	ResultSet rs = null;
-//
-//	// 게시판 리스트
-//	public List<BoardVO> list() throws Exception {
-//		List<BoardVO> list = null;
-//
-//		// 예외처리
-//		try {
-//			// 1.2
-//			con = DB.getConenction();
-//			// 3.sql
-//			String sql = "select no, title, writer, writerDate, hit from board order by desc";
-//			// 4.
-//			pstmt = con.prepareStatement(sql);
-//			// 5.
-//			rs = pstmt.executeQuery();
-//			// 6.
-//			if (rs != null) {
-//				while (rs.next()) {
-//					if (list == null)
-//						list = new ArrayList<>();
-//					BoardVO vo = new BoardVO();
-//					vo.setNo(rs.getLong("no"));
-//					vo.setTitle(rs.getString("title"));
-//					vo.setWriter(rs.getString("writer"));
-//					vo.setWriteDate(rs.getString("writeDate"));
-//					vo.setHit(rs.getLong("hit"));
-//					
-//
-//					// vo를 list에 담기
-//
-//					list.add(vo);
-//				}
-//			}
-//
-//		} catch (Exception e) {
-//
-//		} finally {
-//			try {
-//				// 7.닫기
-//				DB.close(con, pstmt, rs);
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			}
-//		}
-//		return list;
-//	}
-//}
+	// 조회수 1 증가 : list -> view
+	public void increase(long no) throws Exception {
+		// TODO Auto-generated method stub
+		try {
+			//1.2.
+			con = DB.getConnection();
+			//3
+			String sql = "update board set hit = hit + 1 where no = ?";
+			// 4.
+			pstmt = con.prepareStatement(sql);
+			pstmt.setLong(1, no);
+			// 5.
+			pstmt.executeUpdate();
+			//6.
+			System.out.println(no + "번 글의 조회수가 1증가 되었습니다.");
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			try {
+				//7.
+				DB.close(con, pstmt);
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+		}
+	}
+}

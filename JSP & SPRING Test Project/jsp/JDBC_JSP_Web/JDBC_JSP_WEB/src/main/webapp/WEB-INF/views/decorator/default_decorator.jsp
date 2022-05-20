@@ -1,5 +1,5 @@
 <!-- sitemesh 사용을 위한 설정 파일 -->
-
+<!-- 작성자 : 이영환 -->
 <!-- 작성일 : 2020-06-30 -->
 <%@page import="com.member.vo.LoginVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -14,7 +14,7 @@ LoginVO loginVO = (LoginVO) session.getAttribute("login");
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>yacho:<decorator:title /></title><!-- 타이틀 태그에서 잘라낸 걸 여기 붙임 -->
+<title>웹짱:<decorator:title /></title>
 <!-- CDN 방식의 Bootstrap 라이브러리 등록 -> 디자인의 웹표준을 구현한 웹 라이브러리 -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet"
@@ -23,6 +23,10 @@ LoginVO loginVO = (LoginVO) session.getAttribute("login");
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	
+<!-- CDN 방식의 Google Icon 라이브러리 등록 -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
 <style type="text/css">
 header, footer {
 	background: AntiqueWhite;
@@ -94,6 +98,10 @@ article {
 						<li><a href="/notice/list.jsp">공지사항</a></li>
 						<li><a href="/image/list.jsp">이미지</a></li>
 						<li><a href="/board/list.jsp">게시판</a></li>
+						<li><a href="/qna/list.jsp">질문답변</a></li>
+						<% if(loginVO != null) { %>
+							<li><a href="/message/list.jsp">메시지</a></li>
+						<% } %>
 						<% if(loginVO != null && loginVO.getGradeNo() == 9) { %>
 							<li><a href="/member/list.jsp">회원관리</a></li>
 							<li><a href="/grade/list.jsp">등급관리</a></li>
@@ -102,9 +110,10 @@ article {
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
 					  <% if(loginVO == null){ %>
+				      	<li><a href="/member/writeForm.jsp">회원가입</a></li>
 				      	<li><a href="/member/loginForm.jsp">로그인</a></li>
 				      <% } else { %>
-				      	<li><a href="/member/view.jsp">	<!-- 세션에 저장되어있다 아이디가 -->
+				      	<li><a href="/member/view.jsp">
 				      			<%= loginVO.getName() %>(<%= loginVO.getGradeName() %>)
 				      		</a></li>
 				      	<li><a href="/member/logout.jsp">로그아웃</a></li>

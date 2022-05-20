@@ -4,8 +4,9 @@ import com.board.dao.BoardDAO;
 import com.board.vo.BoardVO;
 
 public class BoardUpdateService {
-	public int service(BoardVO vo) throws Exception {
-		//생성 - 호출
+
+	public int service(BoardVO vo) throws Exception{
+		// 생성 - 호출
 		BoardDAO dao = new BoardDAO();
 		return dao.update(vo);
 	}
