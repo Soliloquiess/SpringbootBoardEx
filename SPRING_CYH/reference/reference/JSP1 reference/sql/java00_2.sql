@@ -264,6 +264,7 @@ VALUES(qna_seq.nextval, 'java란?', 'java란 무엇인가요?', 'test', qna_seq.
 -- 답변하기 #1 - 위의 질문하기 데이터를 보면서 답변을 처리한다.
 --    질문하기 데이터 - 글번호 : 1, 관련글번호 :1, 순서번호 : 1, 들여쓰기 0
 --    답변하기 데이터 - 글번호 :seq, 관련글번호 :1, 순서번호 : 1+1, 들여쓰기 0+1, 부모글번호:1
+--    nextval은 같으쿼리인데 한번 불러오고 사용 ordNO는 질문이 맨 위에 있으므로 1번, 들여쓰기는 0번 들여쓰기
 
 --답변하기 
 -- 질문을 보고 답변한다.
@@ -527,4 +528,26 @@ order by no desc
 )
 )
 where rnum between 1 and 10
+;
+
+
+
+-----
+
+
+-- 다중 게시판 쿼리
+
+select rnum, no, title, id , name, writeDate, hit, refNo, ordNo, levNo, parentNo
+from (
+select rownum rnum , no, title, id, name, writeDate, hit, refNo, ordNo, levNo, parentNo
+from (
+select q.no, q.title, q.id, m.name, q.writeDate, q.hit, q.refNo, q.ordNo, q.levNo, q.parentNo
+from qna q, member m
+where m.id = q.id
+order by q.refNo desc, q.ordNo
+)
+)
+
+where rnum between 1 and 10 --1page
+
 ;
