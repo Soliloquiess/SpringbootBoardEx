@@ -12,6 +12,9 @@
 				<!-- col-md-4 : 한 줄에 사진 3장 표시 4 * 3 = 12 -->
 				<c:forEach items="${imageList }" var="vo">
 				  <div class="col-md-4">
+				  
+				  <%-- 
+				    <div class="thumbnail imageDataRow" onclick = "location='view.jsp?no=${vo.no}'"> --%>
 				    <div class="thumbnail imageDataRow" data-no="${vo.no}">
 				        <img src="${vo.fileName }" alt="Photo Lists">
 				        <div class="caption">

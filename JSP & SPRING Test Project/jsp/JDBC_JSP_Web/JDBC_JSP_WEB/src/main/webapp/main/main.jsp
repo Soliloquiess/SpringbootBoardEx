@@ -16,7 +16,7 @@ PageObject pageObject = new PageObject();
 ImageListService imageListService = new ImageListService();
 // 데이터의 갯수를 3개로 정한다.
 pageObject.setPerPageNum(3);
-List<ImageVO> imageList = imageListService.service(pageObject);
+List<ImageVO> imageList = imageListService.service(pageObject);//서비스 메서드 호출
 // 공지사항 데이터 가져오기
 NoticeListService noticeListService = new NoticeListService();
 // 데이터의 갯수를 5개로 정한다.
@@ -48,11 +48,12 @@ $(function(){
 	$(".imageDataRow, .noticeDataRow, .boardDataRow").click(function(){
 		//alert("click");
 		var no = $(this).data("no");
-		var url = "/";
+		var url = "/";	////url 뒤에 붙는 슬래쉬
 		if($(this).hasClass("imageDataRow")) url = url + "image";
 		if($(this).hasClass("noticeDataRow")) url = url + "notice";
 		if($(this).hasClass("boardDataRow")) url = url + "board";
-		url += "/view.jsp?no=" + no + "&inc=1";
+		url += "/view.jsp?no=" + no + "&inc=1";	//url 뒤에 붙는 쿼리스트링문
+		//메인쪽에서 글보기 클릭해서 글보기 쪽으로 넘긴다. 그걸 입력했는지 찾아보는ㄱ ㅔhasClass이다.
 		location = url;
 	});
 });
@@ -61,11 +62,12 @@ $(function(){
 <body>
 <div class="container">
 	<div class="well">
-		<h2>웹짱커뮤니티</h2>
+		<h2>커뮤니티</h2>
 	</div>
 	<div class="row">
 		<div class="col-md-12">
 			<jsp:include page="/include/imageList.jsp" />
+<%-- 			이걸 호출해서 사용(<%@%> 를 쓰면 소스를 실행 전에 여기 안에 끼워서 쓰는건데  이건 메서드 호출해서 실행된 결과를 끼워넣는거) --%>
 		</div>
 	</div>
 	<div class="row">

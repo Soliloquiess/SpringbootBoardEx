@@ -13,6 +13,8 @@
 		<servlet-name>init</servlet-name>
 		<servlet-class>com.util.init.Init</servlet-class>
 		<load-on-startup>1</load-on-startup>
+		
+	<!-- 서버 돌아갈 떄 써줘야 되는게 load on startup.  tmxkxm djq gkfEO tnstjehfmf wlqdjsjgdjtj tlfgod djqtdmaus tmxkxm dksgka.-->
 	</servlet>
 
 	<filter>

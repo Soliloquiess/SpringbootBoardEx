@@ -39,8 +39,8 @@ public class ImageDAO {
 					+ " where rnum between ? and ? ";
 			//4. 실행 객체 & 데이터 세팅
 			pstmt = con.prepareStatement(sql);
-			pstmt.setLong(1, pageObject.getStartRow());
-			pstmt.setLong(2, pageObject.getEndRow());
+			pstmt.setLong(1, pageObject.getStartRow()); //첫번쨰 문
+			pstmt.setLong(2, pageObject.getEndRow());	//두번쨰 문
 			// 5
 			rs = pstmt.executeQuery();
 			// 6. 

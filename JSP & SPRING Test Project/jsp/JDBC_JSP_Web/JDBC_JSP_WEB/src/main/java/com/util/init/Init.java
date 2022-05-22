@@ -7,6 +7,7 @@ import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 
+//jsp도 servlet으로 만들었는데 더 쉽게 하기 위해 jsp로 쓰는거
 /**
  * Servlet implementation class Init
  */
@@ -15,8 +16,9 @@ public class Init extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	//URL 등급에 대한 정보를 저장하는 map 변수 - map<url,권한번호>
+	//url이 STring, 권한 정보는 Integer(앞은 url, 뒤는 권한 번호)
 	public static Map<String, Integer> authorityMap = new HashMap<String, Integer>();
-	
+	//그 다음 web.xml에도 필터 등록
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -46,7 +48,8 @@ public class Init extends HttpServlet {
         // 3. 페이지 권한을 등록한다.
         // 9 : 관리자, 1: 일반회원
         // 회원관리 권한
-        authorityMap.put("/member/list.jsp", 9);
+        //authorityMap에 put으로 집어넣음.
+        authorityMap.put("/member/list.jsp", 9);	//어드민만 가능
         authorityMap.put("/member/view.jsp", 1);
         authorityMap.put("/member/updateForm.jsp", 1);
         authorityMap.put("/member/update.jsp", 1);
@@ -59,7 +62,7 @@ public class Init extends HttpServlet {
         authorityMap.put("/notice/update.jsp", 9);
         authorityMap.put("/notice/delete.jsp", 9);
         
-        // 질문답변 권한
+        // 질문답변 권한	(질문답변은 하나 더 만들어야됨 , 내 아이디가 아니면 보여주지 않는다는 식으로, 비밀질문은 처리를 하나 더 만들어야됨.)
         authorityMap.put("/qna/writeForm.jsp", 1);
         authorityMap.put("/qna/write.jsp", 1);
         authorityMap.put("/qna/answerForm.jsp", 1);
@@ -67,7 +70,7 @@ public class Init extends HttpServlet {
         authorityMap.put("/qna/updateForm.jsp", 1);
         authorityMap.put("/qna/update.jsp", 1);
         authorityMap.put("/qna/delete.jsp", 1);
-        
+        //권한처리 등록하고 검사는 authorityfilter에서 검사, 등록은 여기서 서버가 스타트할떄 
  	}
 
 }
