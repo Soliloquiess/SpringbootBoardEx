@@ -6,7 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.main.controller.MainController;
 
 public class DBInfo {
 	
@@ -31,7 +30,7 @@ public class DBInfo {
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			MainController.shutdown("DB 드라이버가 전재하지 않음.", 1);
+//			MainController.shutdown("DB 드라이버가 전재하지 않음.", 1);
 //			System.out.println("드라이버가 존재하지 않음.");
 //			System.out.println("프로그램을 종료합니다.-----------");
 //			System.exit(0);

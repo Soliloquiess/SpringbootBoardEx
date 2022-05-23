@@ -1,5 +1,6 @@
 package com.main.controller;
 
+//out클래스는 	 콘솔로 데이터 확인 하기 위해 지우지 않는다. 그 외 맨 처음 자바안의 com을 옮긴 이후에는 controller를 메인 controller패키지 이외에 다 지운다.
 import com.util.io.Out;
 
 public class ExecuteService {
