@@ -9,6 +9,7 @@ package com.board.vo;
  * 
  * 데이터 내용을 확인하는 toString()<br>
  * 
+ * @author EZEN
  *
  */
 

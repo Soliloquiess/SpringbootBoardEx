@@ -1,22 +1,12 @@
-package com.board.vo;
 
-/**
- * <h2>게시판 데이터를 저장하는 객체</h2>
- * 
- * 번호, 제목, 내용, 작성자, 작성일, 조회수<p>
- * 데이터를 가져가는 getter()<br>
- * 데이터를 저장하는 setter()<br>
- * 
- * 데이터 내용을 확인하는 toString()<br>
- * 
- *
- */
 
 public class BoardVO {
 
 	private long no;
 	private String title, content, writer, writeDate;
 	private long hit;
+	
+	//데이터를 가져가는 getter()와 데이터를 넣는 setter() 만들기
 	public long getNo() {
 		return no;
 	}
@@ -65,3 +55,4 @@ public class BoardVO {
 
 	
 }
+	
