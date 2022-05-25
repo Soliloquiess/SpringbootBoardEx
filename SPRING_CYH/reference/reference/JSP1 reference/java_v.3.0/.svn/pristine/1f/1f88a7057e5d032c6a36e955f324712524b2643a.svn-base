@@ -1,0 +1,68 @@
+package com.webjjang.board.dao;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+public class BoardDAO {
+
+	// 전역변수 = 멤버 변수 = 필드
+	// 드라이버명
+	String driver = "oracle.jdbc.driver.OracleDriver";
+	
+	// 서버정보
+	String url = "jdbc:oracle:thin:@localhost:1521:xe";
+	String uid = "java00";
+	String upw = "java00";
+	
+	// 필요한 객체
+	Connection con = null;
+	PreparedStatement pstmt = null;
+	ResultSet rs = null;
+
+	// 1. 전체 데이터 가져오기
+	public long getTotalRow() {
+		long cnt = 0;
+		
+		try { // 정상처리
+			// 1. 드라이버 확인
+			Class.forName(driver);
+			System.out.println("드라이버 확인 완료");
+			// 2. 연결
+			con = DriverManager.getConnection(url, uid, upw);
+			// 3. sql 작성
+			// 4. 실행 객체 & 데이터 셋팅
+			// 5. 실행
+			// 6. 데이터 표시 또는 저장
+		}catch (Exception e) { // 예외처리
+			e.printStackTrace();
+		} finally {
+			try {
+				// 7. 닫기
+				if(con != null) con.close();
+				if(pstmt != null) pstmt.close();
+				if(rs != null) rs.close();
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+		}
+		
+		return cnt;
+	}
+	
+	// 1-1.리스트
+	
+	// 2. 조회수 1 증가
+	
+	// 2-1. 글보기
+	
+	// 3. 글쓰기
+	
+	// 4. 글수정
+	
+	// 5. 글삭제
+	
+	
+}

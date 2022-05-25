@@ -1,0 +1,10 @@
+package com.webjjang.board.controller;
+
+public class BoardController {
+
+	public void execute(){
+		System.out.println("BoardController.execute()");
+		return; // 마지막 void인 메서드의 return은 생략가능하다.
+	}
+	
+}
