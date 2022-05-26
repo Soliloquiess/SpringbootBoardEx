@@ -84,7 +84,7 @@ public class NoticeController implements Controller {
 					// 5. 수정한 내용을 DB에 저장 -> NoticeUpdateService
 					int updateResult = (Integer) ExeService.execute(new NoticeUpdateService(), updateVO);
 					// 6. 수정결과를 출력한다. print(result, msg)
-					NoticePrint.print(updateResult, "공지 글수정");
+					NoticePrint.print(updateResult, "공지 글수정");	//이건(print)integer형이라 타입오류 안나는데 리스트나 뷰는 타입 바꿔줘야 ㄷㄷㄷ
 					break;
 				case "5":
 					// 1. 삭제할 글번호를 받는다.
