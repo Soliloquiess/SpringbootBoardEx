@@ -1,0 +1,17 @@
+package com.webjjang.board.service;
+
+import com.webjjang.board.vo.BoardVO;
+
+public class BoardWriteService {
+	
+	// BoardController -> BoardWriteService
+	public int service(BoardVO vo) {
+		System.out.println("BoardWriteService.service().vo - " + vo);
+		int result = 0;
+		
+		// DB사용 - BoardDAO가 필요하다.
+		
+		return result;
+	}
+
+}

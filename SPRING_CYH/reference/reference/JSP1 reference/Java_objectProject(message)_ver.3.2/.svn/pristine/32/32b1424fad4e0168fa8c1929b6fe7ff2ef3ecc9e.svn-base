@@ -1,0 +1,21 @@
+package com.webjjang.board.service;
+
+import java.util.List;
+
+import com.webjjang.board.vo.BoardVO;
+
+public class BoardListService {
+
+	public List<BoardVO> service(){
+		System.out.println("BoardListService.service()");
+		
+		List<BoardVO> list = null;
+		
+		// 전체 데이터 구하기 - 오라클에서 구해야한다. DAO . getTotalRow() - long
+		
+		// 리스트 데이터 구하기 - 오라클에서 구해야 한다. DAO .list() - List<BoardVO>
+		
+		return list;
+	}
+	
+}

@@ -1,0 +1,78 @@
+package com.webjjang.board.controller;
+
+import java.util.List;
+
+import com.webjjang.board.service.BoardListService;
+import com.webjjang.board.vo.BoardVO;
+import com.webjjang.util.io.BoardPrint;
+
+//import com.webjjang.main.controller.MainController; // MainController.scanner.nextLine()
+import static com.webjjang.main.controller.MainController.scanner;//scanner.nextLine()
+
+public class BoardController {
+
+	// BopardController() 생성자가 없다. -> compiler 가 자동으로 만들어서 class로 만들어 준다. - 기본 생성자 - 생략 가능
+	// 생성자 만들기 - 클래스 이름과 같다. 리턴타입이 없다.-> 주소만 리턴하기 때문에
+	public BoardController() {
+		System.out.println("BoardController() 생성자");
+	}
+	
+	public void execute(){
+		System.out.println("BoardController.execute()");
+		
+		System.out.println("\n\n-----------[일반 게시판]---------------\n");
+		//무한 루프 시작
+		while(true)
+		{
+			// 무한 루프 빠져나가기 -> 메서드 빠져나가기 0일때 return
+			
+			// 게시판 메뉴 출력
+			System.out.println("1. list  2. view  3. wirte");
+			System.out.println("4. update  5. delete  0. 이전메뉴");
+		
+			// 메뉴 입력 안내 메시지
+			System.out.println("메뉴 입력하세요.");
+			
+			// 메뉴를 입력 받을 때
+			// scanner는 close() 시키지 않는다.
+//			String menu = MainController.scanner.nextLine();
+			String menu = scanner.nextLine();
+			
+			// 입력된 메뉴 처리
+			switch(menu) {
+			case "1":
+				System.out.println("BoardContllore.execute() - 게시판 리스트 처리함.");
+				// 리스트 서비스 클래스를 생성하고 메서드를 호출한다.
+				// 생성 - 필요한 프로그램을 메인메모리에 올린다.
+				BoardListService boardListService = new BoardListService();
+				List<BoardVO> list = boardListService.service();
+				System.out.println("BoardController.execute().list - " + list);
+				// 데이터를 출력
+				// 출력하는 객체를 생성 -> 호출
+				BoardPrint boardPrint = new BoardPrint();
+				boardPrint.list(list);
+				break;
+			case "2":
+				System.out.println("게시판 글보기 처리함.");
+				break;
+			case "3":
+				System.out.println("게시판 글쓰기 처리함.");
+				break;
+			case "4":
+				System.out.println("게시판 글수정 처리함.");
+				break;
+			case "5":
+				System.out.println("게시판 글삭제 처리함.");
+				break;
+			case "0":
+				return; // method를 빠져 나간다.
+			default :
+				System.out.println("잘못된 메뉴를 입력하셨습니다.");
+				break;
+			
+			}
+		
+		} // 무한 루프 끝
+	}
+	
+}

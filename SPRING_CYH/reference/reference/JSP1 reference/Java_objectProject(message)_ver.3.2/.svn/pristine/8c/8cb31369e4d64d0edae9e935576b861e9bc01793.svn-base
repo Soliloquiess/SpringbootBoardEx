@@ -1,0 +1,9 @@
+package com.webjjang.member.controller;
+
+public class MemberContoller {
+
+	public void execute() {
+		System.out.println("LoginController.execute");
+	}
+	
+}

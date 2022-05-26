@@ -1,0 +1,47 @@
+package com.webjjang.main.controller;
+
+import java.util.Scanner;
+
+public class MainController {
+
+	// 자동으로 올라간다.
+	// 사용하려면 같은 클래스에서는 scanner.nextLine()
+	// 다른 클래스에서 사용 MainControler.scanner.nextLine()
+	public static Scanner scanner = new Scanner(System.in);
+	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+		// 끝내라고 할때 까지 무한 루프 시작
+		while(true) {
+			
+			// 메뉴를 출력한다.
+			System.out.println("1.게시판, 2.이미지, 3.로그인, 0.종료");
+			// 메뉴 선택 메시지
+			System.out.println("메뉴를 선택하세요.");
+			// 메뉴 입력
+			String menu = scanner.nextLine();
+			// 메뉴 처리
+			switch(menu) {
+			case "1":
+				System.out.println("게시판 처리");
+				break;
+			case "2":
+				System.out.println("이미지 처리");
+				break;
+			case "3":
+				System.out.println("로그인 처리");
+				break;
+			case "0":
+				System.out.println("프로그램 종료");
+				System.exit(0);;
+			default:
+				System.out.println("메뉴를 잘못 입력하셨습니다.");
+				break;
+			}
+			
+		} // 무한 루프 끝
+
+	}
+
+}
