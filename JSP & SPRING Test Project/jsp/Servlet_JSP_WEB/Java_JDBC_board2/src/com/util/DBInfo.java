@@ -1,83 +1,59 @@
-package com.util;
 
+package com.util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 
-
+//DB관련 연결 정보들은 다 여기 적어뒀다.
 public class DBInfo {
-	
-	//DB 정보 - 다른 클래스에서는 못가져 가도록 정의한다.
+
+	// DB 정보 변수
 	private static final String DRIVER = "oracle.jdbc.driver.OracleDriver";
 	private static final String URL = "jdbc:oracle:thin:@localhost:1521:orcl";
-	private static final String UID = "java00";
-	private static final String UPW = "java00";
+	private static final String ID = "java00";
+	private static final String PW = "java00";
 	
-	// 드라이버 확인 변수
-	private static boolean driverCheck = false; // 드라이버가 없음으로 해 놓는다.(true면 드라이버 있는거)
-//	private static boolean checkDriver = false; // 
+	// 드라이버가 있는지 여부를 변수
+	private static boolean checkDriver = false;//true면 드라이버가 있다.
 	
-	// 처음에 딱한번 실행되는 부분에다가 드라이버 확인을 시킨다. -> static 초기화 블록 -> main()에 처음에 적용시키나.
-	// Class.forName("com.util.db.DBInfo");
+	// static 초기화 블록- 한번 사용될때 딱한번만 실행이되는 초기화블록 - static 변수의 값을 초기화시킬 때 사용한다.
 	static {
-		System.out.println("DBInfo static 초기화 블록 실행 - 드라이버 확인");
+		System.out.println("DBInfo.static{} ------------------------+");
 		try {
 			Class.forName(DRIVER);
-			// 드라이버가 있음으로 변경해 준다.
-			driverCheck = true;
-			System.out.println("드라이버 확인 완료~!");
+			checkDriver = true;
+			System.out.println("오라클 DB를 위한 드라이버가 존재합니다.");
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-//			MainController.shutdown("DB 드라이버가 전재하지 않음.", 1);
-//			System.out.println("드라이버가 존재하지 않음.");
-//			System.out.println("프로그램을 종료합니다.-----------");
-//			System.exit(0);
+			// 사용자
+			System.out.println("오라클 DB를 위한 드라이버가 존재하지 않습니다. \n이후의 DB처리에 문제가 발생됩니다.");
 		}
 	}
 	
-	// Connection을 가져 가는 메서드 만들기 - 다른 패키지에서 사용이 가능하도록 한다.
-	// 사용 방법 - DBInfo.getConnection()
-	public static Connection getConnection() throws Exception {
-		// 드라이버가 있는지 확인.
-		if(!driverCheck) throw new Exception("드라이버가 존재하지 않습니다.");
-		// 연결객체 가져가기 처리
-		try {
-			return DriverManager.getConnection(URL, UID, UPW);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			throw new Exception("DB 연결 실패 - " + e.getMessage());
-		}
-	}
-
-	// 사용객체를 닫는 메서드 만들기 - DBInfo.close(con, pstmt)
-	public static void close(Connection con, PreparedStatement pstmt) {
-		try {
-			// 7. 닫기 - select -> con, pstmt, rs을 사용한다.
-			if(con !=null) con.close();
-			if(pstmt !=null) pstmt.close();
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
+	// DB 연결을 하는 메서드 - DB를 사용하는 곳에서 모두 써야하므로 메서드로 선언 - Connection 객체를 넘겨준다.
+	public static final Connection getConnection() throws Exception{
+		// 연결을 하기 위해서 먼저 드라이버 확인 - 없으면 예외를 생성하고 던진다.
+		if(!checkDriver) throw new Exception("드라이버가 존재하지 않습니다.");
+		return DriverManager.getConnection(URL, ID, PW);
 	}
 	
-	// 사용객체를 닫는 메서드 만들기 - DBInfo.close(con, pstmt, rs) -> Overload했다.
-	public static void close(Connection con, PreparedStatement pstmt, ResultSet rs) {
-		try {
-			// 7. 닫기 - select -> con, pstmt, rs을 사용한다.
-			close(con, pstmt); // con과 pstmt는 위에서 닫고 오라고 시킨다. -> 호출해서 해결
-			if(rs !=null) rs.close(); // 남아 있는 rs만 닫는다.
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
+	// DB 사용객체 닫기 - 연결, 실행객체 닫기 - insert, update, delete
+	public static final void close(Connection con, PreparedStatement pstmt) throws Exception {
+		// 예외처리를 안하고 있다. - 메서드에 throws Exception로 호출한 쪽으로 예외를 던진다.
+		// if(객체가 열려져 있는가?) 열려져 있는 경우만 닫는다.
+		if(con != null ) con.close(); // 연결 객체 닫기
+		if(pstmt != null ) pstmt.close(); // 실행 객체 닫기
 	}
 	
-	
+	// DB 사용객체 닫기 - 연결, 실행, 결과 객체 닫기 - select
+	public static final void close(Connection con, PreparedStatement pstmt, ResultSet rs) throws Exception {
+		// 예외처리를 안하고 있다. - 메서드에 throws Exception로 호출한 쪽으로 예외를 던진다.
+		// if(객체가 열려져 있는가?) 열려져 있는 경우만 닫는다.
+		close(con, pstmt); // 연결, 실행 객체 닫기 호출
+		if(rs != null ) rs.close(); // 결과 객체 닫기
+	}
 	
 }
