@@ -1,0 +1,20 @@
+package com.webjjang.board.service;
+/*
+ * 게시판 글보기
+ * 
+ * public BoardVO service()
+ */
+
+import com.webjjang.board.vo.BoardVO;
+
+public class BoardViewService {
+
+	public BoardVO service(long no) {
+		System.out.println("BoardViewService.service().no - " + no);
+		BoardVO vo = null;
+		
+		// DB에서 글번호에 맞는 데이터 가져오기 -> BoardDAO. view(long no)
+		
+		return vo;
+	}
+}

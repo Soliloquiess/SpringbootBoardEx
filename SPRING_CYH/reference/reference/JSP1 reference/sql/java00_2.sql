@@ -93,12 +93,33 @@ drop table message;
 
 -- 생성 : PK(member) -> FK(message)
 -- newest ver
+--CREATE TABLE message(
+--    no NUMBER PRIMARY KEY,
+--    content VARCHAR2(2000) NOT NULL,
+--    senderId VARCHAR2(20) NOT NULL REFERENCES member(id),
+--    senderName varchar(50),
+--    sendDate DATE DEFAULT SYSDATE,
+--    accepterId VARCHAR2(20) NOT NULL REFERENCES member(id),
+--    
+--    accepterName varchar(50),
+--    acceptDate DATE,
+--    -- allUser NUMBER DEFAULT 0
+--    allUser NUMBER (1) DEFAULT 0
+--);
+--CREATE SEQUENCE message_seq;
+
+
+-- newestnewset ver
+--위에서 accepterid랑 senderid에서 accepter,  sender로 뒤에 id두글 자 빼준거
 CREATE TABLE message(
     no NUMBER PRIMARY KEY,
     content VARCHAR2(2000) NOT NULL,
-    senderId VARCHAR2(20) NOT NULL REFERENCES member(id),
+    sender VARCHAR2(20) NOT NULL REFERENCES member(id),
+    --senderName varchar(50),
     sendDate DATE DEFAULT SYSDATE,
-    accepterId VARCHAR2(20) NOT NULL REFERENCES member(id),
+    accepter VARCHAR2(20) NOT NULL REFERENCES member(id),
+    
+--    accepterName varchar(50),
     acceptDate DATE,
     -- allUser NUMBER DEFAULT 0
     allUser NUMBER (1) DEFAULT 0
@@ -208,12 +229,14 @@ INSERT INTO member(id, pw, name, gender, birth, tel, email, photo)
 VALUES('test', '1111', '홍길동', '남자', '1994-01-01', '010-3333-4444', 'hong@naver.com','/upload/member/test.jpg');
 
 -- 메시지
+
+
 -- test -> admin
--- INSERT INTO message(no, content, sender, accepter)
--- VALUES(message_seq.nextval, '안녕하세요~', 'test', 'admin');
+ INSERT INTO message(no, content, sender, accepter)
+ VALUES(message_seq.nextval, '안녕하세요~', 'test', 'admin');
 -- admin -> test
--- INSERT INTO message(no, content, sender, accepter)
--- VALUES(message_seq.nextval, '방갑습니다.~', 'admin', 'test');
+ INSERT INTO message(no, content, sender, accepter)
+ VALUES(message_seq.nextval, '방갑습니다.~', 'admin', 'test');
 
 -- 받은 메시지
 
@@ -222,11 +245,11 @@ VALUES('test', '1111', '홍길동', '남자', '1994-01-01', '010-3333-4444', 'ho
 
 
 -- test -> admin 메시지 전송: test 입장에서 보내는 메시지
-INSERT INTO message(no, content, senderId, accepterId)
-VALUES(message_seq.nextval, '안녕하세요~', 'test', 'admin');
+--INSERT INTO message(no, content, senderId, accepterId)
+--VALUES(message_seq.nextval, '안녕하세요~', 'test', 'admin');
 -- admin -> test 메시지 전송: test 입장에서 받은 메시지
-INSERT INTO message(no, content, senderId, accepterId)
-VALUES(message_seq.nextval, '방갑습니다.~', 'admin', 'test');
+--INSERT INTO message(no, content, senderId, accepterId)
+--VALUES(message_seq.nextval, '방갑습니다.~', 'admin', 'test');
 
 commit;
 
@@ -551,3 +574,55 @@ order by q.refNo desc, q.ordNo
 where rnum between 1 and 10 --1page
 
 ;
+
+----
+
+
+-- 메시지 스키마(자바)
+
+-- 메시지 운영 쿼리
+select * from message;
+select * from member;
+-- 1. 리스트
+--3}  페이지에 맞는 데이터 가져오기 (where)
+select  rownum rnum,no, sender, senderName, to_char(sendDate, 'yyyy-mm-dd') sendDate, accepter, accepterName, to_char(acceptDate,'yyyy.mm.dd') acceptDate
+from(
+--    2] 순서 번호 붙이기(rownum)
+    select rownum rnum, no ,sender, senderName, sendDate, accepter, accepterName, acceptDate
+    from 
+    (
+    --1] 원본 데이터 불러오기
+    select m.no, m.sender, sm.name senderName, m.sendDate, m.accepter, am.name accepterName, m.acceptDate
+    from message m , member sm, member am
+    where (m.sender='test' or m.accepter= 'test' or m.alluser = 1) --일반조건
+    and (m.sender = sm.id and m.accepter = am.id) --z조인조건
+    order by no desc
+    )
+)
+
+where rnum between 1 and 10;
+
+-- 2. 메시지 보기
+-- 2-1.메시지 읽음 표시 세팅 - 번호가 같고 받는 날이 0인 데이터에 대해서만 적용
+update message set acceptDate = sysdate where no = 2 and acceptDate is null;
+commit;
+
+-- 2-2 . 데이터 가져오기
+select m.no, m.content, m.sender, sm.name senderName, 
+    to_char(m.sendDate,'yyyy.mm.dd')sendDate, m.accepter, am.name accepterName, 
+    to_char(m.acceptDate)
+from message m , member sm, member am
+where (no=2) -- 일반조건
+and (m.sender = sm.id and m.accepter = am.id); --조인조건
+--where (m.sender='test' or m.accepter= 'test' or m.alluser = 1) --일반조건
+--and (m.sender = sm.id and m.accepter = am.id) --z조인조건
+--order by no desc
+
+-- 3. 메시지 보내기 -write
+-- 번호 (시퀀스) , 내용(입력), 보낸사람의 아이디(로그인 정보, 받는 사람의 아이디(입력)
+insert into message(no, content, sender, accepter)
+values(message_seq.nextval, '프로젝트 파이팅', 'test','admin');
+
+commit;
+
+
