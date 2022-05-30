@@ -1,7 +1,7 @@
 package com.member.service;
 
 import com.main.controller.ServiceInterface;
-import com.main.member.dao.MemberDAO;
+import com.member.dao.MemberDAO;
 
 public class MemberIDCheckService implements ServiceInterface {
 

@@ -1,4 +1,4 @@
-package com.main.member.dao;
+package com.member.dao;
 
 import com.util.db.DAO;
 import com.util.db.DBInfo;
