@@ -1,6 +1,7 @@
 package com.member.vo;
 
 public class MemberVO {
+
 	private String id, pw, name, gender, birth, tel, email, regDate, conDate, status, photo;
 	private int gradeNo;
 	private String gradeName;
@@ -83,12 +84,11 @@ public class MemberVO {
 		this.gradeName = gradeName;
 	}
 	
-	
 	@Override
 	public String toString() {
 		return "MemberVO [id=" + id + ", pw=" + pw + ", name=" + name + ", gender=" + gender + ", birth=" + birth
 				+ ", tel=" + tel + ", email=" + email + ", regDate=" + regDate + ", conDate=" + conDate + ", status="
 				+ status + ", photo=" + photo + ", gradeNo=" + gradeNo + ", gradeName=" + gradeName + "]";
 	}
-
+	
 }

@@ -30,7 +30,8 @@
 	<div class="container">
 		<h1>회원가입</h1>
 		<!-- 아이디 , 비밀번호, 이름, 성별, 생년월일, 연락처, 이메일, 사진(나중에) -->
-		<form action="write.jsp" method="post">
+		<!-- 사진 파일을 업로드 하기 위해서 method = "post", enctype = "multipart/form-data"속성 지정 -->
+		<form action="write.jsp" method="post" enctype="multipart/form-data">
 			<!-- div 클래스 분할  tag: 특정한 영역을 지정한다.-->
 			<div class="form-group">
 
