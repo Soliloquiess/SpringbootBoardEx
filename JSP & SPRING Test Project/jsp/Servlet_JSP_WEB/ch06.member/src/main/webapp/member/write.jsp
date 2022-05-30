@@ -1,3 +1,5 @@
+<%@page import="com.main.controller.ExecuteService"%>
+<%@page import="com.member.service.MemberWriteService"%>
 <%@page import="com.oreilly.servlet.multipart.DefaultFileRenamePolicy"%>
 <%@page import="com.oreilly.servlet.MultipartRequest"%>
 <%@page import="com.member.vo.MemberVO"%>
@@ -66,11 +68,16 @@ vo.setTel(String.join("-", tel));
 vo.setEmail(email);
 
 vo.setPhoto(photo);
+//DB에 회원 정보 입력
+ExecuteService.execute(new MemberWriteService(), vo);
+
+//회원 가입한 정보보기 페이지로 이동 - 아이디 정보를 전달.
+response.sendRedirect("myPage.jsp?id=" + id);
 %>
 
-​
 
-<!DOCTYPE html>
+<!-- 이제 mypage.jsp로 넘기므로 아래 html은 필요가 없어짐 -->
+<%-- <!DOCTYPE html>
 
 <html>
 
@@ -109,4 +116,4 @@ vo.setPhoto(photo);
 
 </body>
 
-</html>
+</html> --%>
