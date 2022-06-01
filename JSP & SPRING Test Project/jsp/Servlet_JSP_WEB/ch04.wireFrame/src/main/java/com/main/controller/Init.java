@@ -36,7 +36,7 @@ public class Init extends HttpServlet {
     	}catch(ClassNotFoundException e) {
     		e.printStackTrace();
     		throw new ServletException("드라이버가 존재하지 않습니다.");
+    		
     	}
-    	
     }
 }
