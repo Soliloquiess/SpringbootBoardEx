@@ -1,5 +1,5 @@
-<%@page import="com.webjjang.board.service.BoardDeleteService"%>
-<%@page import="com.webjjang.main.controller.ExecuteService"%>
+<%@page import="com.board.service.BoardDeleteService"%>
+<%@page import="com.main.controller.ExecuteService"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
