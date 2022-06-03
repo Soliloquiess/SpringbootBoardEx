@@ -1,15 +1,12 @@
-package com.board.controller;
-
-
-
+package com.webjjang.board.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.board.vo.BoardVO;
-import com.main.controller.Controller;
-import com.main.controller.ExecuteService;
-import com.main.controller.Service;
-import com.util.bean.Beans;
+import com.webjjang.board.vo.BoardVO;
+import com.webjjang.main.controller.Controller;
+import com.webjjang.main.controller.ExecuteService;
+import com.webjjang.main.controller.Service;
+import com.webjjang.util.bean.Beans;
 
 public class BoardController implements Controller {
 
@@ -17,8 +14,7 @@ public class BoardController implements Controller {
 	Service service = null;
 	
 	private void setService(String url) {
-	
-		//Init클래스의 init메서드(Init.init()에서 관련 url로 찾아본다. : /board/list.do=>BoardListService)
+		// Init.init()에서 관련 URL로 찾아본다. : /board/list.do -> BoardListService
 		service = Beans.getService(url);
 	}
 
@@ -50,11 +46,10 @@ public class BoardController implements Controller {
 		switch (url) {
 		// 게시판 리스트 처리
 		case "/board/list.do":
-			//DB에서 list 데이터를 가져오는 처리는 아래에 있다.
-			//맨 앞에 "redirect:"붙으면 URL이동이 된다. 없으면 jsp 이용해서 html을 만든다.
+			// DB에서 list 데이터를 가져오는 처리는 아래에 있다.
+			// 맨 앞에 "redirect:" 붙으면 URL 이동한다. 없으면 jsp를 이용해서 HTML을 만든다.
 			// 파일의 위치를 앞에 자동을 붙게 작성. 뒤에 확장자 .jsp가 자동으로 붙게 작성
 			// /WEB-INF/views + /board/list + .jsp
-			//
 			jsp = "board/list";
 			// request.setAttribute(key, data) -> JSP에서 꺼낼 때 ${key}
 			key = "list";
@@ -75,7 +70,6 @@ public class BoardController implements Controller {
 			// DB에서 데이터를 가져오면 view.jsp를 이용해서 HTML을 만들도록 설정
 			// /WEB-INF/views + /board/view + .jsp
 			jsp = "/board/view";
-			//위의 jsp경로로 key를 (vo) 가지고 넘어가게 됨.
 			break;
 			
 		// 게시판 글쓰기 폼

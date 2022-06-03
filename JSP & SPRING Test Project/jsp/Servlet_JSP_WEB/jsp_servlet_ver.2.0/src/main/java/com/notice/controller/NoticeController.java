@@ -1,24 +1,23 @@
-package com.board.controller;
-
-
-
+package com.notice.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.board.vo.BoardVO;
 import com.main.controller.Controller;
 import com.main.controller.ExecuteService;
 import com.main.controller.Service;
+import com.notice.vo.NoticeVO;
 import com.util.bean.Beans;
 
-public class BoardController implements Controller {
+public class NoticeController implements Controller {
 
+	// 모듈명을 저장하는 변수
+	private final String MODULE = "notice"; 
+	
 	// 실행에 필요한 service 객체 선언.
 	Service service = null;
 	
 	private void setService(String url) {
-	
-		//Init클래스의 init메서드(Init.init()에서 관련 url로 찾아본다. : /board/list.do=>BoardListService)
+		// Init.init()에서 관련 URL로 찾아본다. : /notice/list.do -> NoticeListService
 		service = Beans.getService(url);
 	}
 
@@ -39,29 +38,22 @@ public class BoardController implements Controller {
 		
 		// 실행전 실행할 서비스 셋팅
 		setService(url);
-		if(service != null)
-			System.out.println(service.getClass().getSimpleName());
-		else if(!url.equals("/board/writeForm.do")) {
-			System.out.println("서비스가 선택되지 않았습니다. - 404");
-			throw new Exception("서비스가 선택되지 않았습니다. - 404");
-		}
 		
-		// CRUD에 해당되는 처리문 작성
+		// CRUD에 해당되는 처리문 작성 - 게시판 모든 URL을 정의해 놓는다. 그외에는 404로 처리한다.(500 오류로 잡는다.)
 		switch (url) {
 		// 게시판 리스트 처리
-		case "/board/list.do":
-			//DB에서 list 데이터를 가져오는 처리는 아래에 있다.
-			//맨 앞에 "redirect:"붙으면 URL이동이 된다. 없으면 jsp 이용해서 html을 만든다.
+		case "/"+ MODULE +"/list.do":
+			// DB에서 list 데이터를 가져오는 처리는 아래에 있다.
+			// 맨 앞에 "redirect:" 붙으면 URL 이동한다. 없으면 jsp를 이용해서 HTML을 만든다.
 			// 파일의 위치를 앞에 자동을 붙게 작성. 뒤에 확장자 .jsp가 자동으로 붙게 작성
-			// /WEB-INF/views + /board/list + .jsp
-			//
-			jsp = "board/list";
+			// /WEB-INF/views + /notice/list + .jsp
+			jsp = MODULE + "/list";
 			// request.setAttribute(key, data) -> JSP에서 꺼낼 때 ${key}
 			key = "list";
 			break;
 
 		// 게시판 글보기 처리
-		case "/board/view.do":
+		case "/"+ MODULE +"/view.do":
 			// 데이터 수집 - 글번호, 조회수1증가
 			String noStr = request.getParameter("no");
 			long no = Long.parseLong(noStr);
@@ -73,23 +65,22 @@ public class BoardController implements Controller {
 			key = "vo";
 			
 			// DB에서 데이터를 가져오면 view.jsp를 이용해서 HTML을 만들도록 설정
-			// /WEB-INF/views + /board/view + .jsp
-			jsp = "/board/view";
-			//위의 jsp경로로 key를 (vo) 가지고 넘어가게 됨.
+			// /WEB-INF/views + /notice/view + .jsp
+			jsp = MODULE + "/view";
 			break;
 			
 		// 게시판 글쓰기 폼
-		case "/board/writeForm.do":
-			jsp = "board/writeForm";
+		case "/"+ MODULE +"/writeForm.do":
+			jsp = MODULE + "/writeForm";
 			break;
 			
 		// 게시판 글쓰기 처리
-		case "/board/write.do":
+		case "/"+ MODULE +"/write.do":
 			// 데이터 수집을 한다.
 			String title = request.getParameter("title");
 			String content = request.getParameter("content");
 			String writer = request.getParameter("writer");
-			BoardVO vo = new BoardVO();
+			NoticeVO vo = new NoticeVO();
 			vo.setTitle(title);
 			vo.setContent(content);
 			vo.setWriter(writer);
@@ -102,7 +93,7 @@ public class BoardController implements Controller {
 			break;
 			
 		// 게시판 글수정 폼
-		case "/board/updateForm.do":
+		case "/"+ MODULE +"/updateForm.do":
 			// 데이터 수집
 			noStr = request.getParameter("no");
 			no = Long.parseLong(noStr);
@@ -110,12 +101,12 @@ public class BoardController implements Controller {
 			data = new Object[] {no, 0};
 			
 			key = "vo";
-			jsp = "board/updateForm";
+			jsp = "notice/updateForm";
 			
 			break;
 			
 		// 게시판 글수정 처리
-		case "/board/update.do":
+		case "/"+ MODULE +"/update.do":
 			
 			// 데이터 수집
 			noStr = request.getParameter("no");
@@ -124,7 +115,7 @@ public class BoardController implements Controller {
 			content = request.getParameter("content");
 			writer = request.getParameter("writer");
 			
-			vo = new BoardVO();
+			vo = new NoticeVO();
 			vo.setNo(no);
 			vo.setTitle(title);
 			vo.setContent(content);
@@ -138,7 +129,7 @@ public class BoardController implements Controller {
 			break;
 			
 		// 게시판 글삭제 처리
-		case "/board/delete.do":
+		case "/"+ MODULE +"/delete.do":
 			
 			// 데이터 수집
 			noStr = request.getParameter("no");
@@ -151,9 +142,10 @@ public class BoardController implements Controller {
 			break;
 			
 		default:
-			System.out.println("페이지가 존재하지 않습니다. - 404 예외처리해야 한다.");
-			break;
+			System.out.println("404 오류 - 존재하지 않는 페이지를 요청하셨습니다.");
+			throw new Exception("404 오류 - 존재하지 않는 페이지를 요청하셨습니다.");
 		}
+		
 		// service가 null이 아닌 경우만 실행하자.
 		if(service != null)
 			request.setAttribute(key, ExecuteService.execute(service, data));

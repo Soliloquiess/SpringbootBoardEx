@@ -1,9 +1,7 @@
 package com.board.controller;
 
-
-
-
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import com.board.vo.BoardVO;
 import com.main.controller.Controller;
@@ -17,14 +15,17 @@ public class BoardController implements Controller {
 	Service service = null;
 	
 	private void setService(String url) {
-	
-		//Init클래스의 init메서드(Init.init()에서 관련 url로 찾아본다. : /board/list.do=>BoardListService)
+		// Init.init()에서 관련 URL로 찾아본다. : /board/list.do -> BoardListService
 		service = Beans.getService(url);
 	}
 
 	@Override
 	public String execute(HttpServletRequest request) throws Exception {
 		// TODO Auto-generated method stub
+		
+		// 처리 결과를 담기 위해서  session을 request에서 꺼낸다.
+		HttpSession session = request.getSession();
+		
 		// list, view, write, update, delete ??? -> request에서 URL 가져온다.
 		String url = request.getServletPath();
 		
@@ -39,22 +40,15 @@ public class BoardController implements Controller {
 		
 		// 실행전 실행할 서비스 셋팅
 		setService(url);
-		if(service != null)
-			System.out.println(service.getClass().getSimpleName());
-		else if(!url.equals("/board/writeForm.do")) {
-			System.out.println("서비스가 선택되지 않았습니다. - 404");
-			throw new Exception("서비스가 선택되지 않았습니다. - 404");
-		}
 		
-		// CRUD에 해당되는 처리문 작성
+		// CRUD에 해당되는 처리문 작성 - 게시판 모든 URL을 정의해 놓는다. 그외에는 404로 처리한다.(500 오류로 잡는다.)
 		switch (url) {
 		// 게시판 리스트 처리
 		case "/board/list.do":
-			//DB에서 list 데이터를 가져오는 처리는 아래에 있다.
-			//맨 앞에 "redirect:"붙으면 URL이동이 된다. 없으면 jsp 이용해서 html을 만든다.
+			// DB에서 list 데이터를 가져오는 처리는 아래에 있다.
+			// 맨 앞에 "redirect:" 붙으면 URL 이동한다. 없으면 jsp를 이용해서 HTML을 만든다.
 			// 파일의 위치를 앞에 자동을 붙게 작성. 뒤에 확장자 .jsp가 자동으로 붙게 작성
 			// /WEB-INF/views + /board/list + .jsp
-			//
 			jsp = "board/list";
 			// request.setAttribute(key, data) -> JSP에서 꺼낼 때 ${key}
 			key = "list";
@@ -75,7 +69,6 @@ public class BoardController implements Controller {
 			// DB에서 데이터를 가져오면 view.jsp를 이용해서 HTML을 만들도록 설정
 			// /WEB-INF/views + /board/view + .jsp
 			jsp = "/board/view";
-			//위의 jsp경로로 key를 (vo) 가지고 넘어가게 됨.
 			break;
 			
 		// 게시판 글쓰기 폼
@@ -98,6 +91,9 @@ public class BoardController implements Controller {
 			//DB저장 하는 처리는 아래에 있다.
 			// 처리가 다끝나면 바로 list로 페이지 이동이 일어나야 한다. "redirect:URL"
 			jsp = "redirect:list.do";
+			
+			// 글쓴 처리 결과를 session의 msg에 담기
+			session.setAttribute("msg", "성공적으로 글 등록이 되었습니다. ");
 			
 			break;
 			
@@ -135,6 +131,9 @@ public class BoardController implements Controller {
 			//DB 처리가 끝나면 게시판 글보기 페이지로 이동. 글번호, inc=1
 			jsp = "redirect:view.do?no=" + no + "&inc=0";
 			
+			// 글쓴 처리 결과를 session의 msg에 담기
+			session.setAttribute("msg", "성공적으로 글 수정이 되었습니다. ");
+			
 			break;
 			
 		// 게시판 글삭제 처리
@@ -148,12 +147,16 @@ public class BoardController implements Controller {
 			
 			jsp = "redirect:list.do";
 			
+			// 글쓴 처리 결과를 session의 msg에 담기
+			session.setAttribute("msg", "성공적으로 글 삭제가 처리되었습니다. ");
+			
 			break;
 			
 		default:
-			System.out.println("페이지가 존재하지 않습니다. - 404 예외처리해야 한다.");
-			break;
+			System.out.println("404 오류 - 존재하지 않는 페이지를 요청하셨습니다.");
+			throw new Exception("404 오류 - 존재하지 않는 페이지를 요청하셨습니다.");
 		}
+		
 		// service가 null이 아닌 경우만 실행하자.
 		if(service != null)
 			request.setAttribute(key, ExecuteService.execute(service, data));
