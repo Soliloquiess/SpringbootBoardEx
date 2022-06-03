@@ -10,8 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.util.bean.Beans;
-
-
+import com.util.view.ViewResolver;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -29,13 +28,13 @@ import com.util.bean.Beans;
  * Servlet implementation class DispacherServlet
  */
 // URL 맵핑은 web.xml에서 하기로 한다. @WebServlet() 대신에
-public class DispatcherServlet extends HttpServlet {
+public class DispacherServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public DispatcherServlet() {
+    public DispacherServlet() {
         super();
         // TODO Auto-generated constructor stub
     }

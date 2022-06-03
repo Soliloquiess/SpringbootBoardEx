@@ -17,6 +17,8 @@
 <!--   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
 <!--   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> -->
 
+<!-- sitemesh쓰려고 위 부트스트랩은 전부 주석처리 함 -->
+
 <!-- css - 꾸미기 -->
 <style type="text/css">
 .dataRow:hover {

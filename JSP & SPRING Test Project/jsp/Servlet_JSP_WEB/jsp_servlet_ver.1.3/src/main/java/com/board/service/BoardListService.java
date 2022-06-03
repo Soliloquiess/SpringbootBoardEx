@@ -9,6 +9,7 @@ import com.main.controller.Service;
 public class BoardListService implements Service{
 
 	//DAO를 연결하여 실행하기 위해서 생성된 객체를 미리 넣어주고(setter or 생성자) 메서드 호출한다.
+	//dao생성해서 넣어주는 프로그램은 Init.init()에서 처리하고 있다.
 	// 객체 선언
 	private BoardDAO dao;
 	

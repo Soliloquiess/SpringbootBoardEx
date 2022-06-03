@@ -117,7 +117,7 @@ article {
 	</article>
 	<!-- navbar-fixed-bottom : 다른 내용과 상관없이 맨 아래에 항상 고정으로 보임 -->
 	<footer class="container-fluid text-center navbar navbar-inverse navbar-fixed-bottom">
-		<p>이 홈페이지의 저작권은 이영환에게 있습니다.</p>
+		<p>copyright by yacho</p>
 	</footer>
 </body>
 </html>

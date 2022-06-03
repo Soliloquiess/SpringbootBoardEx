@@ -10,7 +10,7 @@ public class DBInfo {
 	
 	//DB 정보 - 다른 클래스에서는 못가져 가도록 정의한다.
 	private static final String DRIVER = "oracle.jdbc.driver.OracleDriver";
-	private static final String URL = "jdbc:oracle:thin:@localhost:1521:xe";
+	private static final String URL = "jdbc:oracle:thin:@localhost:1521:orcl";
 	private static final String UID = "java00";
 	private static final String UPW = "java00";
 	

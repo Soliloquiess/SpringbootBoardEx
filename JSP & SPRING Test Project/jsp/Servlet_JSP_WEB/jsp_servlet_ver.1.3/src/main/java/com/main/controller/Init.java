@@ -5,6 +5,7 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 
+
 import com.board.controller.BoardController;
 import com.board.dao.BoardDAO;
 import com.board.service.BoardDeleteService;
@@ -39,7 +40,7 @@ public class Init extends HttpServlet {
 		// TODO Auto-generated method stub
 		try {
 			// DBInfo 확인 - 드라이버 확인 한다.
-			Class.forName("com.webjjang.util.db.DBInfo");
+			Class.forName("com.util.db.DBInfo");
 			// 객체를 생성해서 저장해 놓는다. -Beans 객체 - controllerMap, serviceMap, daoMap 만들어서 저장
 			newAndSave();
 			// 서로 연관되어 있는 객체를 넣어준다. (DI - Dependency Inject : 의존성 주입)
@@ -63,6 +64,7 @@ public class Init extends HttpServlet {
 		Beans.put("/board/write.do", new BoardWriteService());
 		// 수정폼에 데이터 셋팅을 위해서 글보기 서비스를 실행해서 데이터를 가져와야한다.
 		Beans.put("/board/updateForm.do", Beans.getService("/board/view.do"));
+		///board/updateForm.do이게 있으면 /board/view.do이게 나오게 하는 거.
 		Beans.put("/board/update.do", new BoardUpdateService());
 		Beans.put("/board/delete.do", new BoardDeleteService());
 		

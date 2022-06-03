@@ -23,6 +23,7 @@ public class ViewResolver {
 			return;
 		}
 		// "redirect:"이 맨앞에 없는 경우. -> jsp선택. JSP를 이용한 메서드 호출해서 HTML을 만들도록 한다.
+		// /Web-Inf/view+board+.jsp
 		request.getRequestDispatcher(PREFIX + jsp + SUFFIX).forward(request, response);
 	}
 	

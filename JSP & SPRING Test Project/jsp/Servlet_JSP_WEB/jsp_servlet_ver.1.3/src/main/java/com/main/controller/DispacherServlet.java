@@ -40,7 +40,7 @@ public class DispacherServlet extends HttpServlet {
 		String url = request.getServletPath();
 		// localhost/main.do -> localhost/main/main.do 
 		System.out.println("DispacherServlet.service().url : " + url);
-		if(url.equals("/main.do") || url.equals("/")) {
+		if(url.equals("/main.do") || url.equals("/")) {	//뭐로 받든 메인으로 가도록 설정
 			response.sendRedirect("/main/main.do");
 			return;
 		}
@@ -63,9 +63,26 @@ public class DispacherServlet extends HttpServlet {
 
 	// 결과로 나오는 String - 표시를 할 JSP 정보이거나 이동해야할 URL정보
 	private String executeController(String key, HttpServletRequest request) throws Exception {
+		// Beans에서 꺼내는 Controller는 Init.inti()에서 확인할 수 있다.
+				// /board/list.do -> BoardController
+				
 		Controller controller = Beans.getController(key);
-		System.out.println(controller.getClass().getSimpleName() + ".execute() -------- ");
+//		System.out.println(controller.getClass().getSimpleName() + ".execute() -------- ");
+		
+		// *.do로 요청을 했으나 controller가 null이면 운영을 하지 않는 URL에 해당된다. -> 500번오류 -> 404 오류
+		
+		
 		return controller.execute(request);
 	}
 	
 }
+
+//분석 - 흐름이나 처리되는 동작 원리
+
+//1. web.xml
+//servlet->운영 : 사용자 url입력 요청
+//-url 패턴 :*.do
+//2. com.main.controller.DispatcherServlet -> servlet
+//-찾아볼 순서 : service()->doGet(), doPost()
+//3.URL에 따른 Controller, Service, DAO 는 Init.init()에서 관련된 URL로 다 찾아본다.
+//4. Controller-Service-DAO
