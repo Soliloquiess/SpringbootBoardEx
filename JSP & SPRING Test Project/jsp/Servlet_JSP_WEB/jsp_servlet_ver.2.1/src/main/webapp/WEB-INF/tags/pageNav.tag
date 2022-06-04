@@ -83,6 +83,9 @@
 	  		</a>
 	  	</li>
   	</c:if>
+  	
+  	
+  	 <!-- 페이지 네비게이션에서 검색에 대한 정보를 안넘겨서 페이지네비게이션태그에서 쿼리에 넣음. -->
 	<c:if test="${pageObject.page < pageObject.totalPage }">
 	  	<li data-page=${pageObject.totalPage }>
 	  		<a href="${listURI }?page=${pageObject.totalPage }&perPageNum=${pageObject.perPageNum}${query}"

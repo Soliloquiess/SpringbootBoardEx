@@ -31,6 +31,11 @@ $(function(){
 <input name="perPageNum" type="hidden" value="${param.perPageNum }">
 <input name="key" type="hidden" value="${param.key }">
 <input name="word" type="hidden" value="${param.word }">
+<!-- 업데이트 폼에는 페이지, 페이지넘버뿐 아니라, key, word도 param에 넣어서 전달해줘야한다 -->
+<!-- 데이터 주고받기가 가장 중요하다. -->
+
+<!-- 이제껏 or연산 했는데 만약 조건이 여러개(샴푸인데lg화학인 거 찾으려면 and필요)면 and조건 쓰면서 like 필요할 수 이싿. -->
+<!-- 게시판 처럼 조건이 하나거나 제한된 조건만 쓸 경우 or사용. -->
 <table class= "table">
 <tr>
 	<th>글번호</th>

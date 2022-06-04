@@ -31,6 +31,7 @@ $(function(){
 	$("#listBtn").click(function(){
 		// alert("글 수업 버튼 클릭");
 		location = "list.do?page=${param.page}&perPageNum=${param.perPageNum}&key=${param.key}&word=${param.word}";
+		//&key=${param.key}&word=${param.word} 2개를 써서 검색을 유지시킨다.(글 검색한 후 리스트 가면 그 페이지로). 이 쿼리를 수정,삭제에도 붙여야하낟.
 	});
 });
 </script>

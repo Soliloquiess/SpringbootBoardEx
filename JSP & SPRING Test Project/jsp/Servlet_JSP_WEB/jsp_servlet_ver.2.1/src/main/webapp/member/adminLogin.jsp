@@ -1,4 +1,4 @@
-<%@page import="com.webjjang.member.vo.LoginVO"%>
+<%@page import="com.member.vo.LoginVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%

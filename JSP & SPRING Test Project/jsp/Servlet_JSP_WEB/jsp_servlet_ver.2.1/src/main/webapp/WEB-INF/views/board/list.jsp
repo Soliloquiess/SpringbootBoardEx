@@ -52,6 +52,7 @@ $(function(){
 	<form action="list.do">
 		<!-- 페이지 정보를 다시 그대로 보내준다. -->
 		<input name="page" type="hidden" value="1">
+		<!-- value는 ${pageObject.page}를 1로 설정한 거 검색한 후 1페이지로 넘어가게 설정하는 것. -->
 		<input name="perPageNum" type="hidden" value="${pageObject.perPageNum }">
 		<div class="input-group">
 			<span class="input-group-addon">
@@ -115,6 +116,7 @@ $(function(){
 <div>
 <pageObject:pageNav listURI="list.do" pageObject="${pageObject }" 
  query="&key=${pageObject.key }&word=${pageObject.word }" />
+ <!-- 페이지 네비게이션에서 검색에 대한 정보를 안넘겨서 페이지네비게이션태그에서 쿼리에 넣음. -->
 </div>
 
 <!-- html tag 안에 클래스를 이용한 디자인 : BootStrap -->

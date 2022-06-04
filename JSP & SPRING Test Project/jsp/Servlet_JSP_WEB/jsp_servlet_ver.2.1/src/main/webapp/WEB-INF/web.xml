@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?> 
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" id="WebApp_ID" version="4.0">
-  <display-name>webjjang_servlet</display-name>
+  <display-name>servlet</display-name>
   <welcome-file-list>
     <welcome-file>main.do</welcome-file>
   </welcome-file-list>
@@ -9,7 +9,7 @@
   <!-- 드라이버 확인 / 객체 생성 저장 / Inject : 서버 로딩 - 필요한 객체 초기화 -->
   <servlet>
   	<servlet-name>init</servlet-name>
-  	<servlet-class>com.webjjang.main.controller.Init</servlet-class>
+  	<servlet-class>com.main.controller.Init</servlet-class>
   	<load-on-startup>1</load-on-startup>
   </servlet>
   
@@ -17,7 +17,7 @@
   <servlet>
   	<servlet-name>dispacherServlet</servlet-name>
   	<!-- *.do를 받아가서 처리해 주는 서블릿 프로그램 -->
-  	<servlet-class>com.webjjang.main.controller.DispacherServlet</servlet-class>
+  	<servlet-class>com.main.controller.DispacherServlet</servlet-class>
   </servlet>
   <servlet-mapping>
   	<servlet-name>dispacherServlet</servlet-name>
@@ -29,7 +29,7 @@
   <filter>
   	<description>한글 처리 필터</description>
   	<filter-name>encoding</filter-name>
-  	<filter-class>com.webjjang.util.filter.EncodingFilter</filter-class>
+  	<filter-class>com.util.filter.EncodingFilter</filter-class>
   </filter>
   <filter-mapping>
   	<filter-name>encoding</filter-name>
@@ -51,7 +51,7 @@
   <filter>
   	<description>권한 처리 필터</description>
   	<filter-name>authority</filter-name>
-  	<filter-class>com.webjjang.util.filter.AuthorityFilter</filter-class>
+  	<filter-class>com.util.filter.AuthorityFilter</filter-class>
   </filter>
   <filter-mapping>
   	<filter-name>authority</filter-name>
