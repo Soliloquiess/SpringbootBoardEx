@@ -43,6 +43,7 @@ public class NoticeController implements Controller {
 		switch (url) {
 		// 게시판 리스트 처리
 		case "/"+ MODULE +"/list.do":
+			// 여기서 Module만 바꾸면 위치가 바뀌는거(만약 qna면 qna로)
 			// DB에서 list 데이터를 가져오는 처리는 아래에 있다.
 			// 맨 앞에 "redirect:" 붙으면 URL 이동한다. 없으면 jsp를 이용해서 HTML을 만든다.
 			// 파일의 위치를 앞에 자동을 붙게 작성. 뒤에 확장자 .jsp가 자동으로 붙게 작성
