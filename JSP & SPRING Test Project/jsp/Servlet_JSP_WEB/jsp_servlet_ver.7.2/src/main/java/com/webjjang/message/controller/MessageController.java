@@ -1,0 +1,173 @@
+package com.webjjang.message.controller;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import com.webjjang.message.vo.MessageVO;
+import com.webjjang.main.controller.Controller;
+import com.webjjang.main.controller.ExecuteService;
+import com.webjjang.main.controller.Service;
+import com.webjjang.member.vo.LoginVO;
+import com.webjjang.util.PageObject;
+import com.webjjang.util.bean.Beans;
+
+public class MessageController implements Controller {
+
+	private final String MODULE = "message"; 
+	
+	// 실행에 필요한 service 객체 선언.
+	Service service = null;
+	
+	private void setService(String url) {
+		// Init.init()에서 관련 URL로 찾아본다. : /message/list.do -> MessageListService
+		service = Beans.getService(url);
+	}
+
+	@Override
+	public String execute(HttpServletRequest request) throws Exception {
+		// TODO Auto-generated method stub
+		
+		// 처리 결과를 담기 위해서  session을 request에서 꺼낸다.
+		HttpSession session = request.getSession();
+		
+		// list, view, write, delete ??? -> request에서 URL 가져온다.
+		String url = request.getServletPath();
+		
+		// Service에 전달을 해야할 객체
+		Object data = null;
+		
+		// request에 담을 데이터의 key - jsp에서 데이터를 찾아가는 key
+		String key = "";
+		
+		// 보여줄 JSP나 이동할 페이지의 정보 저장 변수
+		String jsp = "";
+		
+		// 페이지 처리를 위한 객체
+		PageObject pageObject = null;
+		
+		// 실행전 실행할 서비스 셋팅
+		setService(url);
+		
+		// CRUD에 해당되는 처리문 작성 - 메시지 모든 URL을 정의해 놓는다. 그외에는 404로 처리한다.(500 오류로 잡는다.)
+		switch (url) {
+		// 메시지 리스트 처리
+		case "/" + MODULE + "/list.do":
+			// DB에서 list 데이터를 가져오는 처리는 아래에 있다.
+			// 맨 앞에 "redirect:" 붙으면 URL 이동한다. 없으면 jsp를 이용해서 HTML을 만든다.
+			// 파일의 위치를 앞에 자동을 붙게 작성. 뒤에 확장자 .jsp가 자동으로 붙게 작성
+			// /WEB-INF/views/ + message/list + .jsp
+			jsp = MODULE + "/list";
+			// request.setAttribute(key, data) -> JSP에서 꺼낼 때 ${key}
+			key = "list";
+			
+			// 페이지 처리를 위한 객체
+			// getInstance() - 전달되는 페이지 정보를 이용한 페이지 객체를 만들어 내는 메서드
+			// PageObject를 생성해서 넘어오는 페이지와 표시되는 데이터 갯수를 받아서 셋팅해 준다.
+			// 넘어오는 데이터가 없으면 page = 1, perPageNum = 10으로 셋팅이 된다.
+			// Service에서 전체 데이터를 셋팅하는 setTotalRow()를 이용해서 전체 글의 갯수를 넣어주면 페이지 정보가 계산된다.
+			pageObject = PageObject.getInstance(request);
+			
+			// 메시지를 받는 모드 받기(디폴트)
+			String strMode = request.getParameter("mode");
+			int mode = 3;
+			if(strMode != null) mode = Integer.parseInt(strMode);
+			
+			pageObject.setAcceptMode(mode);
+			pageObject.setAccepter(LoginVO.getId(request));	//getId로 아이디 세팅
+			
+			
+			data = pageObject;
+			
+			break;
+
+		// 메시지 글보기 처리
+		case "/" + MODULE + "/view.do":
+			// 데이터 수집 - 글번호, 읽음 처리도 해야하므로 id가 필요하다.
+			String noStr = request.getParameter("no");
+			long no = Long.parseLong(noStr);
+			MessageVO vo = new MessageVO();
+			vo.setNo(no);
+			vo.setAccepter(LoginVO.getId(request));
+			data = vo;
+			
+			// data가 담길 key
+			key = "vo";
+			
+			// DB에서 데이터를 가져오면 view.jsp를 이용해서 HTML을 만들도록 설정
+			// /WEB-INF/views + /message/view + .jsp
+			jsp = "/" + MODULE + "/view";
+			break;
+			
+		// 메시지 글쓰기 폼
+		case "/" + MODULE + "/writeForm.do":
+			jsp = MODULE + "/writeForm";
+			break;
+			
+		// 메시지 글쓰기 처리
+		case "/" + MODULE + "/write.do":
+			// 데이터 수집을 한다.
+			String content = request.getParameter("content");
+			String accepter = request.getParameter("accepter");
+			vo = new MessageVO();
+			vo.setContent(content);
+			vo.setAccepter(accepter);
+			vo.setSender(LoginVO.getId(request));
+			data = vo;
+			
+			//DB저장 하는 처리는 아래에 있다.
+			// 처리가 다끝나면 바로 list로 페이지 이동이 일어나야 한다. "redirect:URL"
+			jsp = "redirect:list.do";
+			
+			// 글쓴 처리 결과를 session의 msg에 담기
+			session.setAttribute("msg", "메시지 보내기가 성공적으로 되었습니다. ");
+			
+			break;
+			
+		// 메시지 글수정 폼
+		case "/" + MODULE + "/updateForm.do":
+			// 데이터 수집
+			noStr = request.getParameter("no");
+			no = Long.parseLong(noStr);
+			// inc는 자동으로 0으로 셋팅한다.
+			data = new Object[] {no, 0};
+			
+			key = "vo";
+			jsp = MODULE + "/updateForm";
+			
+			break;
+			
+		// 메시지 글수정 처리 - 메시지는 원칙적으로 수정할 수 없다.
+
+		// 메시지 글삭제 처리
+		case "/" + MODULE + "/delete.do":
+			
+			// 데이터 수집
+			noStr = request.getParameter("no");
+			no = Long.parseLong(noStr);
+			
+			data = no;
+			
+			jsp = "redirect:list.do";
+			
+			// 글쓴 처리 결과를 session의 msg에 담기
+			session.setAttribute("msg", "성공적으로 글 삭제가 처리되었습니다. ");
+			
+			break;
+			
+		default:
+			System.out.println("404:: 존재하지 않는 페이지를 요청하셨습니다.");
+			throw new Exception("404:: 존재하지 않는 페이지를 요청하셨습니다.");
+		}
+		
+		// service가 null이 아닌 경우만 실행하자.
+		if(service != null)
+			request.setAttribute(key, ExecuteService.execute(service, data));
+		
+		// 페이지 정보를 request에 담아서 JSP에 전달한다.
+		request.setAttribute("pageObject", pageObject);
+		
+		// 보여줄 JSP의 정보나 이동할 URL 정보를 넣는다.
+		return jsp;
+	}
+
+}
