@@ -1,0 +1,98 @@
+package com.webjjang.board.controller;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.webjjang.board.service.BoardService;
+import com.webjjang.board.vo.BoardVO;
+import com.webjjang.myapp.HomeController;
+import com.webjjang.util.PageObject;
+
+@Controller
+@RequestMapping("/board")
+public class BoardController {
+
+	private static final Logger log = LoggerFactory.getLogger(BoardController.class);
+	
+	// 의존성 자동 주입(Dependency Inject) -> 자동으로 하도록 지정하는 어노테이션 : @Autowired, @Inject
+	@Autowired
+	private BoardService service;
+	
+	// 1. list
+	// 처리 결과를 request에 담아야 하는데 Spring에서는 request가 model에 존재한다.
+	// model에 넣어주면 request에 담기도록 프로그램 되어있다. 파라메터로 모델 객체를 전달 받아서 사용한다.
+	@GetMapping("/list.do")//url매핑
+	public String list(@ModelAttribute PageObject pageObject, Model model) throws Exception{
+		//model에 pageObject 담아야 하는 경우
+		//@ModelAttribute은 변수 앞에 쓰면 jsp앞 까지 넘어감. modelAttribute을 쓰면 모델의 속성에 집어넣게 됨.
+		// 페이지가 1보다 작으면 1페이지로 세팅해 준다.
+		if(pageObject.getPage() < 1) pageObject.setPage(1);
+		
+		System.out.println("BoardController.list().pageObject - " + pageObject);
+		
+		model.addAttribute("list", service.list(pageObject));
+		return "board/list";
+	}
+	
+	// 2. view
+	// 처리 결과를 request에 담아야 하는데 Spring에서는 request가 model에 존재한다.
+	// model에 넣어주면 request에 담기도록 프로그램 되어있다. 파라메터로 모델 객체를 전달 받아서 사용한다.
+	@GetMapping("/view.do")//url매핑
+	public String view(long no, int inc, Model model) throws Exception {
+		System.out.println("BoardController.view().no,inc - " + no + ", " + inc);
+		
+		BoardVO vo = service.view(no, inc);
+		// 글 내용 중에서 줄바꿈처리 해야만 한다. \n -> <br>로 바꾼다.
+		vo.setContent(vo.getContent().replace("\n", "<br>"));
+		model.addAttribute("vo", vo);//앞에 글자를 안쓰면 타입으로 지정됨. 이 경우엔 boardVo타입으로 지정될 것.
+		
+		return "board/view";
+	}
+	// 3-1. writeForm
+	@GetMapping("/write.do")//url매핑
+	public String writeForm() throws Exception{
+		return "board/write";
+	}
+	// 3-2. write
+	@PostMapping("/write.do")//url매핑
+	public String write(BoardVO vo, int perPageNum) throws Exception{
+		System.out.println("BoardController.write().vo - " + vo);	
+		//write메서드의 vo찍어본다. 받아서 되는지 확인. getParameterValues이런거 써야되지 않나? DispatcherServlet에서 (web.xml에 선언된) 다 알아서 해주는데 단 타이틀과 프로퍼티 등 이름이 같아야 한다. 그러면 형변환 등 자잘한 것들 다 알아서 해준다.
+		service.write(vo);
+		return "redirect:list.do?page=1&perPageNum=" + perPageNum;
+	}
+	// 4-1. updateForm
+	@GetMapping("update.do")//url매핑
+	public String updateForm(long no, Model model) throws Exception {
+		System.out.println("BoardController.updateForm().no - " + no);
+		//업데이트 한걸 보여주기 위한게 service에 view로 정의되어 있다
+		model.addAttribute("vo", service.view(no, 0));
+		
+		return "board/update";
+	}
+	// 4-2. update
+	@PostMapping("update.do")//url매핑
+	public String update(PageObject pageObject, BoardVO vo) throws Exception{
+		System.out.println("BoardController.update().vo - " + vo);
+		service.update(vo);
+		return "redirect:view.do?no=" + vo.getNo() + "&inc=0"
+				+ "&page="+ pageObject.getPage() +"&perPageNum=" + pageObject.getPerPageNum()
+				+ "&key="+ pageObject.getKey() +"&word=" + pageObject.getWord();
+	}
+	// 5. delete
+	@GetMapping("delete.do")//url매핑
+	public String delete(long no, int perPageNum) throws Exception{
+		System.out.println("BoardController.delete().no - " + no);
+		service.delete(no);
+		return "redirect:list.do?perPageNum=" + perPageNum;
+	}
+	
+	
+}
