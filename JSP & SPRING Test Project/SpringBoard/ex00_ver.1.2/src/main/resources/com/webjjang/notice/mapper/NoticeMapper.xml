@@ -4,6 +4,7 @@
 <mapper namespace="com.webjjang.notice.mapper.NoticeMapper">
 
 	<!-- 	// 1-1. 리스트 -->
+	<!-- where 1=1은 항상 true -->
 	<select id="list" resultType="com.webjjang.notice.vo.NoticeVO">
 		select no, title, startDate, endDate, updateDate
 		from (
@@ -11,7 +12,7 @@
 			from(
 				select  no, title, startDate, endDate, updateDate
 				from notice
-				where 1 = 1
+				where 1 = 1	
 				<include refid="search" />
 				<include refid="searchPeriod" />
 				order by updateDate desc
@@ -45,8 +46,10 @@
 		</if>
 	</sql>
 	
+	<!-- 시간으로 end데이터 비교해서 사용 -->
 	<sql id="searchPeriod">
 		and (
+		
 		<if test="period == 'pre'">
 			<![CDATA[ 
 			startDate <= sysdate and endDate >= trunc(sysdate)

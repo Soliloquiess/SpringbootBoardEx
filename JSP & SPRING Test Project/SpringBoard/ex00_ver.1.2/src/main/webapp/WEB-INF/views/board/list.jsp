@@ -104,6 +104,7 @@
 		<td colspan="5">
 			<pageNav:pageNav listURI="list.do" pageObject="${pageObject }" 
 			 query="&key=${pageObject.key }&word=${pageObject.word }"/>
+			 <!-- 검색에 대한 건 키와 워드를 붙여서 따로 넘겨라 -->
 		</td>
 	</tr>
 	<tr>
