@@ -84,7 +84,7 @@ public class MemberController {
 	// 회원정보보기 / 내 정보보기
 	@GetMapping("/view.do")
 	public String view(String id, Model model, HttpSession session) throws Exception {
-		
+		//id가 넘어오면 회원정보 보기가 되고 아이디가 안넘어오면	내정보 보기가 됨
 		if(id == null) {
 			// 내정보보기
 			model.addAttribute("title", "내 정보 보기");
