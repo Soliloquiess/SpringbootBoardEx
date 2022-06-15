@@ -26,6 +26,10 @@
 			<param-value>/WEB-INF/spring/appServlet/servlet-context.xml
 			</param-value>
 		</init-param>
+		
+		
+<!-- 핸들러 찾기 못한 경우 throw해서 실행하겠다(400번 오류 발생시킴)
+true로 지정해서 선언. -->
 		<init-param>
 			<param-name>throwExceptionIfNoHandlerFound</param-name>
 			<param-value>true</param-value>
