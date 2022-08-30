@@ -4,7 +4,7 @@ spring:
       jdbc-url: jdbc:mysql://127.0.0.1:3306/spring_batch?characterEncoding=UTF-8&serverTimezone=UTC&rewriteBatchedStatements=true
       driver-class-name: com.mysql.cj.jdbc.Driver
       username: root
-      password: q1w2e3r4
+      password: mysql
   jpa:
     hibernate:
       ddl-auto: update

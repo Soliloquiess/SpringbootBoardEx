@@ -1,0 +1,8 @@
+package com.board.service;
+
+public class BoardViewService {
+	public BoardVo service (long no) {	//controller
+		//조회수 1 증가
+		//객체를 생성하고 호출해서 데이터를 가져와서 리턴한다.
+	}
+}

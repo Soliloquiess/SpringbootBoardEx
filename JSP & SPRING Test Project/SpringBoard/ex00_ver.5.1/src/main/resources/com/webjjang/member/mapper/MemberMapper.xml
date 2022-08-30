@@ -4,7 +4,6 @@
 <mapper namespace="com.webjjang.member.mapper.MemberMapper">
 
 	<!-- 	// 1-1. 리스트 -->
-	<!--  where 1 =1은 항상 true고 뒤에 있는 조건 문에 의해 결정 되게 된다 -->
 	<select id="list" resultType="com.webjjang.member.vo.MemberVO">
 		select id, name, birth, gender, tel, email, status, gradeNo, gradeName, photo
 		from (
@@ -12,7 +11,7 @@
 			from(
 				select m.id, m.name, m.birth, m.gender, m.tel, m.email, m.status, m.gradeNo, g.gradeName, m.photo
 				from member m, grade g
-				where 1 = 1	
+				where 1 = 1
 				<include refid="search" />
 				and m.gradeNo = g.gradeNo
 				order by id

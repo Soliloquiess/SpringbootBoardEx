@@ -31,11 +31,10 @@ public class MemberController {
 	}
 	
 	// 로그인 처리
-	//post로 처리(post매핑) url매핑은 login.do
 	@PostMapping("/login.do")
 	// 사용자가 아이디와 비밀번호를 입력해서 보낸다. -> 받는다.
 	public String login(LoginVO invo, HttpSession session) throws Exception  {
-		//로그인 정보를 db와 해서 dispatcher서블릿에서 서버에서 사용한 세션을 파라미터로 넘겨주고 아이디에 정보 집어넣으면 여기 집어넣으면 jsp에서 세션 정보를 사용 가능하다.
+		
 		log.info("로그인 처리 - invo : " + invo);
 		
 		session.setAttribute("login", service.login(invo));
@@ -44,7 +43,7 @@ public class MemberController {
 		return "redirect:/board/list.do";
 	}
 	
-	// 로그아웃 처리(제일 쉬움 그냥 세션만 지우면 된다.)
+	// 로그아웃 처리
 	@GetMapping("/logout.do")
 	public String logout(HttpSession session) throws Exception {
 		// 로그아웃 처리 - session의 정보를 지운다.

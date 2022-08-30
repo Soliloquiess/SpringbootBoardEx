@@ -1,0 +1,6 @@
+package com.board.vo;
+
+public class BoardVO {
+	private long no;
+	private String title;
+}

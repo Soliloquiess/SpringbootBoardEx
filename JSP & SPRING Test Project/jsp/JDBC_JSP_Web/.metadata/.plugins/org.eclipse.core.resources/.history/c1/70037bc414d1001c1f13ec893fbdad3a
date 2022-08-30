@@ -1,0 +1,37 @@
+<%@page import="com.board.service.BoardWriteService"%>
+<%@page import="com.board.vo.BoardVO"%>
+<%@ page language="java" contentType="text/html; charset=EUC-KR"
+    pageEncoding="EUC-KR"%>
+    
+<%
+//여기는 자바입니다.
+//한글처리
+request.setCharacterEncoding("utf-8");
+
+//넘어오는 데이터 받기
+String title = request.getParameter("title");
+String content = request.getParameter("content");
+String writer = request.getParameter("writer");
+
+
+//Controller->service ->DAO:BoardVO객체를 만들어서 전달한다.
+BoardVO vo = new BoardVO();
+vo.setTitle(title);
+vo.setContent(content);
+vo.setWriter(writer);
+
+System.out.println(vo);
+//BoardWriteService->BoardDAO.write
+BoardWriteService service = new BoardWriteService();
+%>
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+</head>
+<body>
+
+</body>
+</html>

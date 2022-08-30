@@ -109,12 +109,9 @@ article {
 <script type="text/javascript">
 $(function(){
 	// 서버에서 저장해 놓은 쿠키를 가져 온다.
-	//쿠키가 있으면 경고 띄움. 그리고 쿠키 지움. delete해서 쿠키 지움. 근데 쿠키 지운다는 개념 거의 없음. 
-	//지정한 시간까지 유효기간 설정. 
-	//서버쪽에서 구워서 클라이언트로 전송함
 	var msgNumberStr = getCookie("msg");
 	if (msgNumberStr){
-		var msgNumber = Number(msgNumberStr);	//string으로 받아온 걸 number로 바꿔서 사용ㄴ
+		var msgNumber = Number(msgNumberStr);
 		console.log(msgNumberStr + ", type : " + typeof(msgNumberStr));
 		console.log("message : " + MSG_LIST[msgNumber]);
 		// 0.2초 (200) 동안 기다렸다가 시간이 끝나면 function을 실행한다.
@@ -122,7 +119,7 @@ $(function(){
 		setTimeout(
 			function(){
 				alert(MSG_LIST[msgNumber]);
-			}, 200	//200은 숫자(0.2초 후)
+			}, 200
 		);
 		delCookie("msg", "/");
 	}
@@ -136,7 +133,7 @@ $(function(){
 
 	// -> 2. 쿠키를 사용하는 방법 - 사용자 컴퓨터에 데이터 저장(파일로 저장된다.). -> 브라우저 개별 기능
 	// isMsg라는 쿠키를 찾아서 가져오는 처리문(정규 표현식 사용)
-// 	var msg = document.cookie.match('(^|;) ?msg=([^;]*)(;|$)'); //^가 시작 $가 끝나는거
+// 	var msg = document.cookie.match('(^|;) ?msg=([^;]*)(;|$)');
 // 	alert(msg);
 	// isMsg 쿠키가 존재하지 않으면 실행한다.
 // 	if(!isMsg){
@@ -149,8 +146,7 @@ $(function(){
 // 		expired.setTime(expired.getTime() + 7 * 24 * 60 * 60 * 1000);
 		//  3. 쿠키 굽기 -> cookie에 key=value;유효한 기간=시간;path=저장위치; ==> 쿠키의형식
 // 		document.cookie = 'isMsg=' + encodeURIComponent('true') + ';expires=' + expired.toUTCString() + ';path=/';
-//		toUTCString는 날짜 형식 맞춰줌. 각각 맨 앞부터 쿠키의값, 시간, 위치 	
-//}
+// 	}
 });
 </script>
 <%-- </c:if> --%>

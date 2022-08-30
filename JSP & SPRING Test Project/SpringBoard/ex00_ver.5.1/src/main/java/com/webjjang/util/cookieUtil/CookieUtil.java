@@ -16,7 +16,7 @@ public class CookieUtil {
   
 		// 쿠키를 생성한다.(이름, 시간, 위치)
         Cookie storeIdCookie = new Cookie(cookieName, cookieData);
-        // 쿠키의 위치 설정(클라이언트에 저장)
+        // 쿠키의 위치 설정
         storeIdCookie.setPath(cookiePath);
         // 쿠키의 유효시간 설정
         storeIdCookie.setMaxAge(cookieMaxAge);
@@ -29,7 +29,6 @@ public class CookieUtil {
 	//메시지 쿠키 굽기 - 유효시간 5분
 	public static void createMessageCookie(Integer msg, HttpServletResponse response) throws Exception {
 		createCookie("msg", "/", "" + msg, 5 * 60, response);
-		//최상위 (/)에 쿠키를 굽겠다
 	}
 
 }

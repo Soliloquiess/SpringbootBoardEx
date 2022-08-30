@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Query">
+
+    <select id="listAll" resultType="aa.bb.cc.DTO">
+
+        select * from emp
+
+    </select>
+    
+     <select id="listAll2" parameterType="String" resultType="aa.bb.cc.DTO">
+	select ename from emp where ename like concat('%',concat(UPPER(#{b}),'%')) or 
+								ename like concat('%',concat(LOWER(#{b}),'%'))
+    </select>
+
+</mapper>

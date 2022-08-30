@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="java.security.DomainCombiner"/>
+    <fullyQualifiedTypeName name="java.util.Scanner"/>
+    <fullyQualifiedTypeName name="java.lang.ClassNotFoundException"/>
+    <fullyQualifiedTypeName name="java.sql.Connection"/>
+    <fullyQualifiedTypeName name="java.sql.PreparedStatement"/>
+    <fullyQualifiedTypeName name="java.sql.ResultSet"/>
+    <fullyQualifiedTypeName name="java.util.ArrayList"/>
+    <fullyQualifiedTypeName name="com.board.controller.BoardController"/>
+    <fullyQualifiedTypeName name="com.board.service.BoardListService"/>
+    <fullyQualifiedTypeName name="java.util.List"/>
+    <fullyQualifiedTypeName name="com.print.BoardPrint"/>
+    <fullyQualifiedTypeName name="com.board.service.BoardViewService"/>
+    <fullyQualifiedTypeName name="com.board.service.BoardWriteService"/>
+    <fullyQualifiedTypeName name="com.board.vo.BoardVO"/>
+    <fullyQualifiedTypeName name="com.board.service.BoardUpdateService"/>
+    <fullyQualifiedTypeName name="com.board.dao.BoardDAO"/>
+    <fullyQualifiedTypeName name="com.board.service.BoardDeleteService"/>
+    <fullyQualifiedTypeName name="board.DB"/>
+    <fullyQualifiedTypeName name="com.util.db.DB"/>
+</qualifiedTypeNameHistroy>

@@ -1,0 +1,13 @@
+package com.board.service;
+
+import com.board.dao.BoardDAO;
+import com.board.vo.BoardVO;
+
+public class BoardWriteService {
+	public void service(BoardVO vo) {
+		//DAO 생성 호출
+		BoardDAO dao = new BoardDAO();
+		dao.write(vo);
+		
+	}
+}

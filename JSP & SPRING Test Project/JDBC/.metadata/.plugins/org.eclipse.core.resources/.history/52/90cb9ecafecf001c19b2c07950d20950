@@ -1,0 +1,12 @@
+package com.print;
+
+public class BoardPrint {
+	//1.List 출력
+	public void list(List<BoardVO> list) {
+		//제목
+		System.out.println("+===============+");
+
+		System.out.println("                 ");
+		System.out.println("+===============+");
+	}
+}

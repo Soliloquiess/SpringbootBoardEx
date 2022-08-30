@@ -1,0 +1,19 @@
+package com.print;
+
+import java.util.List;
+
+import com.board.vo.BoardVO;
+
+public class BoardPrint {
+	//1.List 출력
+	public void list(List<BoardVO> list) {
+		//제목
+		System.out.println("+===============+");
+		System.out.println("+게시판 리스트+");
+		System.out.println("+===============+");
+
+		//항목
+		System.out.println("                 ");
+		System.out.println("+===============+");
+	}
+}
