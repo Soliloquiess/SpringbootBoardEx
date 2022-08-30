@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.wisenut.study.dao.AutoCompleteDao">
+
+	<select id="selectEnNmList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT EN_NM FROM TB_NM
+		WHERE EN_NM LIKE '%' || #{name} || '%' 
+			and rownum <![CDATA[<]]> 6
+	</select>
+
+</mapper>
