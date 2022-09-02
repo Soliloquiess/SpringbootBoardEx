@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.spring.boot.dao.StudyDao">
+
+<!--    <select id="doStudyList_Bak" resultType="map">-->
+<!--        SELECT to_char(key_id) as key_id, study_day, contents, to_char(reg_day,'yyyy.mm.dd hh24:mi') as reg_day-->
+<!--        FROM study_record-->
+<!--        Order by key_id-->
+<!--    </select>-->
+
+    <!--
+    <resultMap id="map_vo_stody" type="com.spring.boot.vo.Vo_study">
+        <result column="key_id" property="key_id" jdbcType="NVARCHAR" javaType="String" />
+        <result column="study_day2" property="study_day" jdbcType="NVARCHAR" javaType="String" />
+        <result column="contents2" property="contents" jdbcType="NVARCHAR" javaType="String" />
+        <result column="reg_day" property="reg_day" jdbcType="NVARCHAR" javaType="String" />
+    </resultMap>
+    -->
+    <select id="doStudyList" resultType="map">
+        SELECT to_char(key_id) as key_id, study_day, contents, to_char(reg_day,'yyyy.mm.dd hh24:mi') as reg_day
+        FROM study_record
+        Order by key_id
+    </select>
+
+</mapper>

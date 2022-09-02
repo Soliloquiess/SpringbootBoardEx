@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.spring.boot.dao.MemberDao">
+
+    <!-- Member List -->
+    <select id="doMemberList" resultType="com.spring.boot.vo.Vo_member">
+        SELECT to_char(member_id) as member_id, login_id, name, role, to_char(reg_day,'yyyy.mm.dd hh24:mi') as reg_day
+        FROM study_member
+        Order by member_id
+    </select>
+
+    <!-- One row Select -->
+    <select id="doMemberListOne" resultType="com.spring.boot.vo.Vo_member">
+        SELECT to_char(member_id) as member_id, login_id, name, role, to_char(reg_day,'yyyy.mm.dd hh24:mi') as reg_day
+        FROM study_member
+        WHERE member_id = to_number(#{strMemberId})
+    </select>
+
+    <!-- One row from ID Select -->
+    <select id="doMemberLogin" resultType="com.spring.boot.vo.Vo_member">
+        SELECT to_char(member_id) as member_id, login_id, password, name, role, to_char(reg_day,'yyyy.mm.dd hh24:mi') as reg_day
+        FROM study_member
+        WHERE login_id = #{strLoginId}
+    </select>
+
+    <!-- 멤버 수정 -->
+    <update id="doMemberUp" parameterType="com.spring.boot.vo.Vo_member">
+        Update  study_member
+        SET name = #{name} , role=#{role} , reg_day=sysdate
+        WHERE member_id = to_number(#{memberId})
+    </update>
+
+    <!-- 멤버 삭제 -->
+    <delete id="doMemberDel">
+        Delete from  study_member
+        WHERE member_id = to_number(#{strMemberId})
+    </delete>
+
+    <!-- 멤버 등록 Insert -->
+    <insert id="doMemberIns">
+        Insert into study_member(login_id, password, name, role, reg_day)
+        Values (#{loginId},#{password}, #{name} , #{role}, sysdate)
+    </insert>
+</mapper>

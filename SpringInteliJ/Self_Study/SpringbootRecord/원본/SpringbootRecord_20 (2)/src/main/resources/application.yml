@@ -1,0 +1,33 @@
+--- # Start
+
+--- # change port
+server:
+  port: 8085
+
+--- # mvc view
+spring:
+  mvc:
+    view:
+      prefix: /WEB-INF/views
+      suffix: .jsp
+
+--- # devtools
+spring:
+  devtools:
+    livereload:
+      enabled: true
+    restart:
+      enabled: false
+
+---  #oracle settings
+spring:
+  datasource:
+    driver-class-name: oracle.jdbc.OracleDriver
+    url: jdbc:oracle:thin:@localhost:1521/xe
+    username: scott
+    password: tiger
+
+--- #mybatis mapper xml
+mybatis:
+  mapper-locations: classpath:sqlmapper/*.xml
+  configuration.map-underscore-to-camel-case: true

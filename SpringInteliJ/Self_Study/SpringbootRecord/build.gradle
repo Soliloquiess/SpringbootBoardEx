@@ -22,6 +22,20 @@ dependencies {
     implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
     //브라우저에서 jsp 실행하기 위해 tomcat-jasper 의존성 넣음
 
+    // https://mvnrepository.com/artifact/org.mybatis/mybatis
+    implementation group: 'org.mybatis', name: 'mybatis', version: '3.5.6'
+// https://mvnrepository.com/artifact/org.mybatis.spring.boot/mybatis-spring-boot-starter
+    implementation group: 'org.mybatis.spring.boot', name: 'mybatis-spring-boot-starter', version: '2.2.2'
+
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2'
+    runtimeOnly 'com.oracle.database.jdbc:ojdbc8'
+
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    // https://mvnrepository.com/artifact/com.oracle.ojdbc/orai18n
+    implementation group: 'com.oracle.ojdbc', name: 'orai18n', version: '19.3.0.0'
+
 }
 
 tasks.named('test') {
