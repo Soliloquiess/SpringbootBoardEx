@@ -1,6 +1,7 @@
 package com.spring.boot.dao;
 
 //import com.spring.boot.vo.Vo_study;
+import com.spring.boot.vo.Vo_study;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -10,8 +11,8 @@ import java.util.Map;
 public interface StudyDao {
 
     // 공부기록 전체 리스트
-//    public List<Vo_study> doStudyList();
-    public List<Map<String,String>> doStudyList();
+    public List<Vo_study> doStudyList();
+//    public List<Map<String,String>> doStudyList();
     // 공부기록 One row
 //    public Vo_study doStudyListOne(String strKeyId);
 
