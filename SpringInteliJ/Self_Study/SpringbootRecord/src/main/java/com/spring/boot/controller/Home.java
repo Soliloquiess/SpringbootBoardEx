@@ -28,8 +28,8 @@ public class Home {
     }
 
     @GetMapping("/study_reg")
-    @ResponseBody
-    public String doStudy_reg(){
+//    @ResponseBody
+    public String doStudy_reg(HttpServletRequest request, Model model){  //이 리퀘스트 인자 받아서 (사용자로부터 넘어온걸 리스트에 담아서 던짐)
             List<Map<String,String>> list = new ArrayList<>();
             list = studyService.doStudyList();
 
@@ -40,9 +40,11 @@ public class Home {
                 System.out.println(map.get("CONTENTS"));
                 System.out.println(map.get("REG_DAY"));
             }
-
-            return "--";
-
+    //리턴의 값은 포워드라 리퀘스트는 뷰까지 넘어가게됨
+//            request.setAttribute("list",list);    //리퀘스트 객체에 담아서 리턴
+            model.addAttribute("list", list);   //리퀘스트 객체 대신 모델에 담아서 리턴
+//            return "--";
+            return "/study/study_reg";
     }
 
 
