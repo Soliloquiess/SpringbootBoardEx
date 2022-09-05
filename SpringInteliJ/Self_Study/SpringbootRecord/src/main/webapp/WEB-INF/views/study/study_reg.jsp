@@ -41,16 +41,15 @@
             <div class="col">공부일자</div>
             <div class="col">공부내용</div>
             <div class="col">등록일자</div>
-            <div class="col">수정</div>
-            <div class="col">삭제</div>
+
         </div>
 
         <% for(Vo_study vo_study : list){ %>
             <div class="row mb-2">
-                <div class="col"><%= vo_study.getKEY_ID() %></div>
-                <div class="col"><%= vo_study.getSTUDY_DAY() %></div>
-                <div class="col"><%= vo_study.getCONTENTS() %></div>
-                <div class="col"><%= vo_study.getREG_DAY() %></div>
+                <div class="col"><%= vo_study.getKeyId() %></div>
+                <div class="col"><%= vo_study.getStudyDay() %></div>
+                <div class="col"><%= vo_study.getContents() %></div>
+                <div class="col"><%= vo_study.getRegDay() %></div>
 
             </div>
         <% } %>

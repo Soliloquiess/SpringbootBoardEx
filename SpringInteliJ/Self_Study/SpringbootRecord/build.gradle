@@ -37,6 +37,9 @@ dependencies {
     implementation group: 'com.oracle.ojdbc', name: 'orai18n', version: '19.3.0.0'// https://mvnrepository.com/artifact/com.oracle/orai18n
 //    implementation group: 'com.oracle', name: 'orai18n', version: '11.1.0.7.0'
     runtimeOnly 'mysql:mysql-connector-java'
+
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
 }
 
 tasks.named('test') {

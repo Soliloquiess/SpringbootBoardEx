@@ -36,13 +36,16 @@ public class Home {
 
         System.out.println("vo_study");
         for(Vo_study vo_study : list){
-            System.out.println(vo_study.getKEY_ID());
-            System.out.println(vo_study.getSTUDY_DAY());
-            System.out.println(vo_study.getCONTENTS());
-            System.out.println(vo_study.getREG_DAY());
+            System.out.println(vo_study.getKeyId());
+            System.out.println(vo_study.getStudyDay());
+            System.out.println(vo_study.getContents());
+            System.out.println(vo_study.getRegDay());
         }
 
-        //xml에서 설정 안하면 디비 있는 이름 그대로 써야
+//        resultmap은 우리가 vo쓸때는 하나하나 매핑했는데 만약 xml에서 keyid가 아닌 keyid2라는 이런거 써야함.
+//        이런걸 만들지 않고 쓰려면
+
+       //xml에서 설정 안하면 디비 있는 이름 그대로 써야
 //            for (Map<String, String> map : list){
 //            for (Map<String, String> map : list){
 //                System.out.println(map.get("KEY_ID"));
