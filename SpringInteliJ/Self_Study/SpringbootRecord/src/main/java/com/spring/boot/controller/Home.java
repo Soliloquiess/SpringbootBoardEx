@@ -2,6 +2,7 @@ package com.spring.boot.controller;
 
 import com.spring.boot.service.StudyService;
 import com.spring.boot.vo.Vo_study;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +18,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/home")
+@Slf4j
 public class Home {
 
     @Autowired

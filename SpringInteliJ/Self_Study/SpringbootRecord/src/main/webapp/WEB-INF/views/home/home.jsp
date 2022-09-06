@@ -27,7 +27,7 @@
 <main>
     <div class="px-4 py-2 my-2 text-center">
         <img class="d-block mx-auto mb-4" src="/img/ITLate.jpg" alt="IT늦공 김부장 입니다.^^">
-        <h1 class="display-5 fw-bold">Spring Study [<%=strLoginId%> / <%=strName%> ]</h1>
+        <h1 class="display-5 fw-bold">Spring Study</h1>
         <div class="col-lg-6 mx-auto">
             <p class="lead mb-4">자바 웹 개발을 위해 Spring boot 를 공부하고 있습니다. <br>
                 이 영상은 내 스스로가 공부한 내용을 까먹지 않기 위해 만들고 있습니다.<br>

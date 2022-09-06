@@ -1,7 +1,6 @@
 <%@ page import="java.util.Map" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.spring.boot.vo.Vo_study" %>
-
 <%--
   Created by IntelliJ IDEA.
   User: PC
@@ -12,8 +11,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%
-    List<Vo_study> list =  (List<Vo_study>) request.getAttribute("list");
-//    List<Map<String,String>> list =  (List<Map<String,String>>) request.getAttribute("list");
+    List<Vo_study> list = (List<Vo_study>) request.getAttribute("list");
 %>
 
 <html lang="en">
@@ -41,7 +39,8 @@
             <div class="col">공부일자</div>
             <div class="col">공부내용</div>
             <div class="col">등록일자</div>
-
+            <div class="col">수정</div>
+            <div class="col">삭제</div>
         </div>
 
         <% for(Vo_study vo_study : list){ %>
@@ -50,7 +49,8 @@
                 <div class="col"><%= vo_study.getStudyDay() %></div>
                 <div class="col"><%= vo_study.getContents() %></div>
                 <div class="col"><%= vo_study.getRegDay() %></div>
-
+                <div class="col"><a href="/study/modify?key_id=<%= vo_study.getKeyId() %>">수정</a></div>
+                <div class="col"><a href="/study/delete?key_id=<%= vo_study.getKeyId() %>">삭제</a></div>
             </div>
         <% } %>
 

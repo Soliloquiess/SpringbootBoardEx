@@ -56,6 +56,7 @@
         <img class="mb-4" src="/img/bootstrap-logo.svg" alt="" width="72" height="57">
         <h1 class="h3 mb-3 fw-normal">회원가입</h1>
 
+        <div><label>member ID</label> <input type="text" name="memberId"></div><p>
         <div><label>Login ID</label> <input type="text" name="loginId"></div><p>
         <div><label>Password</label> <input type="password" name="password"></div><p>
         <div><label>이름</label> <input type="text" name="name"></div><p>
