@@ -53,5 +53,11 @@ public class MemberService {
         return  intI;
     };
 
+    public Vo_member doMemberLogin(String strLoginId) {
 
+        Vo_member vo_member = memberDao.doMemberLogin(strLoginId);
+
+        return vo_member;
+
+    }
 }

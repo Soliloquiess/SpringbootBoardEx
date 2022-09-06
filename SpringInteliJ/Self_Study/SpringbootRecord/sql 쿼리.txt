@@ -1,0 +1,50 @@
+ CREATE SEQUENCE  "SCOTT"."SQ_STUDY_RECORD"  
+MINVALUE 1 
+MAXVALUE 9999 
+INCREMENT BY 1 
+START WITH 1001 
+NOCACHE  NOORDER  NOCYCLE  ;
+
+
+create table study_record(
+    key_id number(10) ,
+    study_day varchar2(8),
+    contents varchar2(100),
+    reg_day date,
+    CONSTRAINT pk_study_record PRIMARY KEY(key_id)
+);
+
+insert into study_record(key_id, study_day, contents, reg_day)
+values ('2', '20220426','공부내용3',sysdate);
+
+select to_char(key_id) as key_id, study_day, contents, to_char(reg_day,'yyyy.mm.dd hh24mi') as reg_day
+from study_record;
+
+
+
+---------
+
+
+
+-- 시퀀스 생성
+
+create sequence "SCOTT"."SQ_MEMBER"
+MINVALUE 1 MAXVALUE 9999 INCREMENT BY 1
+START WITH 1 NOCACHE NOORDER NOCYCLE
+NOKEEP NOSCALE GLOBAL;
+
+-- 테이블 생성
+
+CREATE TABLE "SCOTT"."STUDY_MEMBER"
+("MEMBER_ID" NUMBER(10,0),
+"LOGIN_ID" VARCHAR2(20 BYTE),
+"PASSWORD" VARCHAR2(100 BYTE),
+"NAME" VARCHAR2(100 BYTE),
+"ROLE" VARCHAR2(100 BYTE),
+"REG_DAY" DATE,
+CONSTRAINT "PK_STUDY_MEMBER" PRIMARY KEY ("MEMBER_ID")
+);
+
+SELECT to_char(member_id) as member_id, login_id, name, role, to_char(reg_day, 'yyyy.mm.dd hh24:mi') as reg_day
+from study_member
+Order by member_id;

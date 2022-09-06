@@ -23,4 +23,6 @@ public interface MemberDao {
     // 공부하기 등록
     public int doMemberIns(Vo_member vo_member);
 
+    // 로그인 부분
+    Vo_member doMemberLogin(String strLoginId);
 }
