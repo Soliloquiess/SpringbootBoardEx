@@ -1,10 +1,4 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: PC
-  Date: 2022-04-22
-  Time: 오후 11:20
-  To change this template use File | Settings | File Templates.
---%>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <html lang="en">
@@ -27,17 +21,17 @@
 <main>
     <div class="px-4 py-2 my-2 text-center">
         <img class="d-block mx-auto mb-4" src="/img/ITLate.jpg" alt="IT늦공 김부장 입니다.^^">
-        <h1 class="display-5 fw-bold">Spring Study</h1>
+        <h1 class="display-5 fw-bold">Spring Study [<%=strLoginId%> / <%=strName%> ]</h1>
         <div class="col-lg-6 mx-auto">
             <p class="lead mb-4">자바 웹 개발을 위해 Spring boot 를 공부하고 있습니다. <br>
                 이 영상은 내 스스로가 공부한 내용을 까먹지 않기 위해 만들고 있습니다.<br>
                 아주 초보적인 내용이지만 저와 같은 분들에게 도움이 되면 그 또한 좋겠습니다.
             </p>
-                Java 버전 : 1.8<br>
-                개발툴 : 인텔리J<br>
-                DBMS : 오라클 19c<br>
-                View  : jsp<br>
-                Mapper : 마이바티스
+            Java 버전 : 1.8<br>
+            개발툴 : 인텔리J<br>
+            DBMS : 오라클 19c<br>
+            View  : jsp<br>
+            Mapper : 마이바티스
         </div>
     </div>
 </main>
