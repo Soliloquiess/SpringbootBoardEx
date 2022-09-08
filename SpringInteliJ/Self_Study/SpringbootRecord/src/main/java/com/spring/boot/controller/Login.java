@@ -27,7 +27,7 @@ public class Login {
     public String doLoginExe(@RequestParam(value="loginId", defaultValue = "--") String strLoginId,
                              @RequestParam(value="password", defaultValue = "--") String strPassword,
                              Model model,
-                              HttpServletRequest request){
+                             HttpServletRequest request){
 
         String strReturn ="";
         String strMessage="";

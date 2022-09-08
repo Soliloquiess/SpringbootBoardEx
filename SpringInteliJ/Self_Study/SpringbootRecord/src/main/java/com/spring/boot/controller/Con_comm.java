@@ -32,7 +32,7 @@ public class Con_comm {
 
         String strReturn="";
         HttpSession session = req.getSession();
-    //세션이 있는 값을 가져오는거. 있는 세션이 있으면 가져와라라는 뜻
+        //세션이 있는 값을 가져오는거. 있는 세션이 있으면 가져와라라는 뜻
         // 세션 ID 가져오기
         String strSessionId = session.getId();
         strReturn= "session ID : "+strSessionId+"<br>";

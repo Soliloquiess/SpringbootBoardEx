@@ -30,9 +30,6 @@
 //        strUrl = "/secure/login";
     }
 
-    String strAuth = (String) request.getAttribute("ss_auth");
-    if(strAuth==null){ strAuth = "N"; }
-
 
 %>
 
@@ -41,9 +38,7 @@
         <ul class="nav nav-pills">
             <li class="nav-item"><a href="/home" class="nav-link active" aria-current="page">Home(H)</a></li>
             <li class="nav-item"><a href="/study/list" class="nav-link">공부기록</a></li>
-            <%if("Y".equals(strAuth)){%>
             <li class="nav-item"><a href="/member/list" class="nav-link">회원목록</a></li>
-            <%}%>
             <li class="nav-item"><a href="#" class="nav-link">About</a></li>
         </ul>
 
