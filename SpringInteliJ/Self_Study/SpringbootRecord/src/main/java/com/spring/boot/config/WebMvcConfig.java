@@ -7,7 +7,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
-    /*
+
     @Autowired
     private BootInterceptor bootInterceptor;
 
@@ -18,7 +18,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .addPathPatterns("/**") // 적용할 URL (모든 URL )
                 .excludePathPatterns("/","/member/insert", "/js/**", "/css/**", "/img/**", "/docs/**", "/login/**"); // 해당 경로는 인터셉터가 가로채지 않는다.
     }
-    */
+
 
 
 }
